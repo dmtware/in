@@ -505,6 +505,8 @@ public class SQLiteCon {
 		close(null, myStmt, myRs);
 	}
 
+	
+	
 	// //////////////////////
 	// /DEPRECATED METHODS///
 	// //////////////////////

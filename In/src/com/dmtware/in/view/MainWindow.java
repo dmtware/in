@@ -41,6 +41,8 @@ import com.dmtware.in.model.ProductTableModel;
 import java.awt.event.KeyAdapter;
 import java.awt.Font;
 import javax.swing.ListSelectionModel;
+import java.awt.Color;
+import java.awt.SystemColor;
 
 public class MainWindow extends JFrame {
 
@@ -116,15 +118,26 @@ public class MainWindow extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 680, 540);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(163, 193, 228));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBackground(Color.LIGHT_GRAY);
 		scrollPane.setBounds(10, 42, 654, 383);
 		contentPane.add(scrollPane);
 
-		tableProduct = new JTable();
+		tableProduct = new JTable() {
+		    public void changeSelection(int rowIndex, int columnIndex, boolean toggle, boolean extend) {
+		        //Always toggle on single selection
+		        super.changeSelection(rowIndex, columnIndex, !extend, extend);
+		    }
+		};
+		tableProduct.setBackground(SystemColor.window);
+		tableProduct.setSelectionBackground(new Color(163, 193, 228));
+		tableProduct.setRequestFocusEnabled(false);
+		
 		tableProduct.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		scrollPane.setViewportView(tableProduct);
