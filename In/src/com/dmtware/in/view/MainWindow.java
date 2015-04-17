@@ -40,6 +40,7 @@ import com.dmtware.in.model.ProductTableModel;
 
 import java.awt.event.KeyAdapter;
 import java.awt.Font;
+import javax.swing.ListSelectionModel;
 
 public class MainWindow extends JFrame {
 
@@ -124,6 +125,8 @@ public class MainWindow extends JFrame {
 		contentPane.add(scrollPane);
 
 		tableProduct = new JTable();
+		tableProduct.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
 		scrollPane.setViewportView(tableProduct);
 
 		comboBoxCategory = new JComboBox(getCategoriesToCombo());
