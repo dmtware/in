@@ -1,5 +1,5 @@
 /*
- * SQLite classs
+ * SQLite class
  */
 
 package com.dmtware.in.dao;
