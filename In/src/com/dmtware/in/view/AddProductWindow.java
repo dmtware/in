@@ -5,6 +5,8 @@
 package com.dmtware.in.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -34,7 +36,7 @@ public class AddProductWindow extends JDialog {
 	
 	// default constructor
 	public AddProductWindow(){
-		
+
 	}
 
 	// database class declaration
@@ -81,8 +83,11 @@ public class AddProductWindow extends JDialog {
 		setBounds(100, 100, 396, 286);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
+		
+		contentPanel.setBackground(new Color(163, 193, 228));
 		
 		textFieldName = new JTextField();
 		textFieldName.setBounds(188, 40, 162, 20);
@@ -152,7 +157,7 @@ public class AddProductWindow extends JDialog {
 		});
 		btnNew.setBounds(279, 80, 71, 20);
 		contentPanel.add(btnNew);
-		
+		getContentPane().setBackground(new Color(163, 193, 228));
 		setLocationRelativeTo(null);
 		
 	}

@@ -5,6 +5,7 @@
 package com.dmtware.in.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -89,6 +90,7 @@ public class EditProductWindow extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
+		contentPanel.setBackground(new Color(163, 193, 228));
 
 		textFieldName = new JTextField();
 		textFieldName.setBounds(188, 40, 162, 20);
