@@ -124,7 +124,7 @@ public class MainWindow extends JFrame {
 		contentPane.setLayout(null);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBackground(Color.LIGHT_GRAY);
+		scrollPane.setBackground(new Color(163, 193, 228));
 		scrollPane.setBounds(10, 42, 654, 383);
 		contentPane.add(scrollPane);
 
@@ -134,6 +134,7 @@ public class MainWindow extends JFrame {
 		        super.changeSelection(rowIndex, columnIndex, !extend, extend);
 		    }
 		};
+		tableProduct.setFillsViewportHeight(true);
 		tableProduct.setBackground(SystemColor.window);
 		tableProduct.setSelectionBackground(new Color(163, 193, 228));
 		tableProduct.setRequestFocusEnabled(false);
@@ -151,7 +152,7 @@ public class MainWindow extends JFrame {
 			}
 		});
 		comboBoxCategory.setMaximumRowCount(20);
-		comboBoxCategory.setBounds(10, 11, 125, 23);
+		comboBoxCategory.setBounds(10, 11, 125, 24);
 		contentPane.add(comboBoxCategory);
 
 		JButton btnCategories = new JButton("Categories");
@@ -164,10 +165,11 @@ public class MainWindow extends JFrame {
 			}
 		});
 		btnCategories.setFocusPainted(false);
-		btnCategories.setBounds(139, 11, 82, 23);
+		btnCategories.setBounds(139, 11, 82, 24);
 		contentPane.add(btnCategories);
 
 		JPanel panel = new JPanel();
+		panel.setBackground(new Color(163, 193, 228));
 		panel.setBounds(10, 436, 244, 30);
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -225,6 +227,7 @@ public class MainWindow extends JFrame {
 		});
 
 		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(163, 193, 228));
 		panel_1.setBounds(411, 436, 252, 30);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
@@ -272,7 +275,7 @@ public class MainWindow extends JFrame {
 			}
 		});
 		btnSearch.setFocusPainted(false);
-		btnSearch.setBounds(583, 11, 80, 23);
+		btnSearch.setBounds(583, 11, 80, 24);
 		contentPane.add(btnSearch);
 
 		JLabel lblNewLabel = new JLabel("Product Name:");
@@ -307,12 +310,17 @@ public class MainWindow extends JFrame {
 		});
 
 		JMenuItem mntmPreferences = new JMenuItem("Preferences");
+		
 		file.add(mntmPreferences);
 
 		file.add(eMenuItem);
 		menubar.add(file);
 
 		setJMenuBar(menubar);
+		
+		JMenu mnEdit = new JMenu("Edit");
+		mnEdit.setMnemonic(KeyEvent.VK_E);
+		menubar.add(mnEdit);
 
 		JMenu mnHelp = new JMenu("Help");
 		mnHelp.setMnemonic(KeyEvent.VK_H);
