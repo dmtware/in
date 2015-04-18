@@ -429,6 +429,70 @@ public class SQLiteCon {
 		}
 	}
 
+	
+	// update product
+	public void updateProductQuery(String currentProductName, String prodName, String catName,
+			String typeName, String quantityName) throws Exception {
+
+		PreparedStatement myStmt = null;
+
+		// get ID of prod and catName
+		int catId = getCategoryId(catName);
+		int prodId = getProductId(currentProductName);
+
+		
+		try {
+
+			myStmt = myConn
+					.prepareStatement("UPDATE Product SET Name = ?, Category = ?, Type = ?, Stock = ?"
+							+ "WHERE Id = ?");
+
+			myStmt.setString(1, prodName);
+			myStmt.setString(2, "" + catId);
+			myStmt.setString(3, typeName);
+			myStmt.setString(4, quantityName);
+			myStmt.setString(5, ""+prodId);
+
+			myStmt.executeUpdate();
+		} finally {
+			close(myStmt, null);
+		}
+	}
+	
+	
+	
+	// gets ID of catName
+	public int getProductId(String product) throws SQLException {
+
+		List<Product> list = new ArrayList<>();
+		Product tempProduct = null;
+
+		Statement myStmt = null;
+		ResultSet myRs = null;
+
+		try {
+			myStmt = myConn.createStatement();
+			myRs = myStmt.executeQuery("SELECT * FROM Product");
+
+			while (myRs.next()) {
+				tempProduct = convertRowToProduct(myRs);
+				list.add(tempProduct);
+
+				if (tempProduct.getName().equalsIgnoreCase(product)) {
+					break;
+				}
+			}
+
+			return tempProduct.getId();
+
+		} finally {
+			close(myStmt, myRs);
+		}
+	}
+
+	
+	
+	
 	// add stock
 	public void addStockQuery(String prodName, String typeName, int quantity)
 			throws Exception {

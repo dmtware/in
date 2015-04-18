@@ -5,6 +5,7 @@
 package com.dmtware.in.view;
 
 import java.awt.BorderLayout;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -43,6 +44,8 @@ public class EditProductWindow extends JDialog {
 	// instance of MainWindow declaration (gives option of refreshing the table
 	// in main window)
 	MainWindow mainW;
+	
+	String currentProductName = "";
 
 	// fields that need access
 	private final JPanel contentPanel = new JPanel();
@@ -131,9 +134,8 @@ public class EditProductWindow extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
-				
 				//update product
-				
+				updateProduct();
 			}
 		});
 		btnEditProduct.setBounds(188, 200, 162, 23);
@@ -190,7 +192,7 @@ public class EditProductWindow extends JDialog {
 
 	}
 
-	// adds new product
+	// inserts product details into all fields
 	public void getProductData() {
 
 		int nameCol = 0;
@@ -204,5 +206,27 @@ public class EditProductWindow extends JDialog {
 		comboBoxCategory.setSelectedItem(mainW.tableProduct.getValueAt(selectedRow, catCol));
 		textFieldType.setText(mainW.tableProduct.getValueAt(selectedRow, typeCol).toString());
 		textFieldStock.setText(mainW.tableProduct.getValueAt(selectedRow, stockCol).toString());
+		
+		currentProductName = textFieldName.getText().toString();
+	}
+	
+	// updates product
+	public void updateProduct(){
+		String newProdName = textFieldName.getText().toString();
+		String catName = comboBoxCategory.getSelectedItem().toString();
+		String typeName = textFieldType.getText().toString();
+		String quantityName = textFieldStock.getText().toString();
+		
+		System.out.println(currentProductName + " ! " + newProdName);
+		
+		try {
+			conn.updateProductQuery(currentProductName, newProdName, catName, typeName, quantityName);
+			mainW.refreshTable();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		currentProductName = textFieldName.getText().toString();
 	}
 }
