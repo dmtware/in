@@ -13,9 +13,12 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import java.awt.Toolkit;
+import java.text.NumberFormat;
+import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -31,21 +34,22 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class AddProductWindow extends JDialog {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	// default constructor
-	public AddProductWindow(){
+	public AddProductWindow() {
 
 	}
 
 	// database class declaration
 	SQLiteCon conn;
 
-	// instance of MainWindow declaration (gives option of refreshing the table in main window)
+	// instance of MainWindow declaration (gives option of refreshing the table
+	// in main window)
 	MainWindow mainW;
-	
-	// fields that need access	
+
+	// fields that need access
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textFieldName;
 	private JTextField textFieldType;
@@ -69,65 +73,67 @@ public class AddProductWindow extends JDialog {
 	 * Create the dialog.
 	 */
 	public AddProductWindow(MainWindow mw) {
-		
+
 		// initialise access to the main window (and table refresh method)
 		mainW = mw;
-		
+
 		// initialise database connection
 		conn = new SQLiteCon();
-		
+
 		setModal(true);
 		setResizable(false);
 		setTitle("In - Add Product");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(AddProductWindow.class.getResource("/com/dmtware/in/view/logo_2.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(
+				AddProductWindow.class
+						.getResource("/com/dmtware/in/view/logo_2.png")));
 		setBounds(100, 100, 396, 286);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		
+
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-		
+
 		contentPanel.setBackground(new Color(163, 193, 228));
-		
+
 		textFieldName = new JTextField();
 		textFieldName.setBounds(188, 40, 162, 20);
 		contentPanel.add(textFieldName);
 		textFieldName.setColumns(10);
-		
+
 		comboBoxCategory = new JComboBox(getCategoriesToCombo());
 		comboBoxCategory.setBounds(188, 80, 81, 20);
 		contentPanel.add(comboBoxCategory);
-		
+
 		textFieldType = new JTextField();
 		textFieldType.setColumns(10);
 		textFieldType.setBounds(188, 120, 162, 20);
 		contentPanel.add(textFieldType);
-		
+
 		textFieldStock = new JTextField();
 		textFieldStock.setColumns(10);
 		textFieldStock.setBounds(188, 160, 162, 20);
 		contentPanel.add(textFieldStock);
-		
+
 		JLabel lblName = new JLabel("Name:");
 		lblName.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblName.setBounds(116, 43, 62, 14);
 		contentPanel.add(lblName);
-		
+
 		JLabel lblCategory = new JLabel("Category:");
 		lblCategory.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblCategory.setBounds(116, 83, 62, 14);
 		contentPanel.add(lblCategory);
-		
+
 		JLabel lblType = new JLabel("Type:");
 		lblType.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblType.setBounds(116, 123, 62, 14);
 		contentPanel.add(lblType);
-		
+
 		JLabel lblStock = new JLabel("Stock:");
 		lblStock.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblStock.setBounds(116, 163, 62, 14);
 		contentPanel.add(lblStock);
-		
+
 		JButton btnAddProduct = new JButton("Add Product");
 		btnAddProduct.addActionListener(new ActionListener() {
 			@Override
@@ -137,31 +143,32 @@ public class AddProductWindow extends JDialog {
 		});
 		btnAddProduct.setBounds(188, 200, 162, 23);
 		contentPanel.add(btnAddProduct);
-		
+
 		JLabel label = new JLabel("");
-		label.setIcon(new ImageIcon(AddProductWindow.class.getResource("/com/dmtware/in/view/logo_2.png")));
+		label.setIcon(new ImageIcon(AddProductWindow.class
+				.getResource("/com/dmtware/in/view/logo_2.png")));
 		label.setBounds(23, 25, 72, 72);
 		contentPanel.add(label);
-		
+
 		JButton btnNew = new JButton("New");
 		btnNew.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnNew.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				System.out.println("new category");
 				CategoriesWindow categoriesWindow = new CategoriesWindow();
 				categoriesWindow.setVisible(true);
-				
+
 			}
 		});
 		btnNew.setBounds(279, 80, 71, 20);
 		contentPanel.add(btnNew);
 		getContentPane().setBackground(new Color(163, 193, 228));
 		setLocationRelativeTo(null);
-		
+
 	}
-	
+
 	// get all categories to comboBox
 	public String[] getCategoriesToCombo() {
 
@@ -185,29 +192,70 @@ public class AddProductWindow extends JDialog {
 		}
 
 	}
-	
+
 	// adds new product
-	public void addProduct(){
-		
-		String prodName = textFieldName.getText().toString();
-		String catName = comboBoxCategory.getSelectedItem().toString();
-		String typeName = textFieldType.getText().toString();
-		String quantityName = textFieldStock.getText().toString();
-		
-		System.out.println(prodName + " " + catName + " " + typeName + " " + quantityName);
-		
-		try {
-			conn.insertProductQuery(prodName, catName, typeName, quantityName);
-			//refresh table
-			mainW.refreshTable();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public void addProduct() {
+
+		if (fieldsCheck()) {
+			String prodName = textFieldName.getText().toString();
+			String catName = comboBoxCategory.getSelectedItem().toString();
+			String typeName = textFieldType.getText().toString();
+			String quantityName = textFieldStock.getText().toString();
+
+			System.out.println(prodName + " " + catName + " " + typeName + " "
+					+ quantityName);
+
+			try {
+				conn.insertProductQuery(prodName, catName, typeName,
+						quantityName);
+				// refresh table
+				mainW.refreshTable();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			clearFields();
+		}
+		else{
+			JOptionPane.showMessageDialog(null, "Please fill up all the fields and make sure that \"Stock\" is numeric");
 		}
 		
+			
+	}
+
+	// checks if required fields are filled up
+	public boolean fieldsCheck() {
+
+		boolean name, category, type, stock;
+
+		name = textFieldName.getText().equalsIgnoreCase("") ? true : false;
+		category = comboBoxCategory.getSelectedIndex() == 0 ? true : false;
+		type = textFieldType.getText().equalsIgnoreCase("") ? true : false;
+		stock = textFieldStock.getText().equalsIgnoreCase("") || !isNumeric(textFieldStock.getText()) ? true
+				: false;
+
+		if (name || type || category || stock) {
+			return false;
+		} else
+			return true;
+	}
+	
+	// checks if String is numeric
+	public static boolean isNumeric(String str)
+	{
+	  NumberFormat formatter = NumberFormat.getInstance();
+	  ParsePosition pos = new ParsePosition(0);
+	  formatter.parse(str, pos);
+	  return str.length() == pos.getIndex();
+	}
+	
+	// clears fields
+	public void clearFields(){
 		textFieldName.setText("");
 		comboBoxCategory.setSelectedIndex(0);
 		textFieldType.setText("");
 		textFieldStock.setText("");
+
 	}
 }
