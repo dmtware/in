@@ -13,9 +13,12 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import java.awt.Toolkit;
+import java.text.NumberFormat;
+import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -45,7 +48,7 @@ public class EditProductWindow extends JDialog {
 	// instance of MainWindow declaration (gives option of refreshing the table
 	// in main window)
 	MainWindow mainW;
-	
+
 	String currentProductName = "";
 
 	// fields that need access
@@ -136,7 +139,7 @@ public class EditProductWindow extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
-				//update product
+				// update product
 				updateProduct();
 			}
 		});
@@ -165,7 +168,7 @@ public class EditProductWindow extends JDialog {
 		contentPanel.add(btnNew);
 
 		setLocationRelativeTo(null);
-		
+
 		getProductData();
 
 	}
@@ -204,31 +207,79 @@ public class EditProductWindow extends JDialog {
 
 		int selectedRow = mainW.tableProduct.getSelectedRow();
 
-		textFieldName.setText(mainW.tableProduct.getValueAt(selectedRow, nameCol).toString());
-		comboBoxCategory.setSelectedItem(mainW.tableProduct.getValueAt(selectedRow, catCol));
-		textFieldType.setText(mainW.tableProduct.getValueAt(selectedRow, typeCol).toString());
-		textFieldStock.setText(mainW.tableProduct.getValueAt(selectedRow, stockCol).toString());
-		
+		textFieldName.setText(mainW.tableProduct.getValueAt(selectedRow,
+				nameCol).toString());
+		comboBoxCategory.setSelectedItem(mainW.tableProduct.getValueAt(
+				selectedRow, catCol));
+		textFieldType.setText(mainW.tableProduct.getValueAt(selectedRow,
+				typeCol).toString());
+		textFieldStock.setText(mainW.tableProduct.getValueAt(selectedRow,
+				stockCol).toString());
+
 		currentProductName = textFieldName.getText().toString();
 	}
-	
+
 	// updates product
-	public void updateProduct(){
-		String newProdName = textFieldName.getText().toString();
-		String catName = comboBoxCategory.getSelectedItem().toString();
-		String typeName = textFieldType.getText().toString();
-		String quantityName = textFieldStock.getText().toString();
-		
-		System.out.println(currentProductName + " ! " + newProdName);
-		
-		try {
-			conn.updateProductQuery(currentProductName, newProdName, catName, typeName, quantityName);
-			mainW.refreshTable();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public void updateProduct() {
+
+		if (fieldsCheck()) {
+
+			String newProdName = textFieldName.getText().toString();
+			String catName = comboBoxCategory.getSelectedItem().toString();
+			String typeName = textFieldType.getText().toString();
+			String quantityName = textFieldStock.getText().toString();
+
+			System.out.println(currentProductName + " ! " + newProdName);
+
+			try {
+				conn.updateProductQuery(currentProductName, newProdName,
+						catName, typeName, quantityName);
+				mainW.refreshTable();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			currentProductName = textFieldName.getText().toString();
 		}
-		
-		currentProductName = textFieldName.getText().toString();
+		else {
+			
+			JOptionPane.showMessageDialog(null, "Please fill up all the fields and make sure that \"Stock\" is numeric");
+
+		}
+	}
+
+	// checks if required fields are filled up
+	public boolean fieldsCheck() {
+
+		boolean name, category, type, stock;
+
+		name = textFieldName.getText().equalsIgnoreCase("") ? true : false;
+		category = comboBoxCategory.getSelectedIndex() == 0 ? true : false;
+		type = textFieldType.getText().equalsIgnoreCase("") ? true : false;
+		stock = textFieldStock.getText().equalsIgnoreCase("")
+				|| !isNumeric(textFieldStock.getText()) ? true : false;
+
+		if (name || type || category || stock) {
+			return false;
+		} else
+			return true;
+	}
+
+	// checks if String is numeric
+	public static boolean isNumeric(String str) {
+		NumberFormat formatter = NumberFormat.getInstance();
+		ParsePosition pos = new ParsePosition(0);
+		formatter.parse(str, pos);
+		return str.length() == pos.getIndex();
+	}
+
+	// clears fields
+	public void clearFields() {
+		textFieldName.setText("");
+		comboBoxCategory.setSelectedIndex(0);
+		textFieldType.setText("");
+		textFieldStock.setText("");
+
 	}
 }

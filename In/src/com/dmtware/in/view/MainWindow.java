@@ -43,6 +43,7 @@ import java.awt.Font;
 import javax.swing.ListSelectionModel;
 import java.awt.Color;
 import java.awt.SystemColor;
+import javax.swing.JSeparator;
 
 public class MainWindow extends JFrame {
 
@@ -160,8 +161,7 @@ public class MainWindow extends JFrame {
 		btnCategories.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				CategoriesWindow catWind = new CategoriesWindow();
-				catWind.setVisible(true);
+				openCategories();
 			}
 		});
 		btnCategories.setFocusPainted(false);
@@ -308,6 +308,9 @@ public class MainWindow extends JFrame {
 				System.exit(0);
 			}
 		});
+		
+		JMenuItem mntmPrint = new JMenuItem("Print");
+		file.add(mntmPrint);
 
 		JMenuItem mntmPreferences = new JMenuItem("Preferences");
 		
@@ -321,6 +324,41 @@ public class MainWindow extends JFrame {
 		JMenu mnEdit = new JMenu("Edit");
 		mnEdit.setMnemonic(KeyEvent.VK_E);
 		menubar.add(mnEdit);
+		
+		JMenuItem mntmCategories = new JMenuItem("Edit Categories");
+		mntmCategories.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				openCategories();
+			}
+		});
+		mnEdit.add(mntmCategories);
+		
+		JMenuItem mntmAddProduct = new JMenuItem("Add Product");
+		mntmAddProduct.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				addProduct();
+			}
+		});
+		
+		JSeparator separator = new JSeparator();
+		mnEdit.add(separator);
+		mnEdit.add(mntmAddProduct);
+		
+		JMenuItem mntmRemoveProduct = new JMenuItem("Remove Product");
+		mntmRemoveProduct.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				removeProduct();
+			}
+		});
+		mnEdit.add(mntmRemoveProduct);
+		
+		JMenuItem mntmEditProduct = new JMenuItem("Edit Product");
+		mntmEditProduct.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				editProduct();
+			}
+		});
+		mnEdit.add(mntmEditProduct);
 
 		JMenu mnHelp = new JMenu("Help");
 		mnHelp.setMnemonic(KeyEvent.VK_H);
@@ -328,6 +366,13 @@ public class MainWindow extends JFrame {
 
 		JMenuItem mntmAbout = new JMenuItem("About");
 		mnHelp.add(mntmAbout);
+	}
+	
+	
+	public void openCategories(){
+		CategoriesWindow catWind = new CategoriesWindow();
+		catWind.setVisible(true);
+
 	}
 
 	/*
