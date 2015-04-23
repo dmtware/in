@@ -5,20 +5,19 @@
 package com.dmtware.in.model;
 
 import java.util.List;
-
 import javax.swing.table.AbstractTableModel;
 
 public class CategoryTableModel extends AbstractTableModel {
-	
+		
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-		
+	
 	private static final int CATEGORY_ID_COL = 0;
 	private static final int CATEGORY_NAME_COL = 1;
 
-	private String[] columnNames = { "Id", "Name"};
+	private String[] columnNames = {"Id", "Name"};
 	
 	private List<Category> categories;
 

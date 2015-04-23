@@ -119,7 +119,7 @@ public class MainWindow extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 680, 540);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(163, 193, 228));
+		//contentPane.setBackground(new Color(163, 193, 228));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -169,7 +169,7 @@ public class MainWindow extends JFrame {
 		contentPane.add(btnCategories);
 
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(163, 193, 228));
+		//panel.setBackground(new Color(163, 193, 228));
 		panel.setBounds(10, 436, 244, 30);
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -227,7 +227,7 @@ public class MainWindow extends JFrame {
 		});
 
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(163, 193, 228));
+		//panel_1.setBackground(new Color(163, 193, 228));
 		panel_1.setBounds(411, 436, 252, 30);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
@@ -315,6 +315,9 @@ public class MainWindow extends JFrame {
 		JMenuItem mntmPreferences = new JMenuItem("Preferences");
 		
 		file.add(mntmPreferences);
+		
+		JSeparator separator_1 = new JSeparator();
+		file.add(separator_1);
 
 		file.add(eMenuItem);
 		menubar.add(file);
@@ -369,10 +372,10 @@ public class MainWindow extends JFrame {
 	}
 	
 	
+	// opens Categories Window
 	public void openCategories(){
 		CategoriesWindow catWind = new CategoriesWindow();
 		catWind.setVisible(true);
-
 	}
 
 	/*

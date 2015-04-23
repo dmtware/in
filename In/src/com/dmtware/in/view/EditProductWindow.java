@@ -93,7 +93,7 @@ public class EditProductWindow extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-		contentPanel.setBackground(new Color(163, 193, 228));
+		//contentPanel.setBackground(new Color(163, 193, 228));
 
 		textFieldName = new JTextField();
 		textFieldName.setBounds(188, 40, 162, 20);
@@ -224,28 +224,40 @@ public class EditProductWindow extends JDialog {
 
 		if (fieldsCheck()) {
 
-			String newProdName = textFieldName.getText().toString();
-			String catName = comboBoxCategory.getSelectedItem().toString();
-			String typeName = textFieldType.getText().toString();
-			String quantityName = textFieldStock.getText().toString();
+			int reply = JOptionPane.showConfirmDialog(null,
+					"Do you really want to update this product?", "Update?",
+					JOptionPane.YES_NO_OPTION);
+			if (reply == JOptionPane.YES_OPTION) {
 
-			System.out.println(currentProductName + " ! " + newProdName);
+				String newProdName = textFieldName.getText().toString();
+				String catName = comboBoxCategory.getSelectedItem().toString();
+				String typeName = textFieldType.getText().toString();
+				String quantityName = textFieldStock.getText().toString();
 
-			try {
-				conn.updateProductQuery(currentProductName, newProdName,
-						catName, typeName, quantityName);
-				mainW.refreshTable();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println(currentProductName + " ! " + newProdName);
+
+				try {
+					conn.updateProductQuery(currentProductName, newProdName,
+							catName, typeName, quantityName);
+					mainW.refreshTable();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				currentProductName = textFieldName.getText().toString();
+				
+				dispose();
+
+			} else {
+				// do nothing
 			}
 
-			currentProductName = textFieldName.getText().toString();
-		}
-		else {
-			
-			JOptionPane.showMessageDialog(null, "Please fill up all the fields and make sure that \"Stock\" is numeric");
+		} else {
 
+			JOptionPane
+					.showMessageDialog(null,
+							"Please fill up all the fields and make sure that \"Stock\" is numeric");
 		}
 	}
 

@@ -93,7 +93,7 @@ public class AddProductWindow extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 
-		contentPanel.setBackground(new Color(163, 193, 228));
+		//contentPanel.setBackground(new Color(163, 193, 228));
 
 		textFieldName = new JTextField();
 		textFieldName.setBounds(188, 40, 162, 20);
