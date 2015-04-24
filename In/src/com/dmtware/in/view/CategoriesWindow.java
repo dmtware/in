@@ -29,6 +29,7 @@ import com.dmtware.in.model.CategoryTableModel;
 
 
 
+
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.table.TableColumn;
@@ -50,7 +51,7 @@ public class CategoriesWindow extends JDialog {
 	// table
 	private JTable tableCategories;
 	
-	boolean updateCat = false;
+	String newCategory = "";
 	
 	/**
 	 * Launch the application.
@@ -119,7 +120,7 @@ public class CategoriesWindow extends JDialog {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				// Add category
-				
+				addCategory();
 			}
 		});
 		btnAdd.setBounds(14, 120, 88, 23);
@@ -177,6 +178,21 @@ public class CategoriesWindow extends JDialog {
 		}
 	}
 	
+	// add category
+	public void addCategory(){
+		
+		newCategory = JOptionPane.showInputDialog("New category name");
+		
+		try {
+			conn.insertCategoryQuery(newCategory);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		getCategoriesToTable();
+	}
+	
 	// remove category
 	public void removeCategory(){
 		int idCol = 0;
@@ -210,9 +226,6 @@ public class CategoriesWindow extends JDialog {
 				// refresh view here
 				getCategoriesToTable();
 				
-				updateCat = true;
-				
-
 			} else {
 				// do nothing
 			}

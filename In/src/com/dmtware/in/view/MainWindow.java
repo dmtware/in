@@ -396,6 +396,7 @@ public class MainWindow extends JFrame {
 				comboBoxCategory.setModel(model);
 			}
 		});
+		getProductsJoin();
 	}
 
 	/*
