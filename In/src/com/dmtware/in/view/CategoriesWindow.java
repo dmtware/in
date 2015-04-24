@@ -24,12 +24,6 @@ import com.dmtware.in.dao.SQLiteCon;
 import com.dmtware.in.model.Category;
 import com.dmtware.in.model.CategoryTableModel;
 
-
-
-
-
-
-
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.table.TableColumn;
@@ -39,7 +33,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Font;
 
 public class CategoriesWindow extends JDialog {
-	
+
 	/**
 	 * 
 	 */
@@ -47,12 +41,14 @@ public class CategoriesWindow extends JDialog {
 
 	// database connection declaration
 	SQLiteCon conn;
-	
+
+	List<Category> categories;
+
 	// table
 	private JTable tableCategories;
-	
+
 	String newCategory = "";
-	
+
 	/**
 	 * Launch the application.
 	 */
@@ -76,125 +72,151 @@ public class CategoriesWindow extends JDialog {
 	 */
 	public CategoriesWindow() {
 		getContentPane().setFocusTraversalKeysEnabled(false);
-		
+
 		// connect to database
 		conn = new SQLiteCon();
-		
-		setIconImage(Toolkit.getDefaultToolkit().getImage(CategoriesWindow.class.getResource("/com/dmtware/in/view/logo_2.png")));
+
+		setIconImage(Toolkit.getDefaultToolkit().getImage(
+				CategoriesWindow.class
+						.getResource("/com/dmtware/in/view/logo_2.png")));
 		setTitle("In - Categories");
 		setModal(true);
 		setResizable(false);
 		setBounds(100, 100, 254, 242);
 		getContentPane().setLayout(null);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(115, 11, 120, 192);
 		getContentPane().add(scrollPane);
-		
+
 		tableCategories = new JTable() {
-		    public void changeSelection(int rowIndex, int columnIndex, boolean toggle, boolean extend) {
-		        //Always toggle on single selection
-		        super.changeSelection(rowIndex, columnIndex, !extend, extend);
-		    }
+			public void changeSelection(int rowIndex, int columnIndex,
+					boolean toggle, boolean extend) {
+				// Always toggle on single selection
+				super.changeSelection(rowIndex, columnIndex, !extend, extend);
+			}
 		};
 		tableCategories.setFocusable(false);
-		
+
 		scrollPane.setViewportView(tableCategories);
-		
+
 		tableCategories.setFillsViewportHeight(true);
 		tableCategories.setBackground(SystemColor.window);
 		tableCategories.setSelectionBackground(new Color(163, 193, 228));
 		tableCategories.setRequestFocusEnabled(false);
 		tableCategories.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
+
 		JLabel label = new JLabel("");
-		label.setIcon(new ImageIcon(CategoriesWindow.class.getResource("/com/dmtware/in/view/logo_2.png")));
+		label.setIcon(new ImageIcon(CategoriesWindow.class
+				.getResource("/com/dmtware/in/view/logo_2.png")));
 		label.setBounds(22, 11, 72, 72);
 		getContentPane().add(label);
-		
+
 		JButton btnAdd = new JButton("Add");
 		btnAdd.setFocusPainted(false);
 		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnAdd.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				// Add category
 				addCategory();
 			}
 		});
 		btnAdd.setBounds(14, 120, 88, 23);
 		getContentPane().add(btnAdd);
-		
+
 		JButton btnRemove = new JButton("Remove");
 		btnRemove.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnRemove.setFocusPainted(false);
 		btnRemove.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				removeCategory();
 			}
 		});
 		btnRemove.setBounds(14, 150, 88, 23);
 		getContentPane().add(btnRemove);
-		
+
 		JButton btnEdit = new JButton("Edit");
+		btnEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				// edit
+				updateCategory();
+
+			}
+		});
 		btnEdit.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnEdit.setFocusPainted(false);
 		btnEdit.setBounds(14, 180, 88, 23);
 		getContentPane().add(btnEdit);
-		
+
 		setLocationRelativeTo(null);
-		
+
 		getCategoriesToTable();
 
 	}
-	
+
 	// get all products to the table (join table query)
 	public void getCategoriesToTable() {
 
 		try {
 
-			List<Category> categories = null;
-
 			categories = conn.getAllCategories();
 
-			CategoryTableModel model = new CategoryTableModel(
-					categories);
-			
+			CategoryTableModel model = new CategoryTableModel(categories);
+
 			tableCategories.setModel(model);
-			
+
 			// remove/hide Id table
-			TableColumn myTableColumn0 = tableCategories.getColumnModel().getColumn(0);
-			//tableCategories.getColumnModel().removeColumn(myTableColumn0);
+			TableColumn myTableColumn0 = tableCategories.getColumnModel()
+					.getColumn(0);
+			// tableCategories.getColumnModel().removeColumn(myTableColumn0);
 			myTableColumn0.setMaxWidth(0);
 			myTableColumn0.setMinWidth(0);
 			myTableColumn0.setPreferredWidth(0);
-			
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	// add category
-	public void addCategory(){
-		
+	public void addCategory() {
+
 		newCategory = JOptionPane.showInputDialog("New category name");
-		
-		try {
-			conn.insertCategoryQuery(newCategory);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+		// check if exists
+		boolean catExists = false;
+		for (int i = 0; i < categories.size(); i++) {
+			if (categories.get(i).getName().equalsIgnoreCase(newCategory)) {
+
+				System.out.println("Exists " + categories.get(i).getName()
+						+ " " + newCategory);
+				catExists = true;
+				break;
+			}
 		}
-		
-		getCategoriesToTable();
+
+		if (!catExists) {
+			try {
+				conn.insertCategoryQuery(newCategory);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			getCategoriesToTable();
+		} else {
+			JOptionPane.showMessageDialog(null, "This category already exists");
+		}
+
 	}
-	
+
 	// remove category
-	public void removeCategory(){
+	public void removeCategory() {
 		int idCol = 0;
 		int nameCol = 1;
 
@@ -225,7 +247,7 @@ public class CategoriesWindow extends JDialog {
 
 				// refresh view here
 				getCategoriesToTable();
-				
+
 			} else {
 				// do nothing
 			}
@@ -236,5 +258,32 @@ public class CategoriesWindow extends JDialog {
 					.showMessageDialog(null,
 							"In order to remove category please select category row first");
 		}
-	}	
+	}
+
+	// edit category
+	public void updateCategory() {
+		
+		int idCol = 0;
+		int nameCol = 1;
+		int selectedRow = tableCategories.getSelectedRow();
+		
+		String id = tableCategories.getValueAt(selectedRow, idCol).toString();
+		String currentCategory = tableCategories.getValueAt(selectedRow, nameCol).toString();
+		
+		newCategory = JOptionPane
+				.showInputDialog("Please enter new name of this category", currentCategory);
+		
+		
+		try {
+			conn.updateCategoryQuery(currentCategory, newCategory, id);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		// refresh view here
+		getCategoriesToTable();
+
+	}
 }

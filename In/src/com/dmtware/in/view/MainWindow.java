@@ -386,7 +386,7 @@ public class MainWindow extends JFrame {
 			//
 		}
 		System.out.println("update combo");
-		//refreshes combobox after change
+		// refreshes combobox after change
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -529,9 +529,22 @@ public class MainWindow extends JFrame {
 					.toString();
 			String typeName = tableProduct.getValueAt(selectedRow, typeCol)
 					.toString();
-
-			int quantity = Integer.parseInt(JOptionPane
-					.showInputDialog("How much you want to add?"));
+			
+			boolean numeric = false;
+			int quantity = 0;
+			
+			do{
+				
+				try {
+					quantity = Integer.parseInt(JOptionPane
+							.showInputDialog("How much you want to add?"));
+					numeric = true;
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Please enter numeric value");
+					numeric = false;
+				}
+			
+			}while(!numeric);
 
 			System.out.println(prodName + " " + typeName + " " + quantity);
 
@@ -566,10 +579,22 @@ public class MainWindow extends JFrame {
 			String typeName = tableProduct.getValueAt(selectedRow, typeCol)
 					.toString();
 
-			int quantity = Integer.parseInt(JOptionPane
-					.showInputDialog("How much you want to decrement?"));
-
-			System.out.println(prodName + " " + typeName + " " + quantity);
+			boolean numeric = false;
+			int quantity = 0;
+			
+			do{
+				
+				try {
+					quantity = Integer.parseInt(JOptionPane
+							.showInputDialog("How much you want to remove?"));
+					numeric = true;
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Please enter numeric value");
+					numeric = false;
+				}
+			
+			}while(!numeric);
+		System.out.println(prodName + " " + typeName + " " + quantity);
 
 			try {
 				conn.removeStockQuery(prodName, typeName, quantity);

@@ -44,23 +44,24 @@ public class SQLiteCon {
 			myConn = DriverManager.getConnection("jdbc:sqlite:" + db);
 			System.out.println("Connected");
 
-			// pragma on, and deal with no resultset		
-			PreparedStatement pst = myConn.prepareStatement("PRAGMA foreign_keys = ON;");
+			// pragma on, and deal with no resultset
+			PreparedStatement pst = myConn
+					.prepareStatement("PRAGMA foreign_keys = ON;");
 			boolean result = pst.execute();
-			
-			while(true){
-			    if (result) {
-			        ResultSet rs = pst.getResultSet();
-			        // Do something with resultset ...
-			    } else {
-			        int updateCount = pst.getUpdateCount();
-			        if (updateCount == -1) {
-			            // no more results
-			            break;
-			        }
-			        // Do something with update count ...
-			    }
-			    result = pst.getMoreResults();
+
+			while (true) {
+				if (result) {
+					ResultSet rs = pst.getResultSet();
+					// Do something with resultset ...
+				} else {
+					int updateCount = pst.getUpdateCount();
+					if (updateCount == -1) {
+						// no more results
+						break;
+					}
+					// Do something with update count ...
+				}
+				result = pst.getMoreResults();
 			}
 
 		} catch (Exception e) {
@@ -257,19 +258,14 @@ public class SQLiteCon {
 		}
 	}
 
-
-	
-	
-	
 	// insert category
 	public void insertCategoryQuery(String catName) throws Exception {
 
 		PreparedStatement myStmt = null;
 
 		try {
-			myStmt = myConn
-					.prepareStatement("INSERT INTO Category (Name)"
-							+ "VALUES (?)");
+			myStmt = myConn.prepareStatement("INSERT INTO Category (Name)"
+					+ "VALUES (?)");
 
 			myStmt.setString(1, catName);
 			myStmt.executeUpdate();
@@ -277,12 +273,7 @@ public class SQLiteCon {
 			close(myStmt, null);
 		}
 	}
-	
-	
-	
-	
-	
-	
+
 	// remove category query
 	public void removeCategoryQuery(String catId, String catName)
 			throws Exception {
@@ -297,13 +288,33 @@ public class SQLiteCon {
 			myStmt.setString(1, catId);
 			myStmt.setString(2, catName);
 			myStmt.execute();
-			//JOptionPane.showMessageDialog(null, "Category removed");
+			// JOptionPane.showMessageDialog(null, "Category removed");
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,
 					"This category has products assigned so can't be removed");
 		} finally {
 			close(myStmt, null);
 
+		}
+	}
+
+	// update category
+	public void updateCategoryQuery(String currentCategory, String newCategory,
+			String id) throws Exception {
+
+		PreparedStatement myStmt = null;
+
+		try {
+
+			myStmt = myConn
+					.prepareStatement("UPDATE Category SET Name = ? WHERE Id = ?");
+
+			myStmt.setString(1, newCategory);
+			myStmt.setString(2, id);
+
+			myStmt.executeUpdate();
+		} finally {
+			close(myStmt, null);
 		}
 	}
 
