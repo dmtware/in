@@ -317,11 +317,19 @@ public class MainWindow extends JFrame {
 		});
 
 		JMenuItem mntmPrint = new JMenuItem("Print");
+		mntmPrint.setEnabled(false);
 		file.add(mntmPrint);
 
-		JMenuItem mntmPreferences = new JMenuItem("Preferences");
+		JMenuItem mntmSettings = new JMenuItem("Settings");
+		mntmSettings.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				SettingsWindow settingsWindow = new SettingsWindow();
+				settingsWindow.setVisible(true);
+				
+			}
+		});
 
-		file.add(mntmPreferences);
+		file.add(mntmSettings);
 
 		JSeparator separator_1 = new JSeparator();
 		file.add(separator_1);
@@ -517,6 +525,7 @@ public class MainWindow extends JFrame {
 	 */
 
 	// add stock method
+	@SuppressWarnings("static-access")
 	public void addStock() {
 		int prodCol = 0;
 		int typeCol = 2;
@@ -575,6 +584,7 @@ public class MainWindow extends JFrame {
 	}
 
 	// remove stock method
+	@SuppressWarnings("static-access")
 	public void removeStock() {
 		int prodCol = 0;
 		int typeCol = 2;
@@ -614,16 +624,6 @@ public class MainWindow extends JFrame {
 					}
 				} while (!numeric);
 
-
-			/*
-			 * do{
-			 * 
-			 * try { quantity = Integer.parseInt(JOptionPane.showInputDialog(
-			 * "How much you want to remove?")); numeric = true; } catch
-			 * (NumberFormatException e) { JOptionPane.showMessageDialog(null,
-			 * "Please enter numeric value"); numeric = false; }
-			 * }while(!numeric);
-			 */
 			System.out.println(prodName + " " + typeName + " " + quantity);
 
 			try {
