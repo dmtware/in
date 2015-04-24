@@ -529,22 +529,32 @@ public class MainWindow extends JFrame {
 					.toString();
 			String typeName = tableProduct.getValueAt(selectedRow, typeCol)
 					.toString();
-			
+
 			boolean numeric = false;
 			int quantity = 0;
-			
-			do{
-				
-				try {
-					quantity = Integer.parseInt(JOptionPane
-							.showInputDialog("How much you want to add?"));
-					numeric = true;
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Please enter numeric value");
-					numeric = false;
-				}
-			
-			}while(!numeric);
+
+			JOptionPane inpOption = new JOptionPane();
+			String strDialogResponse = "";
+
+				do {
+					// Shows a inputdialog
+					strDialogResponse = inpOption.showInputDialog("How much do you want to add: ");
+					 //if OK is pushed then (if not strDialogResponse is null)
+				    if (strDialogResponse != null){
+
+						try {
+						quantity = Integer.parseInt(strDialogResponse);
+						numeric = true;
+						} catch (NumberFormatException e) {
+						JOptionPane.showMessageDialog(null,
+								"Please enter numeric value");
+						numeric = false;
+						}
+				    }// If cancel button is pressed
+					else {
+						break;
+					}
+				} while (!numeric);
 
 			System.out.println(prodName + " " + typeName + " " + quantity);
 
@@ -581,20 +591,40 @@ public class MainWindow extends JFrame {
 
 			boolean numeric = false;
 			int quantity = 0;
-			
-			do{
-				
-				try {
-					quantity = Integer.parseInt(JOptionPane
-							.showInputDialog("How much you want to remove?"));
-					numeric = true;
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Please enter numeric value");
-					numeric = false;
-				}
-			
-			}while(!numeric);
-		System.out.println(prodName + " " + typeName + " " + quantity);
+			JOptionPane inpOption = new JOptionPane();
+			String strDialogResponse = "";
+
+				do {
+					// Shows a inputdialog
+					strDialogResponse = inpOption.showInputDialog("How much do you want to remove: ");
+					 //if OK is pushed then (if not strDialogResponse is null)
+				    if (strDialogResponse != null){
+
+						try {
+						quantity = Integer.parseInt(strDialogResponse);
+						numeric = true;
+						} catch (NumberFormatException e) {
+						JOptionPane.showMessageDialog(null,
+								"Please enter numeric value");
+						numeric = false;
+						}
+				    }// If cancel button is pressed
+					else {
+						break;
+					}
+				} while (!numeric);
+
+
+			/*
+			 * do{
+			 * 
+			 * try { quantity = Integer.parseInt(JOptionPane.showInputDialog(
+			 * "How much you want to remove?")); numeric = true; } catch
+			 * (NumberFormatException e) { JOptionPane.showMessageDialog(null,
+			 * "Please enter numeric value"); numeric = false; }
+			 * }while(!numeric);
+			 */
+			System.out.println(prodName + " " + typeName + " " + quantity);
 
 			try {
 				conn.removeStockQuery(prodName, typeName, quantity);
