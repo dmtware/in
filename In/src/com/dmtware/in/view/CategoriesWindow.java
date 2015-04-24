@@ -262,28 +262,36 @@ public class CategoriesWindow extends JDialog {
 
 	// edit category
 	public void updateCategory() {
-		
-		int idCol = 0;
-		int nameCol = 1;
-		int selectedRow = tableCategories.getSelectedRow();
-		
-		String id = tableCategories.getValueAt(selectedRow, idCol).toString();
-		String currentCategory = tableCategories.getValueAt(selectedRow, nameCol).toString();
-		
-		newCategory = JOptionPane
-				.showInputDialog("Please enter new name of this category", currentCategory);
-		
-		
-		try {
-			conn.updateCategoryQuery(currentCategory, newCategory, id);
 
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		// if row selected
+		if (!(tableCategories.getSelectedRow() == -1)) {
+
+			int idCol = 0;
+			int nameCol = 1;
+			int selectedRow = tableCategories.getSelectedRow();
+
+			String id = tableCategories.getValueAt(selectedRow, idCol)
+					.toString();
+			String currentCategory = tableCategories.getValueAt(selectedRow,
+					nameCol).toString();
+
+			newCategory = JOptionPane.showInputDialog(
+					"Please enter new name of this category", currentCategory);
+
+			try {
+				conn.updateCategoryQuery(currentCategory, newCategory, id);
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			// refresh view here
+			getCategoriesToTable();
 		}
-		
-		// refresh view here
-		getCategoriesToTable();
+		else{
+			JOptionPane.showMessageDialog(null, "Please select category first");
+		}
 
 	}
 }
