@@ -28,6 +28,7 @@ import com.dmtware.in.model.CategoryTableModel;
 
 
 
+
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.table.TableColumn;
@@ -48,6 +49,8 @@ public class CategoriesWindow extends JDialog {
 	
 	// table
 	private JTable tableCategories;
+	
+	boolean updateCat = false;
 	
 	/**
 	 * Launch the application.
@@ -205,9 +208,10 @@ public class CategoriesWindow extends JDialog {
 				}
 
 				// refresh view here
-				//refreshTable();
-
-				JOptionPane.showMessageDialog(null, "Category removed");
+				getCategoriesToTable();
+				
+				updateCat = true;
+				
 
 			} else {
 				// do nothing
@@ -219,5 +223,5 @@ public class CategoriesWindow extends JDialog {
 					.showMessageDialog(null,
 							"In order to remove category please select category row first");
 		}
-	}
+	}	
 }

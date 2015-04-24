@@ -14,6 +14,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
@@ -40,9 +41,12 @@ import com.dmtware.in.model.ProductTableModel;
 
 import java.awt.event.KeyAdapter;
 import java.awt.Font;
+
 import javax.swing.ListSelectionModel;
+
 import java.awt.Color;
 import java.awt.SystemColor;
+
 import javax.swing.JSeparator;
 
 public class MainWindow extends JFrame {
@@ -54,18 +58,21 @@ public class MainWindow extends JFrame {
 
 	// first category in combo box
 	String firstCatStr = "All";
-	
+
 	// current product search string
 	String currentProductSearch;
-	
+
 	// current product search result
 	List<ProductJoin> currentListProductJoin;
-	
+
 	// AddProduct Window declaration
 	AddProductWindow addProductWindow;
-	
+
 	// EditProduct Window declaration
 	EditProductWindow editProductWindow;
+
+	// Categories Window declaration
+	CategoriesWindow categoriesWindow;
 
 	// database class declaration
 	SQLiteCon conn;
@@ -78,7 +85,6 @@ public class MainWindow extends JFrame {
 	private JButton buttonMinus;
 	private JPanel contentPane;
 
-	
 	/**
 	 * Launch the application.
 	 */
@@ -96,13 +102,12 @@ public class MainWindow extends JFrame {
 		});
 	}
 
-	
 	/**
 	 * Create the frame.
 	 */
 	@SuppressWarnings("unchecked")
 	public MainWindow() {
-		
+
 		// initialise connection
 		conn = new SQLiteCon();
 
@@ -111,7 +116,7 @@ public class MainWindow extends JFrame {
 				.getImage(
 						MainWindow.class
 								.getResource("/com/dmtware/in/view/logo_2.png")));
-		
+
 		createMenuBar();
 		setResizable(false);
 
@@ -119,7 +124,7 @@ public class MainWindow extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 680, 540);
 		contentPane = new JPanel();
-		//contentPane.setBackground(new Color(163, 193, 228));
+		// contentPane.setBackground(new Color(163, 193, 228));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -130,21 +135,23 @@ public class MainWindow extends JFrame {
 		contentPane.add(scrollPane);
 
 		tableProduct = new JTable() {
-		    public void changeSelection(int rowIndex, int columnIndex, boolean toggle, boolean extend) {
-		        //Always toggle on single selection
-		        super.changeSelection(rowIndex, columnIndex, !extend, extend);
-		    }
+			public void changeSelection(int rowIndex, int columnIndex,
+					boolean toggle, boolean extend) {
+				// Always toggle on single selection
+				super.changeSelection(rowIndex, columnIndex, !extend, extend);
+			}
 		};
 		tableProduct.setFillsViewportHeight(true);
 		tableProduct.setBackground(SystemColor.window);
 		tableProduct.setSelectionBackground(new Color(163, 193, 228));
 		tableProduct.setRequestFocusEnabled(false);
-		
+
 		tableProduct.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
+
 		scrollPane.setViewportView(tableProduct);
 
 		comboBoxCategory = new JComboBox(getCategoriesToCombo());
+
 		comboBoxCategory.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent evt) {
@@ -169,7 +176,7 @@ public class MainWindow extends JFrame {
 		contentPane.add(btnCategories);
 
 		JPanel panel = new JPanel();
-		//panel.setBackground(new Color(163, 193, 228));
+		// panel.setBackground(new Color(163, 193, 228));
 		panel.setBounds(10, 436, 244, 30);
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -205,10 +212,10 @@ public class MainWindow extends JFrame {
 		btnEdit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				// edit product
 				editProduct();
-				
+
 			}
 		});
 		btnEdit.setBounds(164, 0, 80, 30);
@@ -227,7 +234,7 @@ public class MainWindow extends JFrame {
 		});
 
 		JPanel panel_1 = new JPanel();
-		//panel_1.setBackground(new Color(163, 193, 228));
+		// panel_1.setBackground(new Color(163, 193, 228));
 		panel_1.setBounds(411, 436, 252, 30);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
@@ -308,14 +315,14 @@ public class MainWindow extends JFrame {
 				System.exit(0);
 			}
 		});
-		
+
 		JMenuItem mntmPrint = new JMenuItem("Print");
 		file.add(mntmPrint);
 
 		JMenuItem mntmPreferences = new JMenuItem("Preferences");
-		
+
 		file.add(mntmPreferences);
-		
+
 		JSeparator separator_1 = new JSeparator();
 		file.add(separator_1);
 
@@ -323,11 +330,11 @@ public class MainWindow extends JFrame {
 		menubar.add(file);
 
 		setJMenuBar(menubar);
-		
+
 		JMenu mnEdit = new JMenu("Edit");
 		mnEdit.setMnemonic(KeyEvent.VK_E);
 		menubar.add(mnEdit);
-		
+
 		JMenuItem mntmCategories = new JMenuItem("Edit Categories");
 		mntmCategories.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -335,18 +342,18 @@ public class MainWindow extends JFrame {
 			}
 		});
 		mnEdit.add(mntmCategories);
-		
+
 		JMenuItem mntmAddProduct = new JMenuItem("Add Product");
 		mntmAddProduct.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				addProduct();
 			}
 		});
-		
+
 		JSeparator separator = new JSeparator();
 		mnEdit.add(separator);
 		mnEdit.add(mntmAddProduct);
-		
+
 		JMenuItem mntmRemoveProduct = new JMenuItem("Remove Product");
 		mntmRemoveProduct.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -354,7 +361,7 @@ public class MainWindow extends JFrame {
 			}
 		});
 		mnEdit.add(mntmRemoveProduct);
-		
+
 		JMenuItem mntmEditProduct = new JMenuItem("Edit Product");
 		mntmEditProduct.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -370,18 +377,31 @@ public class MainWindow extends JFrame {
 		JMenuItem mntmAbout = new JMenuItem("About");
 		mnHelp.add(mntmAbout);
 	}
-	
-	
+
 	// opens Categories Window
-	public void openCategories(){
-		CategoriesWindow catWind = new CategoriesWindow();
-		catWind.setVisible(true);
+	public void openCategories() {
+		categoriesWindow = new CategoriesWindow();
+		categoriesWindow.setVisible(true);
+		while (categoriesWindow.isShowing()) {
+			//
+		}
+		System.out.println("update combo");
+		//refreshes combobox after change
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				@SuppressWarnings("unchecked")
+				DefaultComboBoxModel model = new DefaultComboBoxModel(
+						getCategoriesToCombo());
+				comboBoxCategory.setModel(model);
+			}
+		});
 	}
 
 	/*
 	 * Get data to the table and combobox
 	 */
-	
+
 	// get all products to the table (join table query)
 	public void getProductsJoin() {
 
@@ -418,7 +438,7 @@ public class MainWindow extends JFrame {
 			return null;
 		}
 	}
-	
+
 	/*
 	 * Product search and category filter
 	 */
@@ -492,9 +512,9 @@ public class MainWindow extends JFrame {
 	}
 
 	/*
-	 * Add and remove stock 
+	 * Add and remove stock
 	 */
-	
+
 	// add stock method
 	public void addStock() {
 		int prodCol = 0;
@@ -568,12 +588,12 @@ public class MainWindow extends JFrame {
 	/*
 	 * Add and Remove product
 	 */
-	
+
 	// add product
-	public void addProduct(){
+	public void addProduct() {
 		addProductWindow.setVisible(true);
 	}
-	
+
 	// remove product
 	public void removeProduct() {
 		int prodCol = 0;
@@ -626,23 +646,21 @@ public class MainWindow extends JFrame {
 	}
 
 	// edit product
-	public void editProduct(){
+	public void editProduct() {
 		if (!(tableProduct.getSelectedRow() == -1)) {
 			editProductWindow = new EditProductWindow(this);
 			editProductWindow.setVisible(true);
-		}
-		else{
+		} else {
 			System.out.println("Nothing selected");
-			JOptionPane
-					.showMessageDialog(null,
-							"In order to edit product please select product row first");			
+			JOptionPane.showMessageDialog(null,
+					"In order to edit product please select product row first");
 		}
 	}
-	
+
 	/*
 	 * Other methods
 	 */
-	
+
 	// method that refreshes table after changing stock
 	public void refreshTable() {
 
@@ -674,16 +692,9 @@ public class MainWindow extends JFrame {
 		tableProduct.setModel(model);
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	////////////////////////
-	///DEPRECATED METHODS///
-	////////////////////////
+	// //////////////////////
+	// /DEPRECATED METHODS///
+	// //////////////////////
 
 	// get all products to table
 	public void getProducts() {

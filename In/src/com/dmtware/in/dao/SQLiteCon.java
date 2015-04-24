@@ -43,6 +43,26 @@ public class SQLiteCon {
 			Class.forName("org.sqlite.JDBC");
 			myConn = DriverManager.getConnection("jdbc:sqlite:" + db);
 			System.out.println("Connected");
+
+			// pragma on and deal with no resultset		
+			PreparedStatement pst = myConn.prepareStatement("PRAGMA foreign_keys = ON;");
+			boolean result = pst.execute();
+			
+			while(true){
+			    if (result) {
+			        ResultSet rs = pst.getResultSet();
+			        // Do something with resultset ...
+			    } else {
+			        int updateCount = pst.getUpdateCount();
+			        if (updateCount == -1) {
+			            // no more results
+			            break;
+			        }
+			        // Do something with update count ...
+			    }
+			    result = pst.getMoreResults();
+			}
+
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e);
 
@@ -250,15 +270,17 @@ public class SQLiteCon {
 
 			myStmt.setString(1, catId);
 			myStmt.setString(2, catName);
-
 			myStmt.execute();
+			JOptionPane.showMessageDialog(null, "Category removed");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null,
+					"This category has products assigned so can't be removed");
 		} finally {
 			close(myStmt, null);
+
 		}
 	}
 
-	
-	
 	/*
 	 * Product Table methods
 	 */
@@ -429,10 +451,10 @@ public class SQLiteCon {
 		}
 	}
 
-	
 	// update product
-	public void updateProductQuery(String currentProductName, String prodName, String catName,
-			String typeName, String quantityName) throws Exception {
+	public void updateProductQuery(String currentProductName, String prodName,
+			String catName, String typeName, String quantityName)
+			throws Exception {
 
 		PreparedStatement myStmt = null;
 
@@ -440,7 +462,6 @@ public class SQLiteCon {
 		int catId = getCategoryId(catName);
 		int prodId = getProductId(currentProductName);
 
-		
 		try {
 
 			myStmt = myConn
@@ -451,16 +472,14 @@ public class SQLiteCon {
 			myStmt.setString(2, "" + catId);
 			myStmt.setString(3, typeName);
 			myStmt.setString(4, quantityName);
-			myStmt.setString(5, ""+prodId);
+			myStmt.setString(5, "" + prodId);
 
 			myStmt.executeUpdate();
 		} finally {
 			close(myStmt, null);
 		}
 	}
-	
-	
-	
+
 	// gets ID of catName
 	public int getProductId(String product) throws SQLException {
 
@@ -490,9 +509,6 @@ public class SQLiteCon {
 		}
 	}
 
-	
-	
-	
 	// add stock
 	public void addStockQuery(String prodName, String typeName, int quantity)
 			throws Exception {
@@ -569,8 +585,6 @@ public class SQLiteCon {
 		close(null, myStmt, myRs);
 	}
 
-	
-	
 	// //////////////////////
 	// /DEPRECATED METHODS///
 	// //////////////////////
