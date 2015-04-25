@@ -188,29 +188,36 @@ public class CategoriesWindow extends JDialog {
 
 		newCategory = JOptionPane.showInputDialog("New category name");
 
-		// check if exists
-		boolean catExists = false;
-		for (int i = 0; i < categories.size(); i++) {
-			if (categories.get(i).getName().equalsIgnoreCase(newCategory)) {
+		if (!newCategory.equalsIgnoreCase("")) {
 
-				System.out.println("Exists " + categories.get(i).getName()
-						+ " " + newCategory);
-				catExists = true;
-				break;
-			}
-		}
+			// check if exists
+			boolean catExists = false;
+			for (int i = 0; i < categories.size(); i++) {
+				if (categories.get(i).getName().equalsIgnoreCase(newCategory)) {
 
-		if (!catExists) {
-			try {
-				conn.insertCategoryQuery(newCategory);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+					System.out.println("Exists " + categories.get(i).getName()
+							+ " " + newCategory);
+					catExists = true;
+					break;
+				}
 			}
 
-			getCategoriesToTable();
+			if (!catExists) {
+				try {
+					conn.insertCategoryQuery(newCategory);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				getCategoriesToTable();
+			} else {
+				JOptionPane.showMessageDialog(null,
+						"This category already exists");
+			}
 		} else {
-			JOptionPane.showMessageDialog(null, "This category already exists");
+			JOptionPane.showMessageDialog(null,
+					"Name of category can't be empty");
 		}
 
 	}
@@ -278,18 +285,23 @@ public class CategoriesWindow extends JDialog {
 			newCategory = JOptionPane.showInputDialog(
 					"Please enter new name of this category", currentCategory);
 
-			try {
-				conn.updateCategoryQuery(currentCategory, newCategory, id);
+			if (!newCategory.equalsIgnoreCase("")) {
 
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				try {
+					conn.updateCategoryQuery(currentCategory, newCategory, id);
+
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				// refresh view here
+				getCategoriesToTable();
+			} else {
+				JOptionPane.showMessageDialog(null, "Name of category can't be empty");
 			}
 
-			// refresh view here
-			getCategoriesToTable();
-		}
-		else{
+		} else {
 			JOptionPane.showMessageDialog(null, "Please select category first");
 		}
 
