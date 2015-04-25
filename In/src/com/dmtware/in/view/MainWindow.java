@@ -261,7 +261,7 @@ public class MainWindow extends JFrame {
 		});
 		buttonMinus.setFocusPainted(false);
 		textFieldSearch.setToolTipText("Product Name");
-		textFieldSearch.setBounds(462, 11, 118, 24);
+		textFieldSearch.setBounds(380, 11, 118, 25);
 		contentPane.add(textFieldSearch);
 		textFieldSearch.setColumns(10);
 
@@ -282,13 +282,25 @@ public class MainWindow extends JFrame {
 			}
 		});
 		btnSearch.setFocusPainted(false);
-		btnSearch.setBounds(583, 11, 80, 24);
+		btnSearch.setBounds(501, 11, 80, 24);
 		contentPane.add(btnSearch);
 
 		JLabel lblNewLabel = new JLabel("Product Name:");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel.setBounds(363, 14, 97, 14);
+		lblNewLabel.setBounds(278, 15, 97, 14);
 		contentPane.add(lblNewLabel);
+		
+		JButton btnShowAll = new JButton("Show All");
+		btnShowAll.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				showwAll();
+			}
+		});
+		btnShowAll.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		btnShowAll.setFocusPainted(false);
+		btnShowAll.setBounds(582, 11, 80, 24);
+		contentPane.add(btnShowAll);
 		setLocationRelativeTo(null);
 
 		getProductsJoin();
@@ -479,6 +491,13 @@ public class MainWindow extends JFrame {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+	}
+	
+	
+	// show all method
+	public void showwAll(){
+		textFieldSearch.setText("");
+		searchBtn();
 	}
 
 	// filters category depending on item in combobox
