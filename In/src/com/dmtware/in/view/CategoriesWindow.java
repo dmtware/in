@@ -143,9 +143,7 @@ public class CategoriesWindow extends JDialog {
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				// edit
 				updateCategory();
-
 			}
 		});
 		btnEdit.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -188,6 +186,7 @@ public class CategoriesWindow extends JDialog {
 
 		newCategory = JOptionPane.showInputDialog("New category name");
 
+		// if not empty
 		if (!newCategory.equalsIgnoreCase("")) {
 
 			// check if exists
@@ -202,6 +201,7 @@ public class CategoriesWindow extends JDialog {
 				}
 			}
 
+			// if doesn't exist
 			if (!catExists) {
 				try {
 					conn.insertCategoryQuery(newCategory);
@@ -209,7 +209,6 @@ public class CategoriesWindow extends JDialog {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 				getCategoriesToTable();
 			} else {
 				JOptionPane.showMessageDialog(null,
@@ -219,7 +218,6 @@ public class CategoriesWindow extends JDialog {
 			JOptionPane.showMessageDialog(null,
 					"Name of category can't be empty");
 		}
-
 	}
 
 	// remove category
@@ -284,26 +282,45 @@ public class CategoriesWindow extends JDialog {
 
 			newCategory = JOptionPane.showInputDialog(
 					"Please enter new name of this category", currentCategory);
-
+			// if not empty
 			if (!newCategory.equalsIgnoreCase("")) {
 
-				try {
-					conn.updateCategoryQuery(currentCategory, newCategory, id);
+				// check if exists
+				boolean catExists = false;
+				for (int i = 0; i < categories.size(); i++) {
+					if (categories.get(i).getName()
+							.equalsIgnoreCase(newCategory)) {
 
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+						System.out.println("Exists "
+								+ categories.get(i).getName() + " "
+								+ newCategory);
+						catExists = true;
+						break;
+					}
 				}
 
-				// refresh view here
-				getCategoriesToTable();
+				// if doesn't exist
+				if (!catExists || (newCategory.equalsIgnoreCase(currentCategory))) {
+					try {
+						conn.updateCategoryQuery(currentCategory, newCategory,
+								id);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					getCategoriesToTable();
+				} else {
+					JOptionPane.showMessageDialog(null,
+							"This category already exists");
+				}
+
 			} else {
-				JOptionPane.showMessageDialog(null, "Name of category can't be empty");
+				JOptionPane.showMessageDialog(null,
+						"Name of category can't be empty");
 			}
 
 		} else {
 			JOptionPane.showMessageDialog(null, "Please select category first");
 		}
-
 	}
 }
