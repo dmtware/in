@@ -313,7 +313,7 @@ public class MainWindow extends JFrame {
 		contentPane.add(lblStock);
 		setLocationRelativeTo(null);
 
-		//getProductsJoin();
+		getProductsJoin();
 
 		// initialise AddProductWindow and pass this (gives access to refresh())
 		addProductWindow = new AddProductWindow(this);
