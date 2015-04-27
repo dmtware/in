@@ -204,7 +204,7 @@ public class SQLiteCon {
 
 		try {
 			myStmt = myConn.createStatement();
-			myRs = myStmt.executeQuery("SELECT * FROM Category");
+			myRs = myStmt.executeQuery("SELECT * FROM Category ORDER BY Category.Name COLLATE NOCASE");
 
 			while (myRs.next()) {
 				Category tempCategory = convertRowToCategory(myRs);
@@ -333,7 +333,7 @@ public class SQLiteCon {
 		try {
 			myStmt = myConn.createStatement();
 			myRs = myStmt
-					.executeQuery("SELECT Product.Name, Category.Name as CatName, Product.Type, Product.Stock FROM Product INNER JOIN Category ON Product.Category=Category.Id");
+					.executeQuery("SELECT Product.Name, Category.Name as CatName, Product.Type, Product.Stock FROM Product INNER JOIN Category ON Product.Category=Category.Id ORDER BY Product.Name COLLATE NOCASE");
 
 			while (myRs.next()) {
 				ProductJoin tempProductJoin = convertRowToProductJoin(myRs);
@@ -376,7 +376,7 @@ public class SQLiteCon {
 					.prepareStatement("SELECT Product.Name, Category.Name "
 							+ "as CatName, Product.Type, Product.Stock "
 							+ "FROM Product INNER JOIN Category ON "
-							+ "Product.Category=Category.Id WHERE Category.Name = ?");
+							+ "Product.Category=Category.Id WHERE Category.Name = ? ORDER BY Product.Name COLLATE NOCASE");
 
 			myStmt.setString(1, catName);
 
@@ -410,7 +410,7 @@ public class SQLiteCon {
 						.prepareStatement("SELECT Product.Name, Category.Name "
 								+ "as CatName, Product.Type, Product.Stock "
 								+ "FROM Product INNER JOIN Category ON "
-								+ "Product.Category=Category.Id WHERE Product.Name LIKE ?");
+								+ "Product.Category=Category.Id WHERE Product.Name LIKE ? ORDER BY Product.Name COLLATE NOCASE");
 
 				myStmt.setString(1, prodName);
 
@@ -420,7 +420,7 @@ public class SQLiteCon {
 						.prepareStatement("SELECT Product.Name, Category.Name "
 								+ "as CatName, Product.Type, Product.Stock "
 								+ "FROM Product INNER JOIN Category ON "
-								+ "Product.Category=Category.Id WHERE Category.Name = ? AND Product.Name LIKE ?");
+								+ "Product.Category=Category.Id WHERE Category.Name = ? AND Product.Name LIKE ? ORDER BY Product.Name COLLATE NOCASE");
 
 				myStmt.setString(1, cat);
 				myStmt.setString(2, prodName);

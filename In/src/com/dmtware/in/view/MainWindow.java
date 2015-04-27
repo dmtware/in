@@ -177,7 +177,7 @@ public class MainWindow extends JFrame {
 
 		JPanel panel = new JPanel();
 		// panel.setBackground(new Color(163, 193, 228));
-		panel.setBounds(10, 436, 244, 30);
+		panel.setBounds(10, 450, 244, 30);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
@@ -235,7 +235,7 @@ public class MainWindow extends JFrame {
 
 		JPanel panel_1 = new JPanel();
 		// panel_1.setBackground(new Color(163, 193, 228));
-		panel_1.setBounds(411, 436, 252, 30);
+		panel_1.setBounds(411, 450, 252, 30);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 
@@ -301,6 +301,16 @@ public class MainWindow extends JFrame {
 		btnShowAll.setFocusPainted(false);
 		btnShowAll.setBounds(582, 11, 80, 24);
 		contentPane.add(btnShowAll);
+		
+		JLabel lblProducts = new JLabel("Products");
+		lblProducts.setHorizontalAlignment(SwingConstants.CENTER);
+		lblProducts.setBounds(96, 430, 75, 14);
+		contentPane.add(lblProducts);
+		
+		JLabel lblStock = new JLabel("Stock");
+		lblStock.setHorizontalAlignment(SwingConstants.CENTER);
+		lblStock.setBounds(501, 430, 75, 14);
+		contentPane.add(lblStock);
 		setLocationRelativeTo(null);
 
 		getProductsJoin();
@@ -405,17 +415,7 @@ public class MainWindow extends JFrame {
 		while (categoriesWindow.isShowing()) {
 			//
 		}
-		System.out.println("update combo");
-		// refreshes combobox after change
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				@SuppressWarnings("unchecked")
-				DefaultComboBoxModel model = new DefaultComboBoxModel(
-						getCategoriesToCombo());
-				comboBoxCategory.setModel(model);
-			}
-		});
+		refreshComboBox();
 		getProductsJoin();
 	}
 
@@ -458,6 +458,22 @@ public class MainWindow extends JFrame {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	public void refreshComboBox(){
+	
+		
+		// refreshes combobox after change
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				@SuppressWarnings("unchecked")
+				DefaultComboBoxModel model = new DefaultComboBoxModel(
+						getCategoriesToCombo());
+				comboBoxCategory.setModel(model);
+			}
+		});
+
 	}
 
 	/*
@@ -554,9 +570,9 @@ public class MainWindow extends JFrame {
 			int selectedRow = tableProduct.getSelectedRow();
 
 			String prodName = tableProduct.getValueAt(selectedRow, prodCol)
-					.toString();
+					.toString().trim();
 			String typeName = tableProduct.getValueAt(selectedRow, typeCol)
-					.toString();
+					.toString().trim();
 
 			boolean numeric = false;
 			int quantity = 0;
@@ -571,7 +587,7 @@ public class MainWindow extends JFrame {
 				    if (strDialogResponse != null){
 
 						try {
-						quantity = Integer.parseInt(strDialogResponse);
+						quantity = Integer.parseInt(strDialogResponse.trim());
 						numeric = true;
 						} catch (NumberFormatException e) {
 						JOptionPane.showMessageDialog(null,
@@ -614,9 +630,9 @@ public class MainWindow extends JFrame {
 			int selectedRow = tableProduct.getSelectedRow();
 
 			String prodName = tableProduct.getValueAt(selectedRow, prodCol)
-					.toString();
+					.toString().trim();
 			String typeName = tableProduct.getValueAt(selectedRow, typeCol)
-					.toString();
+					.toString().trim();
 
 			boolean numeric = false;
 			int quantity = 0;
@@ -667,6 +683,13 @@ public class MainWindow extends JFrame {
 	// add product
 	public void addProduct() {
 		addProductWindow.setVisible(true);
+		addProductWindow.textFieldName.setText("");
+		addProductWindow.textFieldType.setText("");
+		addProductWindow.textFieldStock.setText("");
+		while(addProductWindow.isVisible()){
+			
+		}
+		refreshComboBox();
 	}
 
 	// remove product
@@ -681,13 +704,13 @@ public class MainWindow extends JFrame {
 			int selectedRow = tableProduct.getSelectedRow();
 
 			String prodName = tableProduct.getValueAt(selectedRow, prodCol)
-					.toString();
+					.toString().trim();
 
 			String typeName = tableProduct.getValueAt(selectedRow, typeCol)
-					.toString();
+					.toString().trim();
 
 			String stockName = tableProduct.getValueAt(selectedRow, stockCol)
-					.toString();
+					.toString().trim();
 
 			System.out.println(prodName + " " + typeName + " " + stockCol);
 
@@ -718,6 +741,7 @@ public class MainWindow extends JFrame {
 					.showMessageDialog(null,
 							"In order to remove product please select product row first");
 		}
+		
 	}
 
 	// edit product
@@ -725,6 +749,10 @@ public class MainWindow extends JFrame {
 		if (!(tableProduct.getSelectedRow() == -1)) {
 			editProductWindow = new EditProductWindow(this);
 			editProductWindow.setVisible(true);
+			while(editProductWindow.isVisible()){
+				
+			}
+			refreshComboBox();
 		} else {
 			System.out.println("Nothing selected");
 			JOptionPane.showMessageDialog(null,

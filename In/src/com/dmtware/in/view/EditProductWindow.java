@@ -18,12 +18,14 @@ import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
+import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import com.dmtware.in.dao.SQLiteCon;
@@ -93,7 +95,7 @@ public class EditProductWindow extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-		//contentPanel.setBackground(new Color(163, 193, 228));
+		// contentPanel.setBackground(new Color(163, 193, 228));
 
 		textFieldName = new JTextField();
 		textFieldName.setBounds(188, 40, 162, 20);
@@ -158,9 +160,7 @@ public class EditProductWindow extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				System.out.println("new category");
-				CategoriesWindow categoriesWindow = new CategoriesWindow();
-				categoriesWindow.setVisible(true);
+				openCategories();
 
 			}
 		});
@@ -208,15 +208,15 @@ public class EditProductWindow extends JDialog {
 		int selectedRow = mainW.tableProduct.getSelectedRow();
 
 		textFieldName.setText(mainW.tableProduct.getValueAt(selectedRow,
-				nameCol).toString());
+				nameCol).toString().trim());
 		comboBoxCategory.setSelectedItem(mainW.tableProduct.getValueAt(
 				selectedRow, catCol));
 		textFieldType.setText(mainW.tableProduct.getValueAt(selectedRow,
-				typeCol).toString());
+				typeCol).toString().trim());
 		textFieldStock.setText(mainW.tableProduct.getValueAt(selectedRow,
-				stockCol).toString());
+				stockCol).toString().trim());
 
-		currentProductName = textFieldName.getText().toString();
+		currentProductName = textFieldName.getText().toString().trim();
 	}
 
 	// updates product
@@ -229,10 +229,10 @@ public class EditProductWindow extends JDialog {
 					JOptionPane.YES_NO_OPTION);
 			if (reply == JOptionPane.YES_OPTION) {
 
-				String newProdName = textFieldName.getText().toString();
-				String catName = comboBoxCategory.getSelectedItem().toString();
-				String typeName = textFieldType.getText().toString();
-				String quantityName = textFieldStock.getText().toString();
+				String newProdName = textFieldName.getText().toString().trim();
+				String catName = comboBoxCategory.getSelectedItem().toString().trim();
+				String typeName = textFieldType.getText().toString().trim();
+				String quantityName = textFieldStock.getText().toString().trim();
 
 				System.out.println(currentProductName + " ! " + newProdName);
 
@@ -245,8 +245,8 @@ public class EditProductWindow extends JDialog {
 					e.printStackTrace();
 				}
 
-				currentProductName = textFieldName.getText().toString();
-				
+				currentProductName = textFieldName.getText().toString().trim();
+
 				dispose();
 
 			} else {
@@ -266,11 +266,11 @@ public class EditProductWindow extends JDialog {
 
 		boolean name, category, type, stock;
 
-		name = textFieldName.getText().equalsIgnoreCase("") ? true : false;
+		name = textFieldName.getText().trim().equalsIgnoreCase("") ? true : false;
 		category = comboBoxCategory.getSelectedIndex() == 0 ? true : false;
-		type = textFieldType.getText().equalsIgnoreCase("") ? true : false;
-		stock = textFieldStock.getText().equalsIgnoreCase("")
-				|| !isNumeric(textFieldStock.getText()) ? true : false;
+		type = textFieldType.getText().trim().equalsIgnoreCase("") ? true : false;
+		stock = textFieldStock.getText().trim().equalsIgnoreCase("")
+				|| !isNumeric(textFieldStock.getText().trim()) ? true : false;
 
 		if (name || type || category || stock) {
 			return false;
@@ -292,6 +292,24 @@ public class EditProductWindow extends JDialog {
 		comboBoxCategory.setSelectedIndex(0);
 		textFieldType.setText("");
 		textFieldStock.setText("");
+
+	}
+
+	public void openCategories() {
+		System.out.println("new category");
+		CategoriesWindow categoriesWindow = new CategoriesWindow();
+		categoriesWindow.setVisible(true);
+
+		// refreshes combobox after change
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				@SuppressWarnings("unchecked")
+				DefaultComboBoxModel model = new DefaultComboBoxModel(
+						getCategoriesToCombo());
+				comboBoxCategory.setModel(model);
+			}
+		});
 
 	}
 }

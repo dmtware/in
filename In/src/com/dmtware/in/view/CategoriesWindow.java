@@ -184,7 +184,7 @@ public class CategoriesWindow extends JDialog {
 	// add category
 	public void addCategory() {
 
-		newCategory = JOptionPane.showInputDialog("New category name");
+		newCategory = JOptionPane.showInputDialog("New category name").trim();
 
 		// if not empty
 		if (!newCategory.equalsIgnoreCase("")) {

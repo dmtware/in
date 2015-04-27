@@ -18,12 +18,14 @@ import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
+import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import com.dmtware.in.dao.SQLiteCon;
@@ -51,9 +53,9 @@ public class AddProductWindow extends JDialog {
 
 	// fields that need access
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textFieldName;
-	private JTextField textFieldType;
-	private JTextField textFieldStock;
+	public JTextField textFieldName;
+	public JTextField textFieldType;
+	public JTextField textFieldStock;
 	JComboBox comboBoxCategory;
 
 	/**
@@ -156,9 +158,7 @@ public class AddProductWindow extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				System.out.println("new category");
-				CategoriesWindow categoriesWindow = new CategoriesWindow();
-				categoriesWindow.setVisible(true);
+				openCategories();
 
 			}
 		});
@@ -197,10 +197,10 @@ public class AddProductWindow extends JDialog {
 	public void addProduct() {
 
 		if (fieldsCheck()) {
-			String prodName = textFieldName.getText().toString();
-			String catName = comboBoxCategory.getSelectedItem().toString();
-			String typeName = textFieldType.getText().toString();
-			String quantityName = textFieldStock.getText().toString();
+			String prodName = textFieldName.getText().toString().trim();
+			String catName = comboBoxCategory.getSelectedItem().toString().trim();
+			String typeName = textFieldType.getText().toString().trim();
+			String quantityName = textFieldStock.getText().toString().trim();
 
 			System.out.println(prodName + " " + catName + " " + typeName + " "
 					+ quantityName);
@@ -220,19 +220,18 @@ public class AddProductWindow extends JDialog {
 		else{
 			JOptionPane.showMessageDialog(null, "Please fill up all the fields and make sure that \"Stock\" is numeric");
 		}
-		
 			
 	}
-
+	
 	// checks if required fields are filled up
 	public boolean fieldsCheck() {
 
 		boolean name, category, type, stock;
 
-		name = textFieldName.getText().equalsIgnoreCase("") ? true : false;
+		name = textFieldName.getText().trim().equalsIgnoreCase("") ? true : false;
 		category = comboBoxCategory.getSelectedIndex() == 0 ? true : false;
-		type = textFieldType.getText().equalsIgnoreCase("") ? true : false;
-		stock = textFieldStock.getText().equalsIgnoreCase("") || !isNumeric(textFieldStock.getText()) ? true
+		type = textFieldType.getText().trim().equalsIgnoreCase("") ? true : false;
+		stock = textFieldStock.getText().trim().equalsIgnoreCase("") || !isNumeric(textFieldStock.getText()) ? true
 				: false;
 
 		if (name || type || category || stock) {
@@ -256,6 +255,24 @@ public class AddProductWindow extends JDialog {
 		comboBoxCategory.setSelectedIndex(0);
 		textFieldType.setText("");
 		textFieldStock.setText("");
+
+	}
+	
+	public void openCategories(){
+		System.out.println("new category");
+		CategoriesWindow categoriesWindow = new CategoriesWindow();
+		categoriesWindow.setVisible(true);
+		
+		// refreshes combobox after change
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				@SuppressWarnings("unchecked")
+				DefaultComboBoxModel model = new DefaultComboBoxModel(
+						getCategoriesToCombo());
+				comboBoxCategory.setModel(model);
+			}
+		});
 
 	}
 }
