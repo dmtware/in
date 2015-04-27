@@ -487,6 +487,19 @@ public class SQLiteCon {
 			close(myStmt, null);
 		}
 	}
+	
+	// remove product
+	public void removeAllQuery(String tableName) throws Exception {
+	
+		PreparedStatement myStmt = null;
+
+		try {
+			myStmt = myConn.prepareStatement("DELETE FROM " + tableName);
+			myStmt.execute();
+		} finally {
+			close(myStmt, null);
+		}
+	}
 
 	// update product
 	public void updateProductQuery(String currentProductName, String prodName,

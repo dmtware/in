@@ -123,7 +123,7 @@ public class CategoriesWindow extends JDialog {
 				addCategory();
 			}
 		});
-		btnAdd.setBounds(14, 120, 88, 23);
+		btnAdd.setBounds(14, 119, 88, 23);
 		getContentPane().add(btnAdd);
 
 		JButton btnRemove = new JButton("Remove");
@@ -136,7 +136,7 @@ public class CategoriesWindow extends JDialog {
 				removeCategory();
 			}
 		});
-		btnRemove.setBounds(14, 150, 88, 23);
+		btnRemove.setBounds(14, 149, 88, 23);
 		getContentPane().add(btnRemove);
 
 		JButton btnEdit = new JButton("Edit");
@@ -148,7 +148,7 @@ public class CategoriesWindow extends JDialog {
 		});
 		btnEdit.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnEdit.setFocusPainted(false);
-		btnEdit.setBounds(14, 180, 88, 23);
+		btnEdit.setBounds(14, 179, 88, 23);
 		getContentPane().add(btnEdit);
 
 		setLocationRelativeTo(null);
@@ -158,7 +158,7 @@ public class CategoriesWindow extends JDialog {
 	}
 
 	// get all products to the table (join table query)
-	public void getCategoriesToTable() {
+	private void getCategoriesToTable() {
 
 		try {
 
@@ -182,7 +182,7 @@ public class CategoriesWindow extends JDialog {
 	}
 
 	// add category
-	public void addCategory() {
+	private void addCategory() {
 
 		newCategory = JOptionPane.showInputDialog("New category name").trim();
 
@@ -221,7 +221,7 @@ public class CategoriesWindow extends JDialog {
 	}
 
 	// remove category
-	public void removeCategory() {
+	private void removeCategory() {
 		int idCol = 0;
 		int nameCol = 1;
 
@@ -266,7 +266,7 @@ public class CategoriesWindow extends JDialog {
 	}
 
 	// edit category
-	public void updateCategory() {
+	private void updateCategory() {
 
 		// if row selected
 		if (!(tableCategories.getSelectedRow() == -1)) {

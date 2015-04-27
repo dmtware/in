@@ -174,7 +174,7 @@ public class EditProductWindow extends JDialog {
 	}
 
 	// get all categories to comboBox
-	public String[] getCategoriesToCombo() {
+	private String[] getCategoriesToCombo() {
 
 		try {
 			List<Category> categories = null;
@@ -198,7 +198,7 @@ public class EditProductWindow extends JDialog {
 	}
 
 	// inserts product details into all fields
-	public void getProductData() {
+	private void getProductData() {
 
 		int nameCol = 0;
 		int catCol = 1;
@@ -220,7 +220,7 @@ public class EditProductWindow extends JDialog {
 	}
 
 	// updates product
-	public void updateProduct() {
+	private void updateProduct() {
 
 		if (fieldsCheck()) {
 
@@ -262,7 +262,7 @@ public class EditProductWindow extends JDialog {
 	}
 
 	// checks if required fields are filled up
-	public boolean fieldsCheck() {
+	private boolean fieldsCheck() {
 
 		boolean name, category, type, stock;
 
@@ -279,7 +279,7 @@ public class EditProductWindow extends JDialog {
 	}
 
 	// checks if String is numeric
-	public static boolean isNumeric(String str) {
+	private static boolean isNumeric(String str) {
 		NumberFormat formatter = NumberFormat.getInstance();
 		ParsePosition pos = new ParsePosition(0);
 		formatter.parse(str, pos);
@@ -287,7 +287,7 @@ public class EditProductWindow extends JDialog {
 	}
 
 	// clears fields
-	public void clearFields() {
+	private void clearFields() {
 		textFieldName.setText("");
 		comboBoxCategory.setSelectedIndex(0);
 		textFieldType.setText("");
@@ -295,7 +295,8 @@ public class EditProductWindow extends JDialog {
 
 	}
 
-	public void openCategories() {
+	// opens categories window
+	private void openCategories() {
 		System.out.println("new category");
 		CategoriesWindow categoriesWindow = new CategoriesWindow();
 		categoriesWindow.setVisible(true);

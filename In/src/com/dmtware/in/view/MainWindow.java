@@ -345,9 +345,7 @@ public class MainWindow extends JFrame {
 		JMenuItem mntmSettings = new JMenuItem("Settings");
 		mntmSettings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				SettingsWindow settingsWindow = new SettingsWindow();
-				settingsWindow.setVisible(true);
-				
+				openSettings();
 			}
 		});
 
@@ -410,7 +408,7 @@ public class MainWindow extends JFrame {
 	}
 
 	// opens Categories Window
-	public void openCategories() {
+	private void openCategories() {
 		categoriesWindow = new CategoriesWindow();
 		categoriesWindow.setVisible(true);
 		while (categoriesWindow.isShowing()) {
@@ -419,13 +417,24 @@ public class MainWindow extends JFrame {
 		refreshComboBox();
 		getProductsJoin();
 	}
+	
+	// opens Settings window
+	private void openSettings(){
+		SettingsWindow settingsWindow = new SettingsWindow();
+		settingsWindow.setVisible(true);
+		while(settingsWindow.isVisible()){
+			
+		}
+		refreshComboBox();
+		refreshTable();
+	}
 
 	/*
 	 * Get data to the table and combobox
 	 */
 
 	// get all products to the table (join table query)
-	public void getProductsJoin() {
+	private void getProductsJoin() {
 
 		try {
 			List<ProductJoin> productsJoin = null;
@@ -439,7 +448,7 @@ public class MainWindow extends JFrame {
 	}
 
 	// get all categories to comboBox
-	public String[] getCategoriesToCombo() {
+	private String[] getCategoriesToCombo() {
 
 		try {
 			List<Category> categories = null;
@@ -461,10 +470,9 @@ public class MainWindow extends JFrame {
 		}
 	}
 	
+	// refreshes combobox after change
 	public void refreshComboBox(){
 	
-		
-		// refreshes combobox after change
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -482,7 +490,7 @@ public class MainWindow extends JFrame {
 	 */
 
 	// search button method
-	public void searchBtn() {
+	private void searchBtn() {
 
 		try {
 			String product = textFieldSearch.getText();
@@ -512,13 +520,13 @@ public class MainWindow extends JFrame {
 	
 	
 	// show all method
-	public void showwAll(){
+	private void showwAll(){
 		textFieldSearch.setText("");
 		searchBtn();
 	}
 
 	// filters category depending on item in combobox
-	public void categoryFilter(ItemEvent evt) {
+	private void categoryFilter(ItemEvent evt) {
 		Object item = evt.getItem();
 
 		if (evt.getStateChange() == ItemEvent.SELECTED) {
@@ -562,7 +570,7 @@ public class MainWindow extends JFrame {
 
 	// add stock method
 	@SuppressWarnings("static-access")
-	public void addStock() {
+	private void addStock() {
 		int prodCol = 0;
 		int typeCol = 2;
 
@@ -621,7 +629,7 @@ public class MainWindow extends JFrame {
 
 	// remove stock method
 	@SuppressWarnings("static-access")
-	public void removeStock() {
+	private void removeStock() {
 		int prodCol = 0;
 		int typeCol = 2;
 
@@ -682,7 +690,7 @@ public class MainWindow extends JFrame {
 	 */
 
 	// add product
-	public void addProduct() {
+	private void addProduct() {
 		addProductWindow.setVisible(true);
 		addProductWindow.textFieldName.setText("");
 		addProductWindow.textFieldType.setText("");
@@ -694,7 +702,7 @@ public class MainWindow extends JFrame {
 	}
 
 	// remove product
-	public void removeProduct() {
+	private void removeProduct() {
 		int prodCol = 0;
 		int typeCol = 2;
 		int stockCol = 3;
@@ -746,7 +754,7 @@ public class MainWindow extends JFrame {
 	}
 
 	// edit product
-	public void editProduct() {
+	private void editProduct() {
 		if (!(tableProduct.getSelectedRow() == -1)) {
 			editProductWindow = new EditProductWindow(this);
 			editProductWindow.setVisible(true);
