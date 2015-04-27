@@ -313,7 +313,7 @@ public class MainWindow extends JFrame {
 		contentPane.add(lblStock);
 		setLocationRelativeTo(null);
 
-		getProductsJoin();
+		//getProductsJoin();
 
 		// initialise AddProductWindow and pass this (gives access to refresh())
 		addProductWindow = new AddProductWindow(this);
@@ -343,6 +343,7 @@ public class MainWindow extends JFrame {
 		file.add(mntmPrint);
 
 		JMenuItem mntmSettings = new JMenuItem("Settings");
+		mntmSettings.setEnabled(false);
 		mntmSettings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				SettingsWindow settingsWindow = new SettingsWindow();
@@ -405,6 +406,7 @@ public class MainWindow extends JFrame {
 		menubar.add(mnHelp);
 
 		JMenuItem mntmAbout = new JMenuItem("About");
+		mntmAbout.setEnabled(false);
 		mnHelp.add(mntmAbout);
 	}
 
