@@ -46,6 +46,7 @@ public class AddProductWindow extends JDialog {
 
 	// database class declaration
 	SQLiteCon conn;
+	
 
 	// instance of MainWindow declaration (gives option of refreshing the table
 	// in main window)

@@ -70,7 +70,12 @@ public class SettingsWindow extends JDialog {
 		contentPanel.add(separator);
 
 		JButton btnUsers = new JButton("Users");
-		btnUsers.setEnabled(false);
+		btnUsers.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				openUsers();
+			}
+		});
 		btnUsers.setFocusPainted(false);
 		btnUsers.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnUsers.setBounds(186, 74, 110, 23);
@@ -142,9 +147,17 @@ public class SettingsWindow extends JDialog {
 		lblRemoveAllCategories.setBounds(36, 193, 130, 14);
 		contentPanel.add(lblRemoveAllCategories);
 	}
+	
+	// opens users window
+	private void openUsers(){
+		UsersWindow usersWindow = new UsersWindow();
+		usersWindow.setVisible(true);
+	}
 
 	// removes all products
 	private void removeAllProducts() {
+		
+		JOptionPane.showMessageDialog(null, "You are going to remove all products from database. This can't be undone.");
 
 		int reply = JOptionPane.showConfirmDialog(null,
 				"Do you really want to remove all products?", "Remove?",
@@ -167,6 +180,8 @@ public class SettingsWindow extends JDialog {
 
 	// removes all categories
 	private void removeAllCategories() {
+		
+		JOptionPane.showMessageDialog(null, "You are going to remove all categories from database. This can't be undone.");
 
 		int reply = JOptionPane.showConfirmDialog(null,
 				"Do you really want to remove all categories?", "Remove?",

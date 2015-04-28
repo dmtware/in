@@ -190,6 +190,51 @@ public class SQLiteCon {
 		return tempUser;
 	}
 
+	// insert user
+	public void insertUserQuery(String userName, String password,
+			String firstName, String surname) throws Exception {
+
+		PreparedStatement myStmt = null;
+
+		try {
+			myStmt = myConn
+					.prepareStatement("INSERT INTO User (UserName, Password, FirstName, Surname)"
+							+ "VALUES (?, ?, ?, ?)");
+
+			myStmt.setString(1, userName);
+			myStmt.setString(2, password);
+			myStmt.setString(3, firstName);
+			myStmt.setString(4, surname);
+
+			myStmt.executeUpdate();
+		} finally {
+			close(myStmt, null);
+		}
+	}
+
+	// remove category query
+	public void removeUserQuery(String userId, String userName)
+			throws Exception {
+
+		PreparedStatement myStmt = null;
+
+		try {
+
+			myStmt = myConn
+					.prepareStatement("DELETE FROM User WHERE Id = ? AND UserName = ?");
+
+			myStmt.setString(1, userId);
+			myStmt.setString(2, userName);
+			myStmt.execute();
+
+		} catch (Exception e) {
+
+		} finally {
+			close(myStmt, null);
+
+		}
+	}
+
 	/*
 	 * Category Table Methods
 	 */
@@ -204,7 +249,8 @@ public class SQLiteCon {
 
 		try {
 			myStmt = myConn.createStatement();
-			myRs = myStmt.executeQuery("SELECT * FROM Category ORDER BY Category.Name COLLATE NOCASE");
+			myRs = myStmt
+					.executeQuery("SELECT * FROM Category ORDER BY Category.Name COLLATE NOCASE");
 
 			while (myRs.next()) {
 				Category tempCategory = convertRowToCategory(myRs);
@@ -487,10 +533,10 @@ public class SQLiteCon {
 			close(myStmt, null);
 		}
 	}
-	
+
 	// remove product
 	public void removeAllQuery(String tableName) throws Exception {
-	
+
 		PreparedStatement myStmt = null;
 
 		try {
