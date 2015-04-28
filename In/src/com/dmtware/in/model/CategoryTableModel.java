@@ -5,6 +5,7 @@
 package com.dmtware.in.model;
 
 import java.util.List;
+
 import javax.swing.table.AbstractTableModel;
 
 public class CategoryTableModel extends AbstractTableModel {
@@ -56,6 +57,7 @@ public class CategoryTableModel extends AbstractTableModel {
 		
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Class getColumnClass(int c) {
 		return getValueAt(0, c).getClass();

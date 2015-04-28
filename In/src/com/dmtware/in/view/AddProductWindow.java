@@ -40,24 +40,26 @@ public class AddProductWindow extends JDialog {
 	private static final long serialVersionUID = 1L;
 
 	// default constructor
-	public AddProductWindow() {
+/*	public AddProductWindow() {
 
-	}
+	}*/
 
 	// database class declaration
 	SQLiteCon conn;
-	
 
 	// instance of MainWindow declaration (gives option of refreshing the table
 	// in main window)
-	MainWindow mainW;
+	//MainWindow mainW;
 
 	// fields that need access
 	private final JPanel contentPanel = new JPanel();
 	public JTextField textFieldName;
 	public JTextField textFieldType;
 	public JTextField textFieldStock;
-	JComboBox comboBoxCategory;
+	boolean click;
+	JButton btnAddProduct;
+	
+	JComboBox<String> comboBoxCategory;
 
 	/**
 	 * Launch the application.
@@ -75,11 +77,10 @@ public class AddProductWindow extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public AddProductWindow(MainWindow mw) {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public AddProductWindow() {
 
-		// initialise access to the main window (and table refresh method)
-		mainW = mw;
-
+		
 		// initialise database connection
 		conn = new SQLiteCon();
 
@@ -96,7 +97,7 @@ public class AddProductWindow extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 
-		//contentPanel.setBackground(new Color(163, 193, 228));
+		// contentPanel.setBackground(new Color(163, 193, 228));
 
 		textFieldName = new JTextField();
 		textFieldName.setBounds(188, 40, 162, 20);
@@ -137,7 +138,7 @@ public class AddProductWindow extends JDialog {
 		lblStock.setBounds(116, 163, 62, 14);
 		contentPanel.add(lblStock);
 
-		JButton btnAddProduct = new JButton("Add Product");
+		btnAddProduct = new JButton("Add Product");
 		btnAddProduct.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -196,10 +197,11 @@ public class AddProductWindow extends JDialog {
 
 	// adds new product
 	private void addProduct() {
-
+		click = false;
 		if (fieldsCheck()) {
 			String prodName = textFieldName.getText().toString().trim();
-			String catName = comboBoxCategory.getSelectedItem().toString().trim();
+			String catName = comboBoxCategory.getSelectedItem().toString()
+					.trim();
 			String typeName = textFieldType.getText().toString().trim();
 			String quantityName = textFieldStock.getText().toString().trim();
 
@@ -210,65 +212,69 @@ public class AddProductWindow extends JDialog {
 				conn.insertProductQuery(prodName, catName, typeName,
 						quantityName);
 				// refresh table
-				mainW.refreshTable();
+				click = true;
+				setVisible(false);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
 			clearFields();
+		} else {
+			JOptionPane
+					.showMessageDialog(null,
+							"Please fill up all the fields and make sure that \"Stock\" is numeric");
 		}
-		else{
-			JOptionPane.showMessageDialog(null, "Please fill up all the fields and make sure that \"Stock\" is numeric");
-		}
-			
+		
 	}
-	
+
 	// checks if required fields are filled up
 	private boolean fieldsCheck() {
 
 		boolean name, category, type, stock;
 
-		name = textFieldName.getText().trim().equalsIgnoreCase("") ? true : false;
-		category = comboBoxCategory.getSelectedIndex() == 0 ? true : false;
-		type = textFieldType.getText().trim().equalsIgnoreCase("") ? true : false;
-		stock = textFieldStock.getText().trim().equalsIgnoreCase("") || !isNumeric(textFieldStock.getText()) ? true
+		name = textFieldName.getText().trim().equalsIgnoreCase("") ? true
 				: false;
+		category = comboBoxCategory.getSelectedIndex() == 0 ? true : false;
+		type = textFieldType.getText().trim().equalsIgnoreCase("") ? true
+				: false;
+		stock = textFieldStock.getText().trim().equalsIgnoreCase("")
+				|| !isNumeric(textFieldStock.getText()) ? true : false;
 
 		if (name || type || category || stock) {
 			return false;
 		} else
 			return true;
 	}
-	
+
 	// checks if String is numeric
-	private static boolean isNumeric(String str)
-	{
-	  NumberFormat formatter = NumberFormat.getInstance();
-	  ParsePosition pos = new ParsePosition(0);
-	  formatter.parse(str, pos);
-	  return str.length() == pos.getIndex();
+	private static boolean isNumeric(String str) {
+		NumberFormat formatter = NumberFormat.getInstance();
+		ParsePosition pos = new ParsePosition(0);
+		formatter.parse(str, pos);
+		return str.length() == pos.getIndex();
 	}
-	
+
 	// clears fields
-	private void clearFields(){
+	private void clearFields() {
 		textFieldName.setText("");
 		comboBoxCategory.setSelectedIndex(0);
 		textFieldType.setText("");
 		textFieldStock.setText("");
 
 	}
-	
-	private void openCategories(){
+
+	private void openCategories() {
 		System.out.println("new category");
 		CategoriesWindow categoriesWindow = new CategoriesWindow();
 		categoriesWindow.setVisible(true);
-		
+
 		// refreshes combobox after change
 		SwingUtilities.invokeLater(new Runnable() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void run() {
-				@SuppressWarnings("unchecked")
+				@SuppressWarnings({ "rawtypes" })
 				DefaultComboBoxModel model = new DefaultComboBoxModel(
 						getCategoriesToCombo());
 				comboBoxCategory.setModel(model);

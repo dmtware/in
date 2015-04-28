@@ -58,7 +58,10 @@ public class MainWindow extends JFrame {
 
 	// first category in combo box
 	String firstCatStr = "All";
-
+	
+	// selected product
+	String currentProductName;
+	
 	// current product search string
 	String currentProductSearch;
 
@@ -79,7 +82,7 @@ public class MainWindow extends JFrame {
 
 	// fields, buttons, tables that need access
 	JTable tableProduct;
-	private JComboBox comboBoxCategory;
+	private JComboBox<String> comboBoxCategory;
 	private JTextField textFieldSearch;
 	private JButton buttonPlus;
 	private JButton buttonMinus;
@@ -105,7 +108,7 @@ public class MainWindow extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public MainWindow() {
 
 		// initialise connection
@@ -135,6 +138,11 @@ public class MainWindow extends JFrame {
 		contentPane.add(scrollPane);
 
 		tableProduct = new JTable() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			public void changeSelection(int rowIndex, int columnIndex,
 					boolean toggle, boolean extend) {
 				// Always toggle on single selection
@@ -315,9 +323,6 @@ public class MainWindow extends JFrame {
 
 		getProductsJoin();
 
-		// initialise AddProductWindow and pass this (gives access to refresh())
-		addProductWindow = new AddProductWindow(this);
-
 	}
 
 	// menu bar
@@ -474,9 +479,10 @@ public class MainWindow extends JFrame {
 	public void refreshComboBox(){
 	
 		SwingUtilities.invokeLater(new Runnable() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void run() {
-				@SuppressWarnings("unchecked")
+				@SuppressWarnings({ "rawtypes" })
 				DefaultComboBoxModel model = new DefaultComboBoxModel(
 						getCategoriesToCombo());
 				comboBoxCategory.setModel(model);
@@ -691,14 +697,19 @@ public class MainWindow extends JFrame {
 
 	// add product
 	private void addProduct() {
+		
+		// initialise AddProductWindow
+		addProductWindow = new AddProductWindow();
+
 		addProductWindow.setVisible(true);
 		addProductWindow.textFieldName.setText("");
 		addProductWindow.textFieldType.setText("");
 		addProductWindow.textFieldStock.setText("");
 		while(addProductWindow.isVisible()){
-			
+	
 		}
 		refreshComboBox();
+		refreshTable();
 	}
 
 	// remove product
@@ -756,12 +767,33 @@ public class MainWindow extends JFrame {
 	// edit product
 	private void editProduct() {
 		if (!(tableProduct.getSelectedRow() == -1)) {
-			editProductWindow = new EditProductWindow(this);
+			editProductWindow = new EditProductWindow();
+			
+			int nameCol = 0;
+			int catCol = 1;
+			int typeCol = 2;
+			int stockCol = 3;
+
+			int selectedRow = tableProduct.getSelectedRow();
+
+			editProductWindow.textFieldName.setText(tableProduct.getValueAt(selectedRow,
+					nameCol).toString().trim());
+			editProductWindow.comboBoxCategory.setSelectedItem(tableProduct.getValueAt(
+					selectedRow, catCol));
+			editProductWindow.textFieldType.setText(tableProduct.getValueAt(selectedRow,
+					typeCol).toString().trim());
+			editProductWindow.textFieldStock.setText(tableProduct.getValueAt(selectedRow,
+					stockCol).toString().trim());
+
+			currentProductName = editProductWindow.textFieldName.getText().toString().trim();
+		
+			
 			editProductWindow.setVisible(true);
 			while(editProductWindow.isVisible()){
 				
 			}
 			refreshComboBox();
+			refreshTable();
 		} else {
 			System.out.println("Nothing selected");
 			JOptionPane.showMessageDialog(null,

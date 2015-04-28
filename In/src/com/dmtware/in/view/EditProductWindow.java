@@ -5,7 +5,6 @@
 package com.dmtware.in.view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -39,26 +38,17 @@ public class EditProductWindow extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 
-	// default constructor
-	public EditProductWindow() {
-
-	}
-
 	// database class declaration
 	SQLiteCon conn;
-
-	// instance of MainWindow declaration (gives option of refreshing the table
-	// in main window)
-	MainWindow mainW;
 
 	String currentProductName = "";
 
 	// fields that need access
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textFieldName;
-	private JTextField textFieldType;
-	private JTextField textFieldStock;
-	JComboBox comboBoxCategory;
+	JTextField textFieldName;
+	JTextField textFieldType;
+	JTextField textFieldStock;
+	JComboBox<String> comboBoxCategory;
 
 	/**
 	 * Launch the application.
@@ -76,10 +66,8 @@ public class EditProductWindow extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public EditProductWindow(MainWindow mw) {
-
-		// initialise access to the main window (and table refresh method)
-		mainW = mw;
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public EditProductWindow() {
 
 		// initialise database connection
 		conn = new SQLiteCon();
@@ -169,8 +157,6 @@ public class EditProductWindow extends JDialog {
 
 		setLocationRelativeTo(null);
 
-		getProductData();
-
 	}
 
 	// get all categories to comboBox
@@ -197,27 +183,7 @@ public class EditProductWindow extends JDialog {
 
 	}
 
-	// inserts product details into all fields
-	private void getProductData() {
 
-		int nameCol = 0;
-		int catCol = 1;
-		int typeCol = 2;
-		int stockCol = 3;
-
-		int selectedRow = mainW.tableProduct.getSelectedRow();
-
-		textFieldName.setText(mainW.tableProduct.getValueAt(selectedRow,
-				nameCol).toString().trim());
-		comboBoxCategory.setSelectedItem(mainW.tableProduct.getValueAt(
-				selectedRow, catCol));
-		textFieldType.setText(mainW.tableProduct.getValueAt(selectedRow,
-				typeCol).toString().trim());
-		textFieldStock.setText(mainW.tableProduct.getValueAt(selectedRow,
-				stockCol).toString().trim());
-
-		currentProductName = textFieldName.getText().toString().trim();
-	}
 
 	// updates product
 	private void updateProduct() {
@@ -239,7 +205,7 @@ public class EditProductWindow extends JDialog {
 				try {
 					conn.updateProductQuery(currentProductName, newProdName,
 							catName, typeName, quantityName);
-					mainW.refreshTable();
+					
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -286,14 +252,6 @@ public class EditProductWindow extends JDialog {
 		return str.length() == pos.getIndex();
 	}
 
-	// clears fields
-	private void clearFields() {
-		textFieldName.setText("");
-		comboBoxCategory.setSelectedIndex(0);
-		textFieldType.setText("");
-		textFieldStock.setText("");
-
-	}
 
 	// opens categories window
 	private void openCategories() {
@@ -303,9 +261,10 @@ public class EditProductWindow extends JDialog {
 
 		// refreshes combobox after change
 		SwingUtilities.invokeLater(new Runnable() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void run() {
-				@SuppressWarnings("unchecked")
+				@SuppressWarnings({ "rawtypes" })
 				DefaultComboBoxModel model = new DefaultComboBoxModel(
 						getCategoriesToCombo());
 				comboBoxCategory.setModel(model);

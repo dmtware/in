@@ -21,13 +21,10 @@ import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
 
 import com.dmtware.in.dao.SQLiteCon;
-import com.dmtware.in.model.Category;
-import com.dmtware.in.model.CategoryTableModel;
 import com.dmtware.in.model.User;
 import com.dmtware.in.model.UserTableModel;
 
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.table.TableColumn;
 
 import java.awt.event.ActionListener;
@@ -91,6 +88,11 @@ public class UsersWindow extends JDialog {
 		getContentPane().add(scrollPane);
 
 		tableUsers = new JTable() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			public void changeSelection(int rowIndex, int columnIndex,
 					boolean toggle, boolean extend) {
 				// Always toggle on single selection
@@ -108,7 +110,8 @@ public class UsersWindow extends JDialog {
 		tableUsers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		JLabel label = new JLabel("");
-		label.setIcon(new ImageIcon(UsersWindow.class.getResource("/com/dmtware/in/view/User.png")));
+		label.setIcon(new ImageIcon(UsersWindow.class
+				.getResource("/com/dmtware/in/view/User.png")));
 		label.setBounds(22, 11, 72, 72);
 		getContentPane().add(label);
 
@@ -139,7 +142,6 @@ public class UsersWindow extends JDialog {
 		getContentPane().add(btnRemove);
 
 		JButton btnEdit = new JButton("Edit");
-		btnEdit.setEnabled(false);
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -177,8 +179,8 @@ public class UsersWindow extends JDialog {
 	private void addUser() {
 		AddUserWindow addUserWindow = new AddUserWindow();
 		addUserWindow.setVisible(true);
-		while(addUserWindow.isVisible()){
-			
+		while (addUserWindow.isVisible()) {
+
 		}
 		getUsersToTable();
 	}
@@ -207,7 +209,7 @@ public class UsersWindow extends JDialog {
 			if (reply == JOptionPane.YES_OPTION) {
 
 				try {
-					 conn.removeUserQuery(userId, userName);
+					conn.removeUserQuery(userId, userName);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -230,20 +232,52 @@ public class UsersWindow extends JDialog {
 	// edit user
 	private void updateUser() {
 
+		if (!(tableUsers.getSelectedRow() == -1)) {
+			EditUserWindow editUserWindow = new EditUserWindow();
+			
+			// insert data from table to the fields
+			//int idCol = 0;
+			int userNameCol = 1;
+			int passwordCol = 2;
+			int firstNameCol = 3;
+			int surnameCol = 4;
+
+			int selectedRow = tableUsers.getSelectedRow();
+
+			editUserWindow.textFieldUserName.setText(tableUsers.getValueAt(selectedRow,
+					userNameCol).toString().trim());
+			editUserWindow.passwordField.setText(tableUsers.getValueAt(selectedRow,
+					passwordCol).toString().trim());
+			editUserWindow.textFieldFirstName.setText(tableUsers.getValueAt(selectedRow,
+					firstNameCol).toString().trim());
+			editUserWindow.textFieldSurname.setText(tableUsers.getValueAt(selectedRow,
+					surnameCol).toString().trim());
+			
+			editUserWindow.setVisible(true);
+			
+			while (editUserWindow.isVisible()) {
+
+			}
+			//refresh table
+			getUsersToTable();
+						
+		} else {
+			JOptionPane.showMessageDialog(null,
+					"In order to edit please select user first");
+		}
 	}
-	
+
 	// hides columns
 	private void hideColumns() {
 		// remove/hide Id table
 		TableColumn myTableColumn0 = tableUsers.getColumnModel().getColumn(0);
 		TableColumn myTableColumn2 = tableUsers.getColumnModel().getColumn(2);
-		
-		
+
 		// tableCategories.getColumnModel().removeColumn(myTableColumn0);
 		myTableColumn0.setMaxWidth(0);
 		myTableColumn0.setMinWidth(0);
 		myTableColumn0.setPreferredWidth(0);
-		
+
 		myTableColumn2.setMaxWidth(0);
 		myTableColumn2.setMinWidth(0);
 		myTableColumn2.setPreferredWidth(0);

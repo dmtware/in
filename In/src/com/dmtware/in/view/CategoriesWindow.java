@@ -25,7 +25,6 @@ import com.dmtware.in.model.Category;
 import com.dmtware.in.model.CategoryTableModel;
 
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.table.TableColumn;
 
 import java.awt.event.ActionListener;
@@ -90,6 +89,11 @@ public class CategoriesWindow extends JDialog {
 		getContentPane().add(scrollPane);
 
 		tableCategories = new JTable() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			public void changeSelection(int rowIndex, int columnIndex,
 					boolean toggle, boolean extend) {
 				// Always toggle on single selection

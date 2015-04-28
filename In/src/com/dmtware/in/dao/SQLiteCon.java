@@ -51,7 +51,7 @@ public class SQLiteCon {
 
 			while (true) {
 				if (result) {
-					ResultSet rs = pst.getResultSet();
+					//ResultSet rs = pst.getResultSet();
 					// Do something with resultset ...
 				} else {
 					int updateCount = pst.getUpdateCount();

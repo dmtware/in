@@ -10,6 +10,10 @@ import javax.swing.table.AbstractTableModel;
 
 public class ProductTableModel extends AbstractTableModel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final int PRODUCT_NAME_COL = 0;
 	private static final int CATEGORY_COL = 1;
 	private static final int TYPE_COL = 2;
@@ -59,6 +63,7 @@ public class ProductTableModel extends AbstractTableModel {
 		
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Class getColumnClass(int c) {
 		return getValueAt(0, c).getClass();

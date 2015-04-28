@@ -67,7 +67,7 @@ public class UserTableModel extends AbstractTableModel {
 		
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Class getColumnClass(int c) {
 		return getValueAt(1, c).getClass();

@@ -4,17 +4,11 @@
 package com.dmtware.in.view;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JTabbedPane;
-
-import java.awt.Color;
-
 import javax.swing.JSeparator;
 
 import java.awt.Font;
@@ -28,6 +22,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class SettingsWindow extends JDialog {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	// database class declaration
 	SQLiteCon conn;

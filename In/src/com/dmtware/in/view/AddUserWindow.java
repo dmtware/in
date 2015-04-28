@@ -15,7 +15,6 @@ import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 
 import com.dmtware.in.dao.SQLiteCon;
-import com.dmtware.in.model.Category;
 import com.dmtware.in.model.User;
 
 import java.awt.event.ActionListener;
@@ -23,6 +22,11 @@ import java.awt.event.ActionEvent;
 import java.util.List;
 
 public class AddUserWindow extends JDialog {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	// database class declaration
 	SQLiteCon conn;
@@ -179,6 +183,7 @@ public class AddUserWindow extends JDialog {
 	private void addUser() {
 
 		String userName = textFieldUserName.getText().trim();
+		@SuppressWarnings("deprecation")
 		String password = passwordField.getText().trim();
 		String firstName = textFieldFirstName.getText().trim();
 		String surname = textFieldSurname.getText().trim();
@@ -237,6 +242,7 @@ public class AddUserWindow extends JDialog {
 	}
 
 	// checks if empty
+	@SuppressWarnings("deprecation")
 	private boolean emptyFields() {
 
 		boolean userName, password1, password2;
@@ -257,6 +263,7 @@ public class AddUserWindow extends JDialog {
 	// checks if password match
 	private boolean passwordMatch() {
 
+		@SuppressWarnings("deprecation")
 		boolean match = passwordField.getText().trim()
 				.equals(passwordField2.getText().trim()) ? true : false;
 
