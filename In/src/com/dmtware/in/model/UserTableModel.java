@@ -1,5 +1,5 @@
 /*
- * Category table model for join Query
+ * User table model for join Query
  */
 
 package com.dmtware.in.model;
@@ -9,40 +9,41 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 public class UserTableModel extends AbstractTableModel {
-		
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final int USER_ID_COL = 0;
 	private static final int USER_USERNAME_COL = 1;
 	private static final int USER_PASSWORD_COL = 2;
 	private static final int USER_FIRSTNAME_COL = 3;
 	private static final int USER_SURNAME_COL = 4;
-	
-	private String[] columnNames = {"Id", "User Name", "Password", "First Name", "Last Name"};
-	
+
+	private String[] columnNames = { "Id", "User Name", "Password",
+			"First Name", "Last Name" };
+
 	private List<User> users;
 
 	public UserTableModel(List<User> theUsers) {
 		users = theUsers;
-	} 
-	
+	}
+
 	@Override
 	public int getColumnCount() {
-		return columnNames.length; 
+		return columnNames.length;
 	}
 
 	@Override
 	public int getRowCount() {
-		return users.size(); 
+		return users.size();
 	}
-	
+
 	@Override
 	public String getColumnName(int col) {
 		return columnNames[col];
-	} 
+	}
 
 	@Override
 	public Object getValueAt(int row, int col) {
@@ -63,13 +64,12 @@ public class UserTableModel extends AbstractTableModel {
 
 		default:
 			return tempUser.getUserName();
-		} 
-		
+		}
+
 	}
-	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+
 	@Override
 	public Class getColumnClass(int c) {
-		return getValueAt(1, c).getClass();
-	} 
+		return getValueAt(0, c).getClass();
+	}
 }

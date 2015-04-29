@@ -239,7 +239,7 @@ public class UsersWindow extends JDialog {
 			EditUserWindow editUserWindow = new EditUserWindow();
 
 			// insert data from table to the fields
-			// int idCol = 0;
+			int idCol = 0;
 			int userNameCol = 1;
 			int passwordCol = 2;
 			int firstNameCol = 3;
@@ -256,6 +256,8 @@ public class UsersWindow extends JDialog {
 			editUserWindow.textFieldSurname.setText(tableUsers
 					.getValueAt(selectedRow, surnameCol).toString().trim());
 
+			editUserWindow.currentId = tableUsers
+					.getValueAt(selectedRow, idCol).toString().trim();
 			editUserWindow.setVisible(true);
 
 			while (editUserWindow.isVisible()) {

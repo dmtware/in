@@ -6,6 +6,7 @@ import javax.swing.JDialog;
 
 import java.awt.Toolkit;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
@@ -37,6 +38,8 @@ public class EditUserWindow extends JDialog {
 	JTextField textFieldFirstName;
 	JTextField textFieldSurname;
 	JPasswordField passwordField2;
+	
+	String currentId;
 
 	/**
 	 * Launch the application.
@@ -59,7 +62,7 @@ public class EditUserWindow extends JDialog {
 	 * Create the dialog.
 	 */
 	public EditUserWindow() {
-		
+
 		// initialise database connection
 		conn = new SQLiteCon();
 
@@ -92,7 +95,6 @@ public class EditUserWindow extends JDialog {
 		getContentPane().add(textFieldSurname);
 
 		JButton btnAddUser = new JButton("Update User");
-		btnAddUser.setEnabled(false);
 		btnAddUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -142,7 +144,37 @@ public class EditUserWindow extends JDialog {
 	// adds user
 	private void updateUser() {
 
-		
+		if (!emptyFields()) {
+			
+			String userName = textFieldUserName.getText().trim();
+			String password1 = new String(passwordField.getPassword());
+			String password2 = new String(passwordField2.getPassword());
+			String firstName = textFieldFirstName.getText().trim();
+			String surname = textFieldSurname.getText().trim();
+
+			if (passwordMatch()) {
+
+				if (!userName.equalsIgnoreCase("admin")) {
+					
+					try {
+						conn.updateUserQuery(currentId, userName, password1, firstName, surname);
+						System.out.println("updated");
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					dispose();
+				} else {
+					JOptionPane.showMessageDialog(null, "You cannot rename user into \"admin\"");
+				}
+
+			} else {
+				JOptionPane.showMessageDialog(null, "Password doesn't match");
+			}
+		} else {
+			JOptionPane.showMessageDialog(null,
+					"Make sure that all required fields are filled");
+		}
 
 	}
 

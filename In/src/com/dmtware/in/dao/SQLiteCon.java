@@ -138,12 +138,13 @@ public class SQLiteCon {
 	public List<User> getAllUsers() throws Exception {
 
 		List<User> list = new ArrayList<>();
+		
 		Statement myStmt = null;
 		ResultSet myRs = null;
 
 		try {
 			myStmt = myConn.createStatement();
-			myRs = myStmt.executeQuery("SELECT * FROM User ORDER BY User.UserName COLLATE NOCASE");
+			myRs = myStmt.executeQuery("SELECT * FROM User WHERE Id != 1 ORDER BY UserName COLLATE NOCASE");
 
 			while (myRs.next()) {
 				User tempUser = convertRowToUser(myRs);
@@ -243,6 +244,31 @@ public class SQLiteCon {
 		}
 	}
 	
+	// update user
+	public void updateUserQuery(String id, String userName,
+			String password, String firstName, String surname)
+			throws Exception {
+
+		PreparedStatement myStmt = null;
+
+		try {
+
+			myStmt = myConn
+					.prepareStatement("UPDATE User SET UserName = ?, Password = ?, FirstName = ?, Surname = ?"
+							+ "WHERE Id = ?");
+
+			myStmt.setString(1, userName);
+			myStmt.setString(2, password);
+			myStmt.setString(3, firstName);
+			myStmt.setString(4, surname);
+			myStmt.setString(5, id);
+
+			myStmt.executeUpdate();
+		} finally {
+			close(myStmt, null);
+		}
+	}
+
 	
 	// change password
 	public void changePasswordQuery(String newPassword) throws Exception{
@@ -569,7 +595,7 @@ public class SQLiteCon {
 		}
 	}
 
-	// remove product
+	// remove all products
 	public void removeAllQuery(String tableName) throws Exception {
 
 		PreparedStatement myStmt = null;
