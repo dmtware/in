@@ -92,7 +92,6 @@ public class EditUserWindow extends JDialog {
 		getContentPane().add(textFieldSurname);
 
 		JButton btnAddUser = new JButton("Update User");
-		btnAddUser.setEnabled(false);
 		btnAddUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -142,6 +141,7 @@ public class EditUserWindow extends JDialog {
 	// adds user
 	private void updateUser() {
 
+		
 
 	}
 

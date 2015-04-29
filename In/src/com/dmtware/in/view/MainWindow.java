@@ -8,6 +8,7 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -344,7 +345,12 @@ public class MainWindow extends JFrame {
 		});
 
 		JMenuItem mntmPrint = new JMenuItem("Print");
-		mntmPrint.setEnabled(false);
+		mntmPrint.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				printTable();
+			}
+		});
 		file.add(mntmPrint);
 
 		JMenuItem mntmSettings = new JMenuItem("Settings");
@@ -834,6 +840,18 @@ public class MainWindow extends JFrame {
 				currentListProductJoin);
 
 		tableProduct.setModel(model);
+	}
+	
+	private void printTable(){
+		
+		MessageFormat header = new MessageFormat("Inventory - Report");
+		MessageFormat footer = new MessageFormat("Page {0, number, integer}");
+		
+		try {
+			tableProduct.print(JTable.PrintMode.FIT_WIDTH, header, footer);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	// //////////////////////
