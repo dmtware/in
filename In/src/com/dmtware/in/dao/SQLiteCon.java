@@ -143,7 +143,7 @@ public class SQLiteCon {
 
 		try {
 			myStmt = myConn.createStatement();
-			myRs = myStmt.executeQuery("SELECT * FROM User");
+			myRs = myStmt.executeQuery("SELECT * FROM User ORDER BY User.UserName COLLATE NOCASE");
 
 			while (myRs.next()) {
 				User tempUser = convertRowToUser(myRs);
@@ -244,9 +244,6 @@ public class SQLiteCon {
 	}
 	
 	
-	
-	
-	
 	// change password
 	public void changePasswordQuery(String newPassword) throws Exception{
 		
@@ -270,8 +267,6 @@ public class SQLiteCon {
 		currentPassword = newPassword;
 	}
 
-	
-	
 	
 	
 	
