@@ -29,6 +29,8 @@ public class SQLiteCon {
 
 	public static Connection myConn;
 	public static boolean isConnected;
+	public static String currentUser = "";
+	public static String currentPassword = "";
 
 	// constructor that connects to database
 	public SQLiteCon() {
@@ -102,6 +104,12 @@ public class SQLiteCon {
 				// close login window
 				isConnected = true;
 				// frmInLogin.dispose();
+				// open main window
+				
+				// assign current user and password (for managing users)
+				currentUser = user.getText();
+				currentPassword = pswd.getText();
+				
 				// open main window
 				MainWindow mainWindow = new MainWindow();
 				mainWindow.setVisible(true);
@@ -212,7 +220,7 @@ public class SQLiteCon {
 		}
 	}
 
-	// remove category query
+	// remove user query
 	public void removeUserQuery(String userId, String userName)
 			throws Exception {
 
@@ -234,7 +242,39 @@ public class SQLiteCon {
 
 		}
 	}
+	
+	
+	
+	
+	
+	// change password
+	public void changePasswordQuery(String newPassword) throws Exception{
+		
+		PreparedStatement myStmt = null;
+		
+		try {
 
+			myStmt = myConn
+					.prepareStatement("UPDATE User SET Password = ? WHERE UserName = ?");
+
+			myStmt.setString(1, newPassword);
+			myStmt.setString(2, currentUser);
+
+			myStmt.executeUpdate();
+			
+			System.out.println("Password changed");
+		} finally {
+			close(myStmt, null);
+		}
+		
+		currentPassword = newPassword;
+	}
+
+	
+	
+	
+	
+	
 	/*
 	 * Category Table Methods
 	 */

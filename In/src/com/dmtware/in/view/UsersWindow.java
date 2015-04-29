@@ -201,26 +201,29 @@ public class UsersWindow extends JDialog {
 			String userName = tableUsers.getValueAt(selectedRow, nameCol)
 					.toString();
 
-			System.out.println(userId + " " + userName);
-
-			int reply = JOptionPane.showConfirmDialog(null,
-					"Do you really want to remove this user?", "Remove?",
-					JOptionPane.YES_NO_OPTION);
-			if (reply == JOptionPane.YES_OPTION) {
-
-				try {
-					conn.removeUserQuery(userId, userName);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				// refresh view here
-				getUsersToTable();
-
+			if (userName.equalsIgnoreCase("admin")) {
+				JOptionPane.showMessageDialog(null,
+						"Administrator account can't be removed");
 			} else {
-				// do nothing
-			}
 
+				int reply = JOptionPane.showConfirmDialog(null,
+						"Do you really want to remove this user?", "Remove?",
+						JOptionPane.YES_NO_OPTION);
+				if (reply == JOptionPane.YES_OPTION) {
+
+					try {
+						conn.removeUserQuery(userId, userName);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+					// refresh view here
+					getUsersToTable();
+
+				} else {
+					// do nothing
+				}
+			}
 		} else {
 			System.out.println("Nothing selected");
 			JOptionPane
@@ -234,9 +237,9 @@ public class UsersWindow extends JDialog {
 
 		if (!(tableUsers.getSelectedRow() == -1)) {
 			EditUserWindow editUserWindow = new EditUserWindow();
-			
+
 			// insert data from table to the fields
-			//int idCol = 0;
+			// int idCol = 0;
 			int userNameCol = 1;
 			int passwordCol = 2;
 			int firstNameCol = 3;
@@ -244,23 +247,23 @@ public class UsersWindow extends JDialog {
 
 			int selectedRow = tableUsers.getSelectedRow();
 
-			editUserWindow.textFieldUserName.setText(tableUsers.getValueAt(selectedRow,
-					userNameCol).toString().trim());
-			editUserWindow.passwordField.setText(tableUsers.getValueAt(selectedRow,
-					passwordCol).toString().trim());
-			editUserWindow.textFieldFirstName.setText(tableUsers.getValueAt(selectedRow,
-					firstNameCol).toString().trim());
-			editUserWindow.textFieldSurname.setText(tableUsers.getValueAt(selectedRow,
-					surnameCol).toString().trim());
-			
+			editUserWindow.textFieldUserName.setText(tableUsers
+					.getValueAt(selectedRow, userNameCol).toString().trim());
+			editUserWindow.passwordField.setText(tableUsers
+					.getValueAt(selectedRow, passwordCol).toString().trim());
+			editUserWindow.textFieldFirstName.setText(tableUsers
+					.getValueAt(selectedRow, firstNameCol).toString().trim());
+			editUserWindow.textFieldSurname.setText(tableUsers
+					.getValueAt(selectedRow, surnameCol).toString().trim());
+
 			editUserWindow.setVisible(true);
-			
+
 			while (editUserWindow.isVisible()) {
 
 			}
-			//refresh table
+			// refresh table
 			getUsersToTable();
-						
+
 		} else {
 			JOptionPane.showMessageDialog(null,
 					"In order to edit please select user first");

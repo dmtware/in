@@ -6,7 +6,6 @@ import javax.swing.JDialog;
 
 import java.awt.Toolkit;
 
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
@@ -97,7 +96,7 @@ public class EditUserWindow extends JDialog {
 		btnAddUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				addUser();
+				updateUser();
 			}
 		});
 		btnAddUser.setBounds(164, 191, 180, 23);
@@ -141,64 +140,8 @@ public class EditUserWindow extends JDialog {
 	}
 
 	// adds user
-	private void addUser() {
+	private void updateUser() {
 
-		String userName = textFieldUserName.getText().trim();
-		@SuppressWarnings("deprecation")
-		String password = passwordField.getText().trim();
-		String firstName = textFieldFirstName.getText().trim();
-		String surname = textFieldSurname.getText().trim();
-
-		try {
-			users = conn.getAllUsers();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		// if not empty
-		if (!emptyFields()) {
-			// if password match
-			if (passwordMatch()) {
-				System.out.println("before try");
-					
-				// check if exists
-				boolean userExists = false;
-				for (int i = 0; i < users.size(); i++) {
-					if (users.get(i).getUserName().equalsIgnoreCase(userName)) {
-
-						System.out.println("Exists " + users.get(i).getUserName()
-								+ " " + userName);
-						userExists = true;
-						break;
-					}
-				}
-
-				// if doesn't exist
-				if (!userExists) {
-					try {
-						conn.insertUserQuery(userName, password, firstName, surname);
-						System.out.println("After insert query");
-						setVisible(false);
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					
-				} else {
-					JOptionPane.showMessageDialog(null,
-							"This user already exists");
-				}		
-				
-				
-			} else {
-				JOptionPane.showMessageDialog(null, "Password doesn't match");
-			}
-
-		} else {
-			JOptionPane.showMessageDialog(null,
-					"Please fill up all required fields");
-		}
 
 	}
 

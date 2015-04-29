@@ -108,7 +108,7 @@ public class MainWindow extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "unchecked", "rawtypes", "static-access" })
 	public MainWindow() {
 
 		// initialise connection
@@ -123,7 +123,7 @@ public class MainWindow extends JFrame {
 		createMenuBar();
 		setResizable(false);
 
-		setTitle("Inventory - Main");
+		setTitle("Inventory - Main | User: " + conn.currentUser);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 680, 540);
 		contentPane = new JPanel();
@@ -322,7 +322,7 @@ public class MainWindow extends JFrame {
 		setLocationRelativeTo(null);
 
 		getProductsJoin();
-
+		//refreshTable();
 	}
 
 	// menu bar
