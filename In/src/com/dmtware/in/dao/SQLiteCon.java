@@ -440,7 +440,9 @@ public class SQLiteCon {
 		try {
 			myStmt = myConn.createStatement();
 			myRs = myStmt
-					.executeQuery("SELECT Product.Name, Category.Name as CatName, Product.Type, Product.Stock FROM Product INNER JOIN Category ON Product.Category=Category.Id ORDER BY Product.Name COLLATE NOCASE");
+					.executeQuery("SELECT Product.Name, Category.Name as CatName, Product.Type, Product.Stock "
+							+ "FROM Product INNER JOIN Category ON Product.Category=Category.Id "
+							+ "ORDER BY Product.Name COLLATE NOCASE");
 
 			while (myRs.next()) {
 				ProductJoin tempProductJoin = convertRowToProductJoin(myRs);
@@ -811,3 +813,6 @@ public class SQLiteCon {
 		}
 	}
 }
+
+
+//SELECT Product.Name, Category.Name as CatName, Product.Type, Product.Stock, Unit.Name as UnitName FROM Product INNER JOIN Category ON Product.Category=Category.Id INNER JOIN Unit ON Product.Unit=Unit.Id ORDER BY Product.Name COLLATE NOCASE
