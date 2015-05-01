@@ -18,9 +18,10 @@ public class ProductJoinTableModel extends AbstractTableModel {
 	private static final int CATEGORY_COL = 1;
 	private static final int TYPE_COL = 2;
 	private static final int STOCK_COL = 3;
+	private static final int UNIT_COL = 4;
 
 	private String[] columnNames = { "Product Name", "Category", "Type",
-			"Stock" };
+			"Stock", "Unit"};
 	
 	private List<ProductJoin> productsJoin;
 
@@ -57,6 +58,8 @@ public class ProductJoinTableModel extends AbstractTableModel {
 			return tempProductJoin.getType();
 		case STOCK_COL:
 			return tempProductJoin.getStock();
+		case UNIT_COL:
+			return tempProductJoin.getUnit();
 		default:
 			return tempProductJoin.getName();
 		} 

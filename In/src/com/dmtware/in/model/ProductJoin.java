@@ -9,15 +9,17 @@ public class ProductJoin {
 	private String categoryName;
 	private String type;
 	private int stock;
+	private String unit;
 	
 	
-	public ProductJoin(String name, String categoryName, String type, int stock) {
+	public ProductJoin(String name, String categoryName, String type, int stock, String unit) {
 		super();
 		
 		this.name = name;
 		this.categoryName = categoryName;
 		this.type = type;
 		this.stock = stock;
+		this.unit = unit;
 	}
 	
 
@@ -53,6 +55,15 @@ public class ProductJoin {
 		this.stock = stock;
 	}
 
+	
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+	
 
 	@Override
 	public String toString() {

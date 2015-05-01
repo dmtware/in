@@ -30,6 +30,7 @@ import javax.swing.WindowConstants;
 
 import com.dmtware.in.dao.SQLiteCon;
 import com.dmtware.in.model.Category;
+import com.dmtware.in.model.Unit;
 
 import java.awt.Font;
 import java.awt.event.ActionListener;
@@ -60,6 +61,7 @@ public class AddProductWindow extends JDialog {
 	JButton btnAddProduct;
 	
 	JComboBox<String> comboBoxCategory;
+	JComboBox<String> comboBoxUnits;
 
 	/**
 	 * Launch the application.
@@ -79,8 +81,7 @@ public class AddProductWindow extends JDialog {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public AddProductWindow() {
-
-		
+	
 		// initialise database connection
 		conn = new SQLiteCon();
 
@@ -90,7 +91,7 @@ public class AddProductWindow extends JDialog {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(
 				AddProductWindow.class
 						.getResource("/com/dmtware/in/view/logo_2.png")));
-		setBounds(100, 100, 396, 286);
+		setBounds(100, 100, 396, 308);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -145,7 +146,7 @@ public class AddProductWindow extends JDialog {
 				addProduct();
 			}
 		});
-		btnAddProduct.setBounds(188, 200, 162, 23);
+		btnAddProduct.setBounds(188, 236, 162, 23);
 		contentPanel.add(btnAddProduct);
 
 		JLabel label = new JLabel("");
@@ -154,9 +155,9 @@ public class AddProductWindow extends JDialog {
 		label.setBounds(23, 25, 72, 72);
 		contentPanel.add(label);
 
-		JButton btnNew = new JButton("New");
-		btnNew.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		btnNew.addActionListener(new ActionListener() {
+		JButton btnNewCat = new JButton("New");
+		btnNewCat.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		btnNewCat.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
@@ -164,8 +165,22 @@ public class AddProductWindow extends JDialog {
 
 			}
 		});
-		btnNew.setBounds(279, 80, 71, 20);
-		contentPanel.add(btnNew);
+		btnNewCat.setBounds(279, 80, 71, 20);
+		contentPanel.add(btnNewCat);
+		
+		comboBoxUnits = new JComboBox(getUnitsToCombo());
+		comboBoxUnits.setBounds(188, 198, 81, 20);
+		contentPanel.add(comboBoxUnits);
+		
+		JButton btnNewUnit = new JButton("New");
+		btnNewUnit.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		btnNewUnit.setBounds(279, 198, 71, 20);
+		contentPanel.add(btnNewUnit);
+		
+		JLabel lblUnits = new JLabel("Unit:");
+		lblUnits.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblUnits.setBounds(116, 201, 62, 14);
+		contentPanel.add(lblUnits);
 		getContentPane().setBackground(new Color(163, 193, 228));
 		setLocationRelativeTo(null);
 
@@ -194,6 +209,31 @@ public class AddProductWindow extends JDialog {
 		}
 
 	}
+	
+	// get all units to comboBox
+	private String[] getUnitsToCombo() {
+
+		try {
+			List<Unit> units = null;
+			ArrayList<String> comboUnits = new ArrayList<String>();
+			comboUnits.add("");
+			units = conn.getAllUnits();
+
+			for (int i = 0; i < units.size(); i++) {
+				comboUnits.add(units.get(i).getName());
+				System.out.println(comboUnits.get(i));
+			}
+
+			return comboUnits.toArray(new String[comboUnits.size()]);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+	
 
 	// adds new product
 	private void addProduct() {
@@ -204,13 +244,16 @@ public class AddProductWindow extends JDialog {
 					.trim();
 			String typeName = textFieldType.getText().toString().trim();
 			String quantityName = textFieldStock.getText().toString().trim();
+			
+			String unitName = comboBoxUnits.getSelectedItem().toString()
+					.trim();
 
 			System.out.println(prodName + " " + catName + " " + typeName + " "
 					+ quantityName);
 
 			try {
 				conn.insertProductQuery(prodName, catName, typeName,
-						quantityName);
+						quantityName, unitName);
 				// refresh table
 				click = true;
 				setVisible(false);
@@ -231,7 +274,7 @@ public class AddProductWindow extends JDialog {
 	// checks if required fields are filled up
 	private boolean fieldsCheck() {
 
-		boolean name, category, type, stock;
+		boolean name, category, type, stock, unit;
 
 		name = textFieldName.getText().trim().equalsIgnoreCase("") ? true
 				: false;
@@ -240,8 +283,9 @@ public class AddProductWindow extends JDialog {
 				: false;
 		stock = textFieldStock.getText().trim().equalsIgnoreCase("")
 				|| !isNumeric(textFieldStock.getText()) ? true : false;
+		unit = comboBoxUnits.getSelectedIndex() == 0 ? true : false;
 
-		if (name || type || category || stock) {
+		if (name || type || category || stock || unit) {
 			return false;
 		} else
 			return true;

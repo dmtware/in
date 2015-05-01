@@ -779,6 +779,7 @@ public class MainWindow extends JFrame {
 			int catCol = 1;
 			int typeCol = 2;
 			int stockCol = 3;
+			int unitCol = 4;
 
 			int selectedRow = tableProduct.getSelectedRow();
 
@@ -790,9 +791,14 @@ public class MainWindow extends JFrame {
 					typeCol).toString().trim());
 			editProductWindow.textFieldStock.setText(tableProduct.getValueAt(selectedRow,
 					stockCol).toString().trim());
+			editProductWindow.comboBoxUnits.setSelectedItem(tableProduct.getValueAt(
+					selectedRow, unitCol));
 
 			currentProductName = editProductWindow.textFieldName.getText().toString().trim();
+			
+			editProductWindow.currentProductName = currentProductName;
 		
+			System.out.println("current: " + currentProductName);
 			
 			editProductWindow.setVisible(true);
 			while(editProductWindow.isVisible()){
@@ -801,7 +807,6 @@ public class MainWindow extends JFrame {
 			refreshComboBox();
 			refreshTable();
 		} else {
-			System.out.println("Nothing selected");
 			JOptionPane.showMessageDialog(null,
 					"In order to edit product please select product row first");
 		}
