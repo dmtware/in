@@ -15,6 +15,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableColumn;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -374,23 +375,12 @@ public class MainWindow extends JFrame {
 		mnEdit.setMnemonic(KeyEvent.VK_E);
 		menubar.add(mnEdit);
 
-		JMenuItem mntmCategories = new JMenuItem("Edit Categories");
-		mntmCategories.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				openCategories();
-			}
-		});
-		mnEdit.add(mntmCategories);
-
 		JMenuItem mntmAddProduct = new JMenuItem("Add Product");
 		mntmAddProduct.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				addProduct();
 			}
 		});
-
-		JSeparator separator = new JSeparator();
-		mnEdit.add(separator);
 		mnEdit.add(mntmAddProduct);
 
 		JMenuItem mntmRemoveProduct = new JMenuItem("Remove Product");
@@ -408,6 +398,20 @@ public class MainWindow extends JFrame {
 			}
 		});
 		mnEdit.add(mntmEditProduct);
+		
+				JMenuItem mntmCategories = new JMenuItem("Edit Categories");
+				mntmCategories.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						openCategories();
+					}
+				});
+				
+						JSeparator separator = new JSeparator();
+						mnEdit.add(separator);
+				mnEdit.add(mntmCategories);
+				
+				JMenuItem mntmEditUnits = new JMenuItem("Edit Units");
+				mnEdit.add(mntmEditUnits);
 
 		JMenu mnHelp = new JMenu("Help");
 		mnHelp.setMnemonic(KeyEvent.VK_H);
@@ -453,9 +457,25 @@ public class MainWindow extends JFrame {
 			ProductJoinTableModel model = new ProductJoinTableModel(
 					productsJoin);
 			tableProduct.setModel(model);
+						
+			hideStockAlarmColumn();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	// hides stockAlarm column
+	private void hideStockAlarmColumn(){
+		
+		// hides stockAlarm column
+		TableColumn stockAlarmColumn = tableProduct.getColumnModel()
+				.getColumn(5);
+		// tableCategories.getColumnModel().removeColumn(myTableColumn0);
+		stockAlarmColumn.setMaxWidth(0);
+		stockAlarmColumn.setMinWidth(0);
+		stockAlarmColumn.setPreferredWidth(0);
+		
 	}
 
 	// get all categories to comboBox
@@ -492,6 +512,7 @@ public class MainWindow extends JFrame {
 				DefaultComboBoxModel model = new DefaultComboBoxModel(
 						getCategoriesToCombo());
 				comboBoxCategory.setModel(model);
+				comboBoxCategory.setSelectedItem(firstCatStr);
 			}
 		});
 
@@ -523,6 +544,7 @@ public class MainWindow extends JFrame {
 					productsJoin);
 
 			tableProduct.setModel(model);
+			hideStockAlarmColumn();
 			currentListProductJoin = productsJoin;
 
 		} catch (Exception e) {
@@ -546,6 +568,7 @@ public class MainWindow extends JFrame {
 			try {
 
 				firstCatStr = item.toString();
+				
 				System.out.println(firstCatStr);
 
 				List<ProductJoin> productsJoin = null;
@@ -563,6 +586,8 @@ public class MainWindow extends JFrame {
 				ProductJoinTableModel model = new ProductJoinTableModel(
 						productsJoin);
 				tableProduct.setModel(model);
+				
+				hideStockAlarmColumn();
 
 				currentListProductJoin = productsJoin;
 				textFieldSearch.setText("");
@@ -714,8 +739,9 @@ public class MainWindow extends JFrame {
 		while(addProductWindow.isVisible()){
 	
 		}
-		refreshComboBox();
+		
 		refreshTable();
+		refreshComboBox();
 	}
 
 	// remove product
@@ -780,6 +806,7 @@ public class MainWindow extends JFrame {
 			int typeCol = 2;
 			int stockCol = 3;
 			int unitCol = 4;
+			int stockAlarmCol = 5;
 
 			int selectedRow = tableProduct.getSelectedRow();
 
@@ -794,6 +821,9 @@ public class MainWindow extends JFrame {
 			editProductWindow.comboBoxUnits.setSelectedItem(tableProduct.getValueAt(
 					selectedRow, unitCol));
 
+			editProductWindow.textFieldStockAlarm.setText(tableProduct.getValueAt(selectedRow,
+					stockAlarmCol).toString().trim());
+			
 			currentProductName = editProductWindow.textFieldName.getText().toString().trim();
 			
 			editProductWindow.currentProductName = currentProductName;
@@ -804,8 +834,9 @@ public class MainWindow extends JFrame {
 			while(editProductWindow.isVisible()){
 				
 			}
-			refreshComboBox();
+			
 			refreshTable();
+			refreshComboBox();
 		} else {
 			JOptionPane.showMessageDialog(null,
 					"In order to edit product please select product row first");
@@ -845,6 +876,7 @@ public class MainWindow extends JFrame {
 				currentListProductJoin);
 
 		tableProduct.setModel(model);
+		hideStockAlarmColumn();
 	}
 	
 	private void printTable(){

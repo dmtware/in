@@ -51,6 +51,7 @@ public class EditProductWindow extends JDialog {
 	JTextField textFieldStock;
 	JComboBox<String> comboBoxCategory;
 	JComboBox comboBoxUnits;
+	JTextField textFieldStockAlarm;
 
 	/**
 	 * Launch the application.
@@ -80,7 +81,7 @@ public class EditProductWindow extends JDialog {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(
 				EditProductWindow.class
 						.getResource("/com/dmtware/in/view/logo_2.png")));
-		setBounds(100, 100, 396, 308);
+		setBounds(100, 100, 396, 356);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -135,7 +136,7 @@ public class EditProductWindow extends JDialog {
 				updateProduct();
 			}
 		});
-		btnEditProduct.setBounds(188, 236, 162, 23);
+		btnEditProduct.setBounds(188, 274, 162, 23);
 		contentPanel.add(btnEditProduct);
 
 		JLabel label = new JLabel("");
@@ -170,6 +171,16 @@ public class EditProductWindow extends JDialog {
 		label_1.setHorizontalAlignment(SwingConstants.RIGHT);
 		label_1.setBounds(116, 201, 62, 14);
 		contentPanel.add(label_1);
+		
+		textFieldStockAlarm = new JTextField();
+		textFieldStockAlarm.setColumns(10);
+		textFieldStockAlarm.setBounds(188, 237, 162, 20);
+		contentPanel.add(textFieldStockAlarm);
+		
+		JLabel lblStockAlarm = new JLabel("Stock Alarm:");
+		lblStockAlarm.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblStockAlarm.setBounds(79, 240, 99, 14);
+		contentPanel.add(lblStockAlarm);
 
 		setLocationRelativeTo(null);
 
@@ -240,11 +251,13 @@ public class EditProductWindow extends JDialog {
 				String quantityName = textFieldStock.getText().toString().trim();
 				String unitName = comboBoxUnits.getSelectedItem().toString().trim();
 
+				String stockAlarm = textFieldStockAlarm.getText().toString().trim();
+				
 				System.out.println(currentProductName + " ! " + newProdName);
 
 				try {
 					conn.updateProductQuery(currentProductName, newProdName,
-							catName, typeName, quantityName, unitName);
+							catName, typeName, quantityName, unitName, stockAlarm);
 					
 				} catch (Exception e) {
 					// TODO Auto-generated catch block

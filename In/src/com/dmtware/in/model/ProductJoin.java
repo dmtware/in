@@ -10,9 +10,10 @@ public class ProductJoin {
 	private String type;
 	private int stock;
 	private String unit;
+	private int stockAlarm;
 	
 	
-	public ProductJoin(String name, String categoryName, String type, int stock, String unit) {
+	public ProductJoin(String name, String categoryName, String type, int stock, String unit, int stockAlarm) {
 		super();
 		
 		this.name = name;
@@ -20,6 +21,7 @@ public class ProductJoin {
 		this.type = type;
 		this.stock = stock;
 		this.unit = unit;
+		this.stockAlarm = stockAlarm;
 	}
 	
 
@@ -54,7 +56,6 @@ public class ProductJoin {
 	public void setStock(int stock) {
 		this.stock = stock;
 	}
-
 	
 	public String getUnit() {
 		return unit;
@@ -65,6 +66,15 @@ public class ProductJoin {
 	}
 	
 
+	public int getstockAlarm() {
+		return stockAlarm;
+	}
+
+	public void setstockAlarm(int stockAlarm) {
+		this.stockAlarm = stockAlarm;
+	}
+
+	
 	@Override
 	public String toString() {
 		return String

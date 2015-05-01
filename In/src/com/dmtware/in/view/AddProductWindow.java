@@ -62,6 +62,7 @@ public class AddProductWindow extends JDialog {
 	
 	JComboBox<String> comboBoxCategory;
 	JComboBox<String> comboBoxUnits;
+	private JTextField textFieldStockAlarm;
 
 	/**
 	 * Launch the application.
@@ -91,7 +92,7 @@ public class AddProductWindow extends JDialog {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(
 				AddProductWindow.class
 						.getResource("/com/dmtware/in/view/logo_2.png")));
-		setBounds(100, 100, 396, 308);
+		setBounds(100, 100, 396, 356);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -146,7 +147,7 @@ public class AddProductWindow extends JDialog {
 				addProduct();
 			}
 		});
-		btnAddProduct.setBounds(188, 236, 162, 23);
+		btnAddProduct.setBounds(188, 274, 162, 23);
 		contentPanel.add(btnAddProduct);
 
 		JLabel label = new JLabel("");
@@ -181,6 +182,16 @@ public class AddProductWindow extends JDialog {
 		lblUnits.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblUnits.setBounds(116, 201, 62, 14);
 		contentPanel.add(lblUnits);
+		
+		textFieldStockAlarm = new JTextField();
+		textFieldStockAlarm.setColumns(10);
+		textFieldStockAlarm.setBounds(188, 237, 162, 20);
+		contentPanel.add(textFieldStockAlarm);
+		
+		JLabel lblStockAlarm = new JLabel("Stock Alarm:");
+		lblStockAlarm.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblStockAlarm.setBounds(89, 240, 89, 14);
+		contentPanel.add(lblStockAlarm);
 		getContentPane().setBackground(new Color(163, 193, 228));
 		setLocationRelativeTo(null);
 
@@ -248,12 +259,15 @@ public class AddProductWindow extends JDialog {
 			String unitName = comboBoxUnits.getSelectedItem().toString()
 					.trim();
 
+			String stockAlarm = textFieldStockAlarm.getText().toString().trim();
+			
+			
 			System.out.println(prodName + " " + catName + " " + typeName + " "
 					+ quantityName);
 
 			try {
 				conn.insertProductQuery(prodName, catName, typeName,
-						quantityName, unitName);
+						quantityName, unitName, stockAlarm);
 				// refresh table
 				click = true;
 				setVisible(false);
