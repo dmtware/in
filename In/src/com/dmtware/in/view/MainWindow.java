@@ -15,6 +15,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTable;
@@ -457,9 +458,10 @@ public class MainWindow extends JFrame {
 			ProductJoinTableModel model = new ProductJoinTableModel(
 					productsJoin);
 			tableProduct.setModel(model);
-			
+
 			hideProductIdColumn();
 			hideStockAlarmColumn();
+			allignColumn();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -469,8 +471,8 @@ public class MainWindow extends JFrame {
 	// hides product id column
 	private void hideProductIdColumn() {
 
-		TableColumn productIdColumn = tableProduct.getColumnModel().getColumn(
-				0);
+		TableColumn productIdColumn = tableProduct.getColumnModel()
+				.getColumn(0);
 		// tableCategories.getColumnModel().removeColumn(myTableColumn0);
 		productIdColumn.setMaxWidth(0);
 		productIdColumn.setMinWidth(0);
@@ -489,6 +491,13 @@ public class MainWindow extends JFrame {
 		stockAlarmColumn.setMinWidth(0);
 		stockAlarmColumn.setPreferredWidth(0);
 
+	}
+	
+	// allignment
+	private void allignColumn(){
+		DefaultTableCellRenderer leftRenderer = new DefaultTableCellRenderer();
+		leftRenderer.setHorizontalAlignment(SwingConstants.LEFT);
+		tableProduct.getColumnModel().getColumn(4).setCellRenderer(leftRenderer);
 	}
 
 	// get all categories to comboBox
@@ -559,6 +568,7 @@ public class MainWindow extends JFrame {
 			tableProduct.setModel(model);
 			hideProductIdColumn();
 			hideStockAlarmColumn();
+			allignColumn();
 			currentListProductJoin = productsJoin;
 
 		} catch (Exception e) {
@@ -601,7 +611,7 @@ public class MainWindow extends JFrame {
 				tableProduct.setModel(model);
 				hideProductIdColumn();
 				hideStockAlarmColumn();
-
+				allignColumn();
 				currentListProductJoin = productsJoin;
 				textFieldSearch.setText("");
 
@@ -628,7 +638,8 @@ public class MainWindow extends JFrame {
 		if (!(tableProduct.getSelectedRow() == -1)) {
 			int selectedRow = tableProduct.getSelectedRow();
 
-			String prodId = tableProduct.getValueAt(selectedRow, prodIdCol).toString().trim();
+			String prodId = tableProduct.getValueAt(selectedRow, prodIdCol)
+					.toString().trim();
 			String prodName = tableProduct.getValueAt(selectedRow, prodCol)
 					.toString().trim();
 
@@ -834,7 +845,8 @@ public class MainWindow extends JFrame {
 					.toString().trim();
 
 			editProductWindow.currentProductName = currentProductName;
-			editProductWindow.currentTypeName = tableProduct.getValueAt(selectedRow, typeCol).toString();
+			editProductWindow.currentTypeName = tableProduct.getValueAt(
+					selectedRow, typeCol).toString();
 
 			editProductWindow.setVisible(true);
 			while (editProductWindow.isVisible()) {
@@ -884,6 +896,7 @@ public class MainWindow extends JFrame {
 		tableProduct.setModel(model);
 		hideProductIdColumn();
 		hideStockAlarmColumn();
+		allignColumn();
 	}
 
 	private void printTable() {
