@@ -60,10 +60,10 @@ public class MainWindow extends JFrame {
 
 	// first category in combo box
 	String firstCatStr = "All";
-	
+
 	// selected product
 	String currentProductName;
-	
+
 	// current product search string
 	String currentProductSearch;
 
@@ -299,11 +299,11 @@ public class MainWindow extends JFrame {
 		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblNewLabel.setBounds(278, 15, 97, 14);
 		contentPane.add(lblNewLabel);
-		
+
 		JButton btnShowAll = new JButton("Show All");
 		btnShowAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				showwAll();
 			}
 		});
@@ -311,12 +311,12 @@ public class MainWindow extends JFrame {
 		btnShowAll.setFocusPainted(false);
 		btnShowAll.setBounds(582, 11, 80, 24);
 		contentPane.add(btnShowAll);
-		
+
 		JLabel lblProducts = new JLabel("Products");
 		lblProducts.setHorizontalAlignment(SwingConstants.CENTER);
 		lblProducts.setBounds(96, 430, 75, 14);
 		contentPane.add(lblProducts);
-		
+
 		JLabel lblStock = new JLabel("Stock");
 		lblStock.setHorizontalAlignment(SwingConstants.CENTER);
 		lblStock.setBounds(501, 430, 75, 14);
@@ -324,7 +324,7 @@ public class MainWindow extends JFrame {
 		setLocationRelativeTo(null);
 
 		getProductsJoin();
-		//refreshTable();
+		// refreshTable();
 	}
 
 	// menu bar
@@ -348,7 +348,7 @@ public class MainWindow extends JFrame {
 		JMenuItem mntmPrint = new JMenuItem("Print");
 		mntmPrint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				printTable();
 			}
 		});
@@ -398,20 +398,20 @@ public class MainWindow extends JFrame {
 			}
 		});
 		mnEdit.add(mntmEditProduct);
-		
-				JMenuItem mntmCategories = new JMenuItem("Edit Categories");
-				mntmCategories.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						openCategories();
-					}
-				});
-				
-						JSeparator separator = new JSeparator();
-						mnEdit.add(separator);
-				mnEdit.add(mntmCategories);
-				
-				JMenuItem mntmEditUnits = new JMenuItem("Edit Units");
-				mnEdit.add(mntmEditUnits);
+
+		JMenuItem mntmCategories = new JMenuItem("Edit Categories");
+		mntmCategories.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				openCategories();
+			}
+		});
+
+		JSeparator separator = new JSeparator();
+		mnEdit.add(separator);
+		mnEdit.add(mntmCategories);
+
+		JMenuItem mntmEditUnits = new JMenuItem("Edit Units");
+		mnEdit.add(mntmEditUnits);
 
 		JMenu mnHelp = new JMenu("Help");
 		mnHelp.setMnemonic(KeyEvent.VK_H);
@@ -432,13 +432,13 @@ public class MainWindow extends JFrame {
 		refreshComboBox();
 		getProductsJoin();
 	}
-	
+
 	// opens Settings window
-	private void openSettings(){
+	private void openSettings() {
 		SettingsWindow settingsWindow = new SettingsWindow();
 		settingsWindow.setVisible(true);
-		while(settingsWindow.isVisible()){
-			
+		while (settingsWindow.isVisible()) {
+
 		}
 		refreshComboBox();
 		refreshTable();
@@ -457,25 +457,38 @@ public class MainWindow extends JFrame {
 			ProductJoinTableModel model = new ProductJoinTableModel(
 					productsJoin);
 			tableProduct.setModel(model);
-						
-			hideStockAlarmColumn();
 			
+			hideProductIdColumn();
+			hideStockAlarmColumn();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
+	// hides product id column
+	private void hideProductIdColumn() {
+
+		TableColumn productIdColumn = tableProduct.getColumnModel().getColumn(
+				0);
+		// tableCategories.getColumnModel().removeColumn(myTableColumn0);
+		productIdColumn.setMaxWidth(0);
+		productIdColumn.setMinWidth(0);
+		productIdColumn.setPreferredWidth(0);
+
+	}
+
 	// hides stockAlarm column
-	private void hideStockAlarmColumn(){
-		
+	private void hideStockAlarmColumn() {
+
 		// hides stockAlarm column
-		TableColumn stockAlarmColumn = tableProduct.getColumnModel()
-				.getColumn(5);
+		TableColumn stockAlarmColumn = tableProduct.getColumnModel().getColumn(
+				6);
 		// tableCategories.getColumnModel().removeColumn(myTableColumn0);
 		stockAlarmColumn.setMaxWidth(0);
 		stockAlarmColumn.setMinWidth(0);
 		stockAlarmColumn.setPreferredWidth(0);
-		
+
 	}
 
 	// get all categories to comboBox
@@ -500,10 +513,10 @@ public class MainWindow extends JFrame {
 			return null;
 		}
 	}
-	
+
 	// refreshes combobox after change
-	public void refreshComboBox(){
-	
+	public void refreshComboBox() {
+
 		SwingUtilities.invokeLater(new Runnable() {
 			@SuppressWarnings("unchecked")
 			@Override
@@ -544,6 +557,7 @@ public class MainWindow extends JFrame {
 					productsJoin);
 
 			tableProduct.setModel(model);
+			hideProductIdColumn();
 			hideStockAlarmColumn();
 			currentListProductJoin = productsJoin;
 
@@ -551,10 +565,9 @@ public class MainWindow extends JFrame {
 			// TODO: handle exception
 		}
 	}
-	
-	
+
 	// show all method
-	private void showwAll(){
+	private void showwAll() {
 		textFieldSearch.setText("");
 		searchBtn();
 	}
@@ -568,7 +581,7 @@ public class MainWindow extends JFrame {
 			try {
 
 				firstCatStr = item.toString();
-				
+
 				System.out.println(firstCatStr);
 
 				List<ProductJoin> productsJoin = null;
@@ -586,7 +599,7 @@ public class MainWindow extends JFrame {
 				ProductJoinTableModel model = new ProductJoinTableModel(
 						productsJoin);
 				tableProduct.setModel(model);
-				
+				hideProductIdColumn();
 				hideStockAlarmColumn();
 
 				currentListProductJoin = productsJoin;
@@ -608,16 +621,15 @@ public class MainWindow extends JFrame {
 	// add stock method
 	@SuppressWarnings("static-access")
 	private void addStock() {
-		int prodCol = 0;
-		int typeCol = 2;
+		int prodIdCol = 0;
+		int prodCol = 1;
 
 		// if row selected
 		if (!(tableProduct.getSelectedRow() == -1)) {
 			int selectedRow = tableProduct.getSelectedRow();
 
+			String prodId = tableProduct.getValueAt(selectedRow, prodIdCol).toString().trim();
 			String prodName = tableProduct.getValueAt(selectedRow, prodCol)
-					.toString().trim();
-			String typeName = tableProduct.getValueAt(selectedRow, typeCol)
 					.toString().trim();
 
 			boolean numeric = false;
@@ -626,30 +638,29 @@ public class MainWindow extends JFrame {
 			JOptionPane inpOption = new JOptionPane();
 			String strDialogResponse = "";
 
-				do {
-					// Shows a inputdialog
-					strDialogResponse = inpOption.showInputDialog("How much do you want to add: ");
-					 //if OK is pushed then (if not strDialogResponse is null)
-				    if (strDialogResponse != null){
+			do {
+				// Shows a inputdialog
+				strDialogResponse = inpOption
+						.showInputDialog("How much do you want to add: ");
+				// if OK is pushed then (if not strDialogResponse is null)
+				if (strDialogResponse != null) {
 
-						try {
+					try {
 						quantity = Integer.parseInt(strDialogResponse.trim());
 						numeric = true;
-						} catch (NumberFormatException e) {
+					} catch (NumberFormatException e) {
 						JOptionPane.showMessageDialog(null,
 								"Please enter numeric value");
 						numeric = false;
-						}
-				    }// If cancel button is pressed
-					else {
-						break;
 					}
-				} while (!numeric);
-
-			System.out.println(prodName + " " + typeName + " " + quantity);
+				}// If cancel button is pressed
+				else {
+					break;
+				}
+			} while (!numeric);
 
 			try {
-				conn.addStockQuery(prodName, typeName, quantity);
+				conn.addStockQuery(prodId, prodName, quantity);
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -667,17 +678,17 @@ public class MainWindow extends JFrame {
 	// remove stock method
 	@SuppressWarnings("static-access")
 	private void removeStock() {
-		int prodCol = 0;
-		int typeCol = 2;
+		int prodIdCol = 0;
+		int prodCol = 1;
 
 		// if row selected
 		if (!(tableProduct.getSelectedRow() == -1)) {
 
 			int selectedRow = tableProduct.getSelectedRow();
 
-			String prodName = tableProduct.getValueAt(selectedRow, prodCol)
+			String prodId = tableProduct.getValueAt(selectedRow, prodIdCol)
 					.toString().trim();
-			String typeName = tableProduct.getValueAt(selectedRow, typeCol)
+			String prodName = tableProduct.getValueAt(selectedRow, prodCol)
 					.toString().trim();
 
 			boolean numeric = false;
@@ -685,30 +696,29 @@ public class MainWindow extends JFrame {
 			JOptionPane inpOption = new JOptionPane();
 			String strDialogResponse = "";
 
-				do {
-					// Shows a inputdialog
-					strDialogResponse = inpOption.showInputDialog("How much do you want to remove: ");
-					 //if OK is pushed then (if not strDialogResponse is null)
-				    if (strDialogResponse != null){
+			do {
+				// Shows a inputdialog
+				strDialogResponse = inpOption
+						.showInputDialog("How much do you want to remove: ");
+				// if OK is pushed then (if not strDialogResponse is null)
+				if (strDialogResponse != null) {
 
-						try {
+					try {
 						quantity = Integer.parseInt(strDialogResponse);
 						numeric = true;
-						} catch (NumberFormatException e) {
+					} catch (NumberFormatException e) {
 						JOptionPane.showMessageDialog(null,
 								"Please enter numeric value");
 						numeric = false;
-						}
-				    }// If cancel button is pressed
-					else {
-						break;
 					}
-				} while (!numeric);
-
-			System.out.println(prodName + " " + typeName + " " + quantity);
+				}// If cancel button is pressed
+				else {
+					break;
+				}
+			} while (!numeric);
 
 			try {
-				conn.removeStockQuery(prodName, typeName, quantity);
+				conn.removeStockQuery(prodId, prodName, quantity);
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -728,7 +738,7 @@ public class MainWindow extends JFrame {
 
 	// add product
 	private void addProduct() {
-		
+
 		// initialise AddProductWindow
 		addProductWindow = new AddProductWindow();
 
@@ -736,36 +746,30 @@ public class MainWindow extends JFrame {
 		addProductWindow.textFieldName.setText("");
 		addProductWindow.textFieldType.setText("");
 		addProductWindow.textFieldStock.setText("");
-		
-		while(addProductWindow.isVisible()){
-	
+
+		while (addProductWindow.isVisible()) {
+
 		}
-		
+
 		refreshTable();
 		refreshComboBox();
 	}
 
 	// remove product
 	private void removeProduct() {
-		int prodCol = 0;
-		int typeCol = 2;
-		int stockCol = 3;
+		int prodIdCol = 0;
+		int prodNameCol = 1;
 
 		// if row selected
 		if (!(tableProduct.getSelectedRow() == -1)) {
 
 			int selectedRow = tableProduct.getSelectedRow();
 
-			String prodName = tableProduct.getValueAt(selectedRow, prodCol)
+			String prodId = tableProduct.getValueAt(selectedRow, prodIdCol)
 					.toString().trim();
 
-			String typeName = tableProduct.getValueAt(selectedRow, typeCol)
+			String prodName = tableProduct.getValueAt(selectedRow, prodNameCol)
 					.toString().trim();
-
-			String stockName = tableProduct.getValueAt(selectedRow, stockCol)
-					.toString().trim();
-
-			System.out.println(prodName + " " + typeName + " " + stockCol);
 
 			int reply = JOptionPane.showConfirmDialog(null,
 					"Do you really want to remove this product?", "Remove?",
@@ -773,7 +777,7 @@ public class MainWindow extends JFrame {
 			if (reply == JOptionPane.YES_OPTION) {
 
 				try {
-					conn.removeProductQuery(prodName, typeName, stockName);
+					conn.removeProductQuery(prodId, prodName);
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -794,48 +798,48 @@ public class MainWindow extends JFrame {
 					.showMessageDialog(null,
 							"In order to remove product please select product row first");
 		}
-		
+
 	}
 
 	// edit product
 	private void editProduct() {
 		if (!(tableProduct.getSelectedRow() == -1)) {
 			editProductWindow = new EditProductWindow();
-			
-			int nameCol = 0;
-			int catCol = 1;
-			int typeCol = 2;
-			int stockCol = 3;
-			int unitCol = 4;
-			int stockAlarmCol = 5;
+
+			int idCol = 0;
+			int nameCol = 1;
+			int catCol = 2;
+			int typeCol = 3;
+			int stockCol = 4;
+			int unitCol = 5;
+			int stockAlarmCol = 6;
 
 			int selectedRow = tableProduct.getSelectedRow();
 
-			editProductWindow.textFieldName.setText(tableProduct.getValueAt(selectedRow,
-					nameCol).toString().trim());
-			editProductWindow.comboBoxCategory.setSelectedItem(tableProduct.getValueAt(
-					selectedRow, catCol));
-			editProductWindow.textFieldType.setText(tableProduct.getValueAt(selectedRow,
-					typeCol).toString().trim());
-			editProductWindow.textFieldStock.setText(tableProduct.getValueAt(selectedRow,
-					stockCol).toString().trim());
-			editProductWindow.comboBoxUnits.setSelectedItem(tableProduct.getValueAt(
-					selectedRow, unitCol));
+			editProductWindow.textFieldName.setText(tableProduct
+					.getValueAt(selectedRow, nameCol).toString().trim());
+			editProductWindow.comboBoxCategory.setSelectedItem(tableProduct
+					.getValueAt(selectedRow, catCol));
+			editProductWindow.textFieldType.setText(tableProduct
+					.getValueAt(selectedRow, typeCol).toString().trim());
+			editProductWindow.textFieldStock.setText(tableProduct
+					.getValueAt(selectedRow, stockCol).toString().trim());
+			editProductWindow.comboBoxUnits.setSelectedItem(tableProduct
+					.getValueAt(selectedRow, unitCol));
 
-			editProductWindow.textFieldStockAlarm.setText(tableProduct.getValueAt(selectedRow,
-					stockAlarmCol).toString().trim());
-			
-			currentProductName = editProductWindow.textFieldName.getText().toString().trim();
-			
+			editProductWindow.textFieldStockAlarm.setText(tableProduct
+					.getValueAt(selectedRow, stockAlarmCol).toString().trim());
+
+			currentProductName = editProductWindow.textFieldName.getText()
+					.toString().trim();
+
 			editProductWindow.currentProductName = currentProductName;
-		
-			System.out.println("current: " + currentProductName);
-			
+
 			editProductWindow.setVisible(true);
-			while(editProductWindow.isVisible()){
-				
+			while (editProductWindow.isVisible()) {
+
 			}
-			
+
 			refreshTable();
 			refreshComboBox();
 		} else {
@@ -877,14 +881,15 @@ public class MainWindow extends JFrame {
 				currentListProductJoin);
 
 		tableProduct.setModel(model);
+		hideProductIdColumn();
 		hideStockAlarmColumn();
 	}
-	
-	private void printTable(){
-		
+
+	private void printTable() {
+
 		MessageFormat header = new MessageFormat("Inventory - Report");
 		MessageFormat footer = new MessageFormat("Page {0, number, integer}");
-		
+
 		try {
 			tableProduct.print(JTable.PrintMode.FIT_WIDTH, header, footer);
 		} catch (Exception e) {

@@ -5,6 +5,7 @@
 package com.dmtware.in.model;
 
 public class ProductJoin {
+	private int id;
 	private String name;
 	private String categoryName;
 	private String type;
@@ -13,9 +14,9 @@ public class ProductJoin {
 	private int stockAlarm;
 	
 	
-	public ProductJoin(String name, String categoryName, String type, int stock, String unit, int stockAlarm) {
+	public ProductJoin(int id, String name, String categoryName, String type, int stock, String unit, int stockAlarm) {
 		super();
-		
+		this.id = id;
 		this.name = name;
 		this.categoryName = categoryName;
 		this.type = type;
@@ -25,6 +26,15 @@ public class ProductJoin {
 	}
 	
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	
 	public String getName() {
 		return name;
 	}

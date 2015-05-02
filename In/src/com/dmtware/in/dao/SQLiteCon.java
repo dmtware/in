@@ -513,7 +513,7 @@ public class SQLiteCon {
 		try {
 			myStmt = myConn.createStatement();
 			myRs = myStmt
-					.executeQuery("SELECT Product.Name, Category.Name as CatName, Product.Type, Product.Stock, Unit.Name as UnitName, Product.StockAlarm FROM Product INNER JOIN Category ON Product.Category=Category.Id INNER JOIN Unit ON Product.Unit=Unit.Id ORDER BY Product.Name COLLATE NOCASE");
+					.executeQuery("SELECT Product.Id, Product.Name, Category.Name as CatName, Product.Type, Product.Stock, Unit.Name as UnitName, Product.StockAlarm FROM Product INNER JOIN Category ON Product.Category=Category.Id INNER JOIN Unit ON Product.Unit=Unit.Id ORDER BY Product.Name COLLATE NOCASE");
 
 			while (myRs.next()) {
 				ProductJoin tempProductJoin = convertRowToProductJoin(myRs);
@@ -531,6 +531,7 @@ public class SQLiteCon {
 	private ProductJoin convertRowToProductJoin(ResultSet myRs)
 			throws SQLException {
 
+		int id = myRs.getInt("Id");
 		String name = myRs.getString("Name");
 		String category = myRs.getString("CatName");
 		String type = myRs.getString("Type");
@@ -538,7 +539,7 @@ public class SQLiteCon {
 		String unit = myRs.getString("UnitName");
 		int stockAlarm = myRs.getInt("StockAlarm");
 
-		ProductJoin tempProductJoin = new ProductJoin(name, category, type,
+		ProductJoin tempProductJoin = new ProductJoin(id, name, category, type,
 				stock, unit, stockAlarm);
 
 		return tempProductJoin;
@@ -555,7 +556,7 @@ public class SQLiteCon {
 		try {
 			// catName = "";
 			myStmt = myConn
-					.prepareStatement("SELECT Product.Name, Category.Name as CatName, Product.Type, Product.Stock, Unit.Name as UnitName, Product.StockAlarm FROM Product INNER JOIN Category ON Product.Category=Category.Id INNER JOIN Unit ON Product.Unit=Unit.Id WHERE Category.Name = ? ORDER BY Product.Name COLLATE NOCASE");
+					.prepareStatement("SELECT Product.Id, Product.Name, Category.Name as CatName, Product.Type, Product.Stock, Unit.Name as UnitName, Product.StockAlarm FROM Product INNER JOIN Category ON Product.Category=Category.Id INNER JOIN Unit ON Product.Unit=Unit.Id WHERE Category.Name = ? ORDER BY Product.Name COLLATE NOCASE");
 
 			myStmt.setString(1, catName);
 
@@ -586,14 +587,14 @@ public class SQLiteCon {
 				System.out.println("If ALL");
 				prodName += "%";
 				myStmt = myConn
-						.prepareStatement("SELECT Product.Name, Category.Name as CatName, Product.Type, Product.Stock, Unit.Name as UnitName, Product.StockAlarm FROM Product INNER JOIN Category ON Product.Category=Category.Id INNER JOIN Unit ON Product.Unit=Unit.Id WHERE Product.Name LIKE ? ORDER BY Product.Name COLLATE NOCASE");
+						.prepareStatement("SELECT Product.Id, Product.Name, Category.Name as CatName, Product.Type, Product.Stock, Unit.Name as UnitName, Product.StockAlarm FROM Product INNER JOIN Category ON Product.Category=Category.Id INNER JOIN Unit ON Product.Unit=Unit.Id WHERE Product.Name LIKE ? ORDER BY Product.Name COLLATE NOCASE");
 
 				myStmt.setString(1, prodName);
 
 			} else {
 				prodName += "%";
 				myStmt = myConn
-						.prepareStatement("SELECT Product.Name, Category.Name as CatName, Product.Type, Product.Stock, Unit.Name as UnitName, Product.StockAlarm FROM Product INNER JOIN Category ON Product.Category=Category.Id INNER JOIN Unit ON Product.Unit=Unit.Id WHERE Category.Name = ? AND Product.Name LIKE ? ORDER BY Product.Name COLLATE NOCASE");
+						.prepareStatement("SELECT Product.Id, Product.Name, Category.Name as CatName, Product.Type, Product.Stock, Unit.Name as UnitName, Product.StockAlarm FROM Product INNER JOIN Category ON Product.Category=Category.Id INNER JOIN Unit ON Product.Unit=Unit.Id WHERE Category.Name = ? AND Product.Name LIKE ? ORDER BY Product.Name COLLATE NOCASE");
 
 				myStmt.setString(1, cat);
 				myStmt.setString(2, prodName);
@@ -646,19 +647,17 @@ public class SQLiteCon {
 	}
 
 	// remove product
-	public void removeProductQuery(String prodName, String typeName,
-			String stockName) throws Exception {
+	public void removeProductQuery(String prodId, String prodName) throws Exception {
 
 		PreparedStatement myStmt = null;
 
 		try {
 
 			myStmt = myConn
-					.prepareStatement("DELETE FROM Product WHERE Name = ? AND Type = ? AND Stock = ?");
+					.prepareStatement("DELETE FROM Product WHERE Id = ? AND Name = ?");
 
-			myStmt.setString(1, prodName);
-			myStmt.setString(2, typeName);
-			myStmt.setString(3, stockName);
+			myStmt.setString(1, prodId);
+			myStmt.setString(2, prodName);
 
 			myStmt.execute();
 		} finally {
@@ -743,7 +742,7 @@ public class SQLiteCon {
 	}
 
 	// add stock
-	public void addStockQuery(String prodName, String typeName, int quantity)
+	public void addStockQuery(String prodId, String prodName, int quantity)
 			throws Exception {
 
 		PreparedStatement myStmt = null;
@@ -754,11 +753,11 @@ public class SQLiteCon {
 
 			myStmt = myConn
 					.prepareStatement("UPDATE Product SET Stock = (Product.Stock + ?) "
-							+ "WHERE Name = ? AND Type = ?");
+							+ "WHERE Id = ? AND Name = ?");
 
 			myStmt.setString(1, qString);
-			myStmt.setString(2, prodName);
-			myStmt.setString(3, typeName);
+			myStmt.setString(2, prodId);
+			myStmt.setString(3, prodName);
 
 			myStmt.executeUpdate();
 		} finally {
@@ -768,7 +767,7 @@ public class SQLiteCon {
 	}
 
 	// remove stock
-	public void removeStockQuery(String prodName, String typeName, int quantity)
+	public void removeStockQuery(String prodId, String prodName, int quantity)
 			throws Exception {
 
 		PreparedStatement myStmt = null;
@@ -779,11 +778,11 @@ public class SQLiteCon {
 
 			myStmt = myConn
 					.prepareStatement("UPDATE Product SET Stock = (Product.Stock - ?) "
-							+ "WHERE Name = ? AND Type = ?");
+							+ "WHERE Id = ? AND Name = ?");
 
 			myStmt.setString(1, qString);
-			myStmt.setString(2, prodName);
-			myStmt.setString(3, typeName);
+			myStmt.setString(2, prodId);
+			myStmt.setString(3, prodName);
 
 			myStmt.executeUpdate();
 		} finally {

@@ -263,7 +263,7 @@ public class EditProductWindow extends JDialog {
 					stockAlarm = "0";
 				}
 
-				System.out.println(currentProductName + " ! " + newProdName);
+				System.out.println("current: "+currentProductName + " ! new: " + newProdName);
 
 				try {
 					products = conn.getProductsJoin();
@@ -276,7 +276,7 @@ public class EditProductWindow extends JDialog {
 				boolean productExists = false;
 				// if product name and type the same
 				for (int i = 0; i < products.size(); i++) {
-					if (products.get(i).getName().equalsIgnoreCase(newProdName)) {
+					if (products.get(i).getName().equalsIgnoreCase(newProdName) && !newProdName.equalsIgnoreCase(currentProductName)) {
 						System.out
 								.println("Exists " + products.get(i).getName()
 										+ " " + newProdName);

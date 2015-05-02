@@ -14,14 +14,15 @@ public class ProductJoinTableModel extends AbstractTableModel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final int PRODUCT_NAME_COL = 0;
-	private static final int CATEGORY_COL = 1;
-	private static final int TYPE_COL = 2;
-	private static final int STOCK_COL = 3;
-	private static final int UNIT_COL = 4;
-	private static final int STOCK_ALARM_COL = 5;
+	private static final int PRODUCT_ID_COL = 0;
+	private static final int PRODUCT_NAME_COL = 1;
+	private static final int CATEGORY_COL = 2;
+	private static final int TYPE_COL = 3;
+	private static final int STOCK_COL = 4;
+	private static final int UNIT_COL = 5;
+	private static final int STOCK_ALARM_COL = 6;
 
-	private String[] columnNames = { "Product Name", "Category", "Type",
+	private String[] columnNames = { "Product Id","Product Name", "Category", "Type",
 			"Stock", "Unit", "Stock Alarm"};
 	
 	private List<ProductJoin> productsJoin;
@@ -51,6 +52,9 @@ public class ProductJoinTableModel extends AbstractTableModel {
 		ProductJoin tempProductJoin = productsJoin.get(row);
 
 		switch (col) {
+		
+		case PRODUCT_ID_COL:
+			return tempProductJoin.getId();
 		case PRODUCT_NAME_COL:
 			return tempProductJoin.getName();
 		case CATEGORY_COL:
