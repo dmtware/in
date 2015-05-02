@@ -345,7 +345,11 @@ public class AddProductWindow extends JDialog {
 		ParsePosition pos = new ParsePosition(0);
 		formatter.parse(str, pos);
 		if (str.length() == pos.getIndex()) {
-
+			
+			if (str.equalsIgnoreCase("")){
+				str = "0";
+			}
+			
 			if (Integer.parseInt(str) < 0) {
 				return false;
 			} else {
