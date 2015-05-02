@@ -697,7 +697,7 @@ public class MainWindow extends JFrame {
 			String strDialogResponse = "";
 
 			do {
-				// Shows a inputdialog
+				// Shows a input dialog
 				strDialogResponse = inpOption
 						.showInputDialog("How much do you want to remove: ");
 				// if OK is pushed then (if not strDialogResponse is null)
@@ -834,6 +834,7 @@ public class MainWindow extends JFrame {
 					.toString().trim();
 
 			editProductWindow.currentProductName = currentProductName;
+			editProductWindow.currentTypeName = tableProduct.getValueAt(selectedRow, typeCol).toString();
 
 			editProductWindow.setVisible(true);
 			while (editProductWindow.isVisible()) {

@@ -46,6 +46,7 @@ public class EditProductWindow extends JDialog {
 	List<ProductJoin> products;
 
 	String currentProductName = "";
+	String currentTypeName = "";
 
 	// fields that need access
 	private final JPanel contentPanel = new JPanel();
@@ -263,7 +264,8 @@ public class EditProductWindow extends JDialog {
 					stockAlarm = "0";
 				}
 
-				System.out.println("current: "+currentProductName + " ! new: " + newProdName);
+				System.out.println("current: " + currentProductName
+						+ " ! new: " + newProdName);
 
 				try {
 					products = conn.getProductsJoin();
@@ -274,20 +276,24 @@ public class EditProductWindow extends JDialog {
 
 				// check if exists
 				boolean productExists = false;
-				// if product name and type the same
-				for (int i = 0; i < products.size(); i++) {
-					if (products.get(i).getName().equalsIgnoreCase(newProdName) && !newProdName.equalsIgnoreCase(currentProductName)) {
-						System.out
-								.println("Exists " + products.get(i).getName()
-										+ " " + newProdName);
-						if (products.get(i).getType()
-								.equalsIgnoreCase(typeName)) {
+				boolean noChange = false;
+
+				if (newProdName.equalsIgnoreCase(currentProductName)
+						&& typeName.equalsIgnoreCase(currentTypeName)) {
+					//do nothing
+				} else {
+
+					for (int i = 0; i < products.size(); i++) {
+						if (products.get(i).getName()
+								.equalsIgnoreCase(newProdName)
+								&& products.get(i).getType()
+										.equalsIgnoreCase(typeName)) {
 							productExists = true;
 							break;
+
 						}
 					}
 				}
-				
 				// if product with the same type exists
 				if (!productExists) {
 					try {
@@ -305,7 +311,8 @@ public class EditProductWindow extends JDialog {
 
 					dispose();
 				} else {
-					JOptionPane.showMessageDialog(null, "Product with the same name and type exists");
+					JOptionPane.showMessageDialog(null,
+							"Product with the same name and type exists");
 				}
 			} else {
 				// do nothing
