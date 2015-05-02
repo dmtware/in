@@ -29,6 +29,7 @@ import javax.swing.WindowConstants;
 
 import com.dmtware.in.dao.SQLiteCon;
 import com.dmtware.in.model.Category;
+import com.dmtware.in.model.ProductJoin;
 import com.dmtware.in.model.Unit;
 
 import java.awt.Font;
@@ -41,6 +42,8 @@ public class EditProductWindow extends JDialog {
 
 	// database class declaration
 	SQLiteCon conn;
+
+	List<ProductJoin> products;
 
 	String currentProductName = "";
 
@@ -157,26 +160,26 @@ public class EditProductWindow extends JDialog {
 		});
 		btnNewCat.setBounds(279, 80, 71, 20);
 		contentPanel.add(btnNewCat);
-		
+
 		comboBoxUnits = new JComboBox(getUnitsToCombo());
 		comboBoxUnits.setBounds(188, 198, 81, 20);
 		contentPanel.add(comboBoxUnits);
-		
+
 		JButton btnNewUnit = new JButton("New");
 		btnNewUnit.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnNewUnit.setBounds(279, 198, 71, 20);
 		contentPanel.add(btnNewUnit);
-		
+
 		JLabel label_1 = new JLabel("Category:");
 		label_1.setHorizontalAlignment(SwingConstants.RIGHT);
 		label_1.setBounds(116, 201, 62, 14);
 		contentPanel.add(label_1);
-		
+
 		textFieldStockAlarm = new JTextField();
 		textFieldStockAlarm.setColumns(10);
 		textFieldStockAlarm.setBounds(188, 237, 162, 20);
 		contentPanel.add(textFieldStockAlarm);
-		
+
 		JLabel lblStockAlarm = new JLabel("Stock Alarm:");
 		lblStockAlarm.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblStockAlarm.setBounds(79, 240, 99, 14);
@@ -209,7 +212,7 @@ public class EditProductWindow extends JDialog {
 		}
 
 	}
-	
+
 	// gets all units to combo
 	private String[] getUnitsToCombo() {
 
@@ -234,7 +237,6 @@ public class EditProductWindow extends JDialog {
 
 	}
 
-
 	// updates product
 	private void updateProduct() {
 
@@ -246,28 +248,65 @@ public class EditProductWindow extends JDialog {
 			if (reply == JOptionPane.YES_OPTION) {
 
 				String newProdName = textFieldName.getText().toString().trim();
-				String catName = comboBoxCategory.getSelectedItem().toString().trim();
+				String catName = comboBoxCategory.getSelectedItem().toString()
+						.trim();
 				String typeName = textFieldType.getText().toString().trim();
-				String quantityName = textFieldStock.getText().toString().trim();
-				String unitName = comboBoxUnits.getSelectedItem().toString().trim();
+				String quantityName = textFieldStock.getText().toString()
+						.trim();
+				String unitName = comboBoxUnits.getSelectedItem().toString()
+						.trim();
 
-				String stockAlarm = textFieldStockAlarm.getText().toString().trim();
-				
+				String stockAlarm = textFieldStockAlarm.getText().toString()
+						.trim();
+
+				if (stockAlarm.equalsIgnoreCase("")) {
+					stockAlarm = "0";
+				}
+
 				System.out.println(currentProductName + " ! " + newProdName);
 
 				try {
-					conn.updateProductQuery(currentProductName, newProdName,
-							catName, typeName, quantityName, unitName, stockAlarm);
-					
-				} catch (Exception e) {
+					products = conn.getProductsJoin();
+				} catch (Exception e1) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					e1.printStackTrace();
 				}
 
-				currentProductName = textFieldName.getText().toString().trim();
+				// check if exists
+				boolean productExists = false;
+				// if product name and type the same
+				for (int i = 0; i < products.size(); i++) {
+					if (products.get(i).getName().equalsIgnoreCase(newProdName)) {
+						System.out
+								.println("Exists " + products.get(i).getName()
+										+ " " + newProdName);
+						if (products.get(i).getType()
+								.equalsIgnoreCase(typeName)) {
+							productExists = true;
+							break;
+						}
+					}
+				}
+				
+				// if product with the same type exists
+				if (!productExists) {
+					try {
+						conn.updateProductQuery(currentProductName,
+								newProdName, catName, typeName, quantityName,
+								unitName, stockAlarm);
 
-				dispose();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 
+					currentProductName = textFieldName.getText().toString()
+							.trim();
+
+					dispose();
+				} else {
+					JOptionPane.showMessageDialog(null, "Product with the same name and type exists");
+				}
 			} else {
 				// do nothing
 			}
@@ -275,24 +314,29 @@ public class EditProductWindow extends JDialog {
 		} else {
 
 			JOptionPane
-					.showMessageDialog(null,
-							"Please fill up all the fields and make sure that \"Stock\" is numeric");
+					.showMessageDialog(
+							null,
+							"Please fill up all the fields and make sure that \"Stock\" & \"Stock Alarm\" are numeric");
 		}
 	}
 
 	// checks if required fields are filled up
 	private boolean fieldsCheck() {
 
-		boolean name, category, type, stock, unit;
+		boolean name, category, type, stock, unit, stockAlarm;
 
-		name = textFieldName.getText().trim().equalsIgnoreCase("") ? true : false;
+		name = textFieldName.getText().trim().equalsIgnoreCase("") ? true
+				: false;
 		category = comboBoxCategory.getSelectedIndex() == 0 ? true : false;
-		type = textFieldType.getText().trim().equalsIgnoreCase("") ? true : false;
+		type = textFieldType.getText().trim().equalsIgnoreCase("") ? true
+				: false;
 		stock = textFieldStock.getText().trim().equalsIgnoreCase("")
 				|| !isNumeric(textFieldStock.getText().trim()) ? true : false;
 		unit = comboBoxUnits.getSelectedIndex() == 0 ? true : false;
 
-		if (name || type || category || stock || unit) {
+		stockAlarm = !isNumeric(textFieldStockAlarm.getText()) ? true : false;
+
+		if (name || type || category || stock || unit || stockAlarm) {
 			return false;
 		} else
 			return true;
@@ -303,9 +347,19 @@ public class EditProductWindow extends JDialog {
 		NumberFormat formatter = NumberFormat.getInstance();
 		ParsePosition pos = new ParsePosition(0);
 		formatter.parse(str, pos);
-		return str.length() == pos.getIndex();
-	}
+		if (str.length() == pos.getIndex()) {
 
+			if (Integer.parseInt(str) < 0) {
+				return false;
+			} else {
+				return true;
+			}
+
+		} else {
+			return false;
+		}
+
+	}
 
 	// opens categories window
 	private void openCategories() {
@@ -324,6 +378,5 @@ public class EditProductWindow extends JDialog {
 				comboBoxCategory.setModel(model);
 			}
 		});
-
 	}
 }

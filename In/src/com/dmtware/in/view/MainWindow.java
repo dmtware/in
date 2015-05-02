@@ -736,6 +736,7 @@ public class MainWindow extends JFrame {
 		addProductWindow.textFieldName.setText("");
 		addProductWindow.textFieldType.setText("");
 		addProductWindow.textFieldStock.setText("");
+		
 		while(addProductWindow.isVisible()){
 	
 		}
