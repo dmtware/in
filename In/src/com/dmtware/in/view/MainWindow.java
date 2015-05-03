@@ -79,6 +79,9 @@ public class MainWindow extends JFrame {
 
 	// Categories Window declaration
 	CategoriesWindow categoriesWindow;
+	
+	// Units Window declaration
+	UnitsWindow unitsWindow;
 
 	// database class declaration
 	SQLiteCon conn;
@@ -412,6 +415,12 @@ public class MainWindow extends JFrame {
 		mnEdit.add(mntmCategories);
 
 		JMenuItem mntmEditUnits = new JMenuItem("Edit Units");
+		mntmEditUnits.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				openUnits();
+			}
+		});
 		mnEdit.add(mntmEditUnits);
 
 		JMenu mnHelp = new JMenu("Help");
@@ -428,6 +437,17 @@ public class MainWindow extends JFrame {
 		categoriesWindow = new CategoriesWindow();
 		categoriesWindow.setVisible(true);
 		while (categoriesWindow.isShowing()) {
+			//
+		}
+		refreshComboBox();
+		getProductsJoin();
+	}
+
+	// opens Units Window
+	private void openUnits() {
+		unitsWindow = new UnitsWindow();
+		unitsWindow.setVisible(true);
+		while (unitsWindow.isShowing()) {
 			//
 		}
 		refreshComboBox();
@@ -492,12 +512,13 @@ public class MainWindow extends JFrame {
 		stockAlarmColumn.setPreferredWidth(0);
 
 	}
-	
+
 	// allignment
-	private void allignColumn(){
+	private void allignColumn() {
 		DefaultTableCellRenderer leftRenderer = new DefaultTableCellRenderer();
 		leftRenderer.setHorizontalAlignment(SwingConstants.LEFT);
-		tableProduct.getColumnModel().getColumn(4).setCellRenderer(leftRenderer);
+		tableProduct.getColumnModel().getColumn(4)
+				.setCellRenderer(leftRenderer);
 	}
 
 	// get all categories to comboBox
@@ -817,7 +838,7 @@ public class MainWindow extends JFrame {
 		if (!(tableProduct.getSelectedRow() == -1)) {
 			editProductWindow = new EditProductWindow();
 
-			int idCol = 0;
+			//int idCol = 0;
 			int nameCol = 1;
 			int catCol = 2;
 			int typeCol = 3;

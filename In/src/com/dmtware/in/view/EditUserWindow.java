@@ -148,6 +148,7 @@ public class EditUserWindow extends JDialog {
 			
 			String userName = textFieldUserName.getText().trim();
 			String password1 = new String(passwordField.getPassword());
+			@SuppressWarnings("unused")
 			String password2 = new String(passwordField2.getPassword());
 			String firstName = textFieldFirstName.getText().trim();
 			String surname = textFieldSurname.getText().trim();

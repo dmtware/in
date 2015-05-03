@@ -497,6 +497,67 @@ public class SQLiteCon {
 		}
 	}
 	
+	
+	// insert unit
+	public void insertUnitQuery(String unitName) throws Exception {
+
+		PreparedStatement myStmt = null;
+
+		try {
+			myStmt = myConn.prepareStatement("INSERT INTO Unit (Name)"
+					+ "VALUES (?)");
+
+			myStmt.setString(1, unitName);
+			myStmt.executeUpdate();
+		} finally {
+			close(myStmt, null);
+		}
+	}
+	
+	// remove unit query
+	public void removeUnitQuery(String unitId, String unitName)
+			throws Exception {
+
+		PreparedStatement myStmt = null;
+
+		try {
+
+			myStmt = myConn
+					.prepareStatement("DELETE FROM Unit WHERE Id = ? AND Name = ?");
+
+			myStmt.setString(1, unitId);
+			myStmt.setString(2, unitName);
+			myStmt.execute();
+			// JOptionPane.showMessageDialog(null, "Category removed");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null,
+					"This unit has products assigned so can't be removed");
+		} finally {
+			close(myStmt, null);
+
+		}
+	}
+
+	// update unit
+	public void updateUnitQuery(String currentUnit, String newUnit,
+			String id) throws Exception {
+
+		PreparedStatement myStmt = null;
+
+		try {
+
+			myStmt = myConn
+					.prepareStatement("UPDATE Unit SET Name = ? WHERE Id = ?");
+
+			myStmt.setString(1, newUnit);
+			myStmt.setString(2, id);
+
+			myStmt.executeUpdate();
+		} finally {
+			close(myStmt, null);
+		}
+	}
+	
 
 	/*
 	 * Product Table methods

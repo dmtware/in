@@ -54,7 +54,7 @@ public class EditProductWindow extends JDialog {
 	JTextField textFieldType;
 	JTextField textFieldStock;
 	JComboBox<String> comboBoxCategory;
-	JComboBox comboBoxUnits;
+	JComboBox<String> comboBoxUnits;
 	JTextField textFieldStockAlarm;
 
 	/**
@@ -276,6 +276,7 @@ public class EditProductWindow extends JDialog {
 
 				// check if exists
 				boolean productExists = false;
+				@SuppressWarnings("unused")
 				boolean noChange = false;
 
 				if (newProdName.equalsIgnoreCase(currentProductName)
