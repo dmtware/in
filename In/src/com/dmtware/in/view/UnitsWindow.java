@@ -1,5 +1,5 @@
 /*
- * Categories Window class
+ * Units Window class
  */
 package com.dmtware.in.view;
 

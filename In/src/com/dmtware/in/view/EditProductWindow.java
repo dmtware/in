@@ -1,5 +1,5 @@
 /*
- * Add Product Window class
+ * Edit Product Window class
  */
 
 package com.dmtware.in.view;

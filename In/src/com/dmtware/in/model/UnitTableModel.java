@@ -1,5 +1,5 @@
 /*
- * Category table model for join Query
+ * Unit table model for join Query
  */
 
 package com.dmtware.in.model;

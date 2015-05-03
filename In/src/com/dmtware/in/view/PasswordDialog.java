@@ -1,3 +1,6 @@
+/*
+ * Password Dialog class
+ */
 package com.dmtware.in.view;
 
 import java.awt.BorderLayout;

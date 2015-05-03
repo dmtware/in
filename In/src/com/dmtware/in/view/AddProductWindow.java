@@ -41,21 +41,10 @@ public class AddProductWindow extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 
-	// default constructor
-	/*
-	 * public AddProductWindow() {
-	 * 
-	 * }
-	 */
-
 	// database class declaration
 	SQLiteCon conn;
 
 	List<ProductJoin> products;
-
-	// instance of MainWindow declaration (gives option of refreshing the table
-	// in main window)
-	// MainWindow mainW;
 
 	// fields that need access
 	private final JPanel contentPanel = new JPanel();

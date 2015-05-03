@@ -1,3 +1,6 @@
+/*
+ * Edit User class
+ */
 package com.dmtware.in.view;
 
 import java.awt.EventQueue;
