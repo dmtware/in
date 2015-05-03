@@ -168,6 +168,11 @@ public class AddProductWindow extends JDialog {
 		contentPanel.add(comboBoxUnits);
 
 		JButton btnNewUnit = new JButton("New");
+		btnNewUnit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				openUnits();
+			}
+		});
 		btnNewUnit.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnNewUnit.setBounds(279, 198, 71, 20);
 		contentPanel.add(btnNewUnit);
@@ -360,6 +365,7 @@ public class AddProductWindow extends JDialog {
 
 	}
 
+	//opens Categories window
 	private void openCategories() {
 
 		CategoriesWindow categoriesWindow = new CategoriesWindow();
@@ -379,4 +385,26 @@ public class AddProductWindow extends JDialog {
 		});
 		
 	}
+	
+	//opens Units window
+	private void openUnits() {
+
+		UnitsWindow unitsWindow = new UnitsWindow();
+		unitsWindow.setVisible(true);
+
+		// refreshes combobox after change
+		SwingUtilities.invokeLater(new Runnable() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public void run() {
+				@SuppressWarnings({ "rawtypes" })
+				DefaultComboBoxModel model = new DefaultComboBoxModel(
+						getUnitsToCombo());
+				comboBoxUnits.setModel(model);
+				comboBoxUnits.setSelectedItem(unitsWindow.newUnit);
+			}
+		});
+		
+	}
+
 }

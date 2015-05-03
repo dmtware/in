@@ -167,14 +167,19 @@ public class EditProductWindow extends JDialog {
 		contentPanel.add(comboBoxUnits);
 
 		JButton btnNewUnit = new JButton("New");
+		btnNewUnit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openUnits();
+			}
+		});
 		btnNewUnit.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnNewUnit.setBounds(279, 198, 71, 20);
 		contentPanel.add(btnNewUnit);
 
-		JLabel label_1 = new JLabel("Category:");
-		label_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		label_1.setBounds(116, 201, 62, 14);
-		contentPanel.add(label_1);
+		JLabel lblUnit = new JLabel("Unit:");
+		lblUnit.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblUnit.setBounds(116, 201, 62, 14);
+		contentPanel.add(lblUnit);
 
 		textFieldStockAlarm = new JTextField();
 		textFieldStockAlarm.setColumns(10);
@@ -387,5 +392,26 @@ public class EditProductWindow extends JDialog {
 				comboBoxCategory.setSelectedItem(categoriesWindow.newCategory);
 			}
 		});
+	}
+	
+	//opens Units window
+	private void openUnits() {
+
+		UnitsWindow unitsWindow = new UnitsWindow();
+		unitsWindow.setVisible(true);
+
+		// refreshes combobox after change
+		SwingUtilities.invokeLater(new Runnable() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public void run() {
+				@SuppressWarnings({ "rawtypes" })
+				DefaultComboBoxModel model = new DefaultComboBoxModel(
+						getUnitsToCombo());
+				comboBoxUnits.setModel(model);
+				comboBoxUnits.setSelectedItem(unitsWindow.newUnit);
+			}
+		});
+		
 	}
 }
