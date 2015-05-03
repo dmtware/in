@@ -8,8 +8,13 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.text.DateFormat;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -921,8 +926,17 @@ public class MainWindow extends JFrame {
 	}
 
 	private void printTable() {
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+		DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+		Date date = new Date();
 
-		MessageFormat header = new MessageFormat("Inventory - Report");
+		String dateF = dateFormat.format(date);
+		String timeF = timeFormat.format(date);
+		
+		//String dateNow = LocalDate.now().toString();
+
+		MessageFormat header = new MessageFormat("Inventory Report - " + dateF + " at " +timeF + ".");
 		MessageFormat footer = new MessageFormat("Page {0, number, integer}");
 
 		try {

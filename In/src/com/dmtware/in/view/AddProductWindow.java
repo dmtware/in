@@ -151,6 +151,7 @@ public class AddProductWindow extends JDialog {
 		contentPanel.add(label);
 
 		JButton btnNewCat = new JButton("New");
+		btnNewCat.setFocusPainted(false);
 		btnNewCat.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnNewCat.addActionListener(new ActionListener() {
 			@Override
@@ -168,6 +169,7 @@ public class AddProductWindow extends JDialog {
 		contentPanel.add(comboBoxUnits);
 
 		JButton btnNewUnit = new JButton("New");
+		btnNewUnit.setFocusPainted(false);
 		btnNewUnit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				openUnits();
