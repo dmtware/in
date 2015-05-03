@@ -384,6 +384,7 @@ public class EditProductWindow extends JDialog {
 				DefaultComboBoxModel model = new DefaultComboBoxModel(
 						getCategoriesToCombo());
 				comboBoxCategory.setModel(model);
+				comboBoxCategory.setSelectedItem(categoriesWindow.newCategory);
 			}
 		});
 	}

@@ -361,7 +361,7 @@ public class AddProductWindow extends JDialog {
 	}
 
 	private void openCategories() {
-		System.out.println("new category");
+
 		CategoriesWindow categoriesWindow = new CategoriesWindow();
 		categoriesWindow.setVisible(true);
 
@@ -374,7 +374,9 @@ public class AddProductWindow extends JDialog {
 				DefaultComboBoxModel model = new DefaultComboBoxModel(
 						getCategoriesToCombo());
 				comboBoxCategory.setModel(model);
+				comboBoxCategory.setSelectedItem(categoriesWindow.newCategory);
 			}
 		});
+		
 	}
 }
