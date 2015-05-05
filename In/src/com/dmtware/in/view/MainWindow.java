@@ -11,8 +11,6 @@ import java.awt.event.KeyEvent;
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -717,7 +715,10 @@ public class MainWindow extends JFrame {
 	private void removeStock() {
 		int prodIdCol = 0;
 		int prodCol = 1;
-
+		int prodStockCol = 4;
+		int prodStockAlarmCol = 6;
+		
+		
 		// if row selected
 		if (!(tableProduct.getSelectedRow() == -1)) {
 
@@ -726,6 +727,12 @@ public class MainWindow extends JFrame {
 			String prodId = tableProduct.getValueAt(selectedRow, prodIdCol)
 					.toString().trim();
 			String prodName = tableProduct.getValueAt(selectedRow, prodCol)
+					.toString().trim();
+			
+			String prodStock = tableProduct.getValueAt(selectedRow, prodStockCol)
+					.toString().trim();
+
+			String prodStockAlarm = tableProduct.getValueAt(selectedRow, prodStockAlarmCol)
 					.toString().trim();
 
 			boolean numeric = false;
@@ -755,7 +762,7 @@ public class MainWindow extends JFrame {
 			} while (!numeric);
 
 			try {
-				conn.removeStockQuery(prodId, prodName, quantity);
+				conn.removeStockQuery(prodId, prodName, quantity, prodStock, prodStockAlarm);
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -796,6 +803,8 @@ public class MainWindow extends JFrame {
 	private void removeProduct() {
 		int prodIdCol = 0;
 		int prodNameCol = 1;
+		int prodStockCol = 4;
+		int prodStockAlarmCol = 6;
 
 		// if row selected
 		if (!(tableProduct.getSelectedRow() == -1)) {
@@ -807,7 +816,7 @@ public class MainWindow extends JFrame {
 
 			String prodName = tableProduct.getValueAt(selectedRow, prodNameCol)
 					.toString().trim();
-
+			
 			int reply = JOptionPane.showConfirmDialog(null,
 					"Do you really want to remove this product?", "Remove?",
 					JOptionPane.YES_NO_OPTION);

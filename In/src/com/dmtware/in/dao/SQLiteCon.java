@@ -421,14 +421,11 @@ public class SQLiteCon {
 			close(myStmt, null);
 		}
 	}
-	
-	
+
 	/*
 	 * Unit Table methods
 	 */
-	
-	
-	
+
 	// gets the list of units
 	public List<Unit> getAllUnits() throws Exception {
 
@@ -453,9 +450,7 @@ public class SQLiteCon {
 			close(myStmt, myRs);
 		}
 	}
-	
-	
-	
+
 	// convert row to unit
 	private Unit convertRowToUnit(ResultSet myRs) throws SQLException {
 
@@ -466,8 +461,7 @@ public class SQLiteCon {
 
 		return tempUnit;
 	}
-	
-	
+
 	// gets ID of unit Name
 	public int getUnitId(String unit) throws SQLException {
 
@@ -496,8 +490,7 @@ public class SQLiteCon {
 			close(myStmt, myRs);
 		}
 	}
-	
-	
+
 	// insert unit
 	public void insertUnitQuery(String unitName) throws Exception {
 
@@ -513,7 +506,7 @@ public class SQLiteCon {
 			close(myStmt, null);
 		}
 	}
-	
+
 	// remove unit query
 	public void removeUnitQuery(String unitId, String unitName)
 			throws Exception {
@@ -539,8 +532,8 @@ public class SQLiteCon {
 	}
 
 	// update unit
-	public void updateUnitQuery(String currentUnit, String newUnit,
-			String id) throws Exception {
+	public void updateUnitQuery(String currentUnit, String newUnit, String id)
+			throws Exception {
 
 		PreparedStatement myStmt = null;
 
@@ -557,7 +550,6 @@ public class SQLiteCon {
 			close(myStmt, null);
 		}
 	}
-	
 
 	/*
 	 * Product Table methods
@@ -677,7 +669,8 @@ public class SQLiteCon {
 
 	// insert product
 	public void insertProductQuery(String prodName, String catName,
-			String typeName, String quantityName, String unitName, String stockAlarm) throws Exception {
+			String typeName, String quantityName, String unitName,
+			String stockAlarm) throws Exception {
 
 		PreparedStatement myStmt = null;
 
@@ -686,7 +679,7 @@ public class SQLiteCon {
 
 		// get ID of unitName
 		int unitId = getUnitId(unitName);
-		
+
 		try {
 
 			myStmt = myConn
@@ -699,7 +692,7 @@ public class SQLiteCon {
 			myStmt.setString(4, quantityName);
 			myStmt.setString(5, "" + unitId);
 			myStmt.setString(6, stockAlarm);
-			
+
 			myStmt.executeUpdate();
 		} finally {
 			close(myStmt, null);
@@ -708,7 +701,8 @@ public class SQLiteCon {
 	}
 
 	// remove product
-	public void removeProductQuery(String prodId, String prodName) throws Exception {
+	public void removeProductQuery(String prodId, String prodName)
+			throws Exception {
 
 		PreparedStatement myStmt = null;
 
@@ -741,8 +735,8 @@ public class SQLiteCon {
 
 	// update product
 	public void updateProductQuery(String currentProductName, String prodName,
-			String catName, String typeName, String quantityName, String unitName, String stockAlarm)
-			throws Exception {
+			String catName, String typeName, String quantityName,
+			String unitName, String stockAlarm) throws Exception {
 
 		PreparedStatement myStmt = null;
 
@@ -750,7 +744,7 @@ public class SQLiteCon {
 		int catId = getCategoryId(catName);
 		int prodId = getProductId(currentProductName);
 		int unitId = getUnitId(unitName);
-		
+
 		System.out.println(prodId);
 
 		try {
@@ -828,28 +822,41 @@ public class SQLiteCon {
 	}
 
 	// remove stock
-	public void removeStockQuery(String prodId, String prodName, int quantity)
-			throws Exception {
+	public void removeStockQuery(String prodId, String prodName, int quantity,
+			String prodStock, String prodStockAlarm) throws Exception {
 
-		PreparedStatement myStmt = null;
+		int prodStockInt = Integer.parseInt(prodStock);
+		int prodStockAlarmInt = Integer.parseInt(prodStockAlarm);
 
-		String qString = "" + quantity;
+		if (prodStockInt - quantity < 0) {
+			JOptionPane.showMessageDialog(null, "Your current stock of "
+					+ prodName + " is " + prodStockInt + ". You can't remove "
+					+ quantity);
+		} else {
+			
+			if(prodStockInt - quantity <= prodStockAlarmInt){
+				JOptionPane.showMessageDialog(null, "The stock of this product after this operation will reach stock alarm: " + prodStockAlarmInt + ". Don't forget to order " + prodName);
+			}
+			
+			PreparedStatement myStmt = null;
 
-		try {
+			String qString = "" + quantity;
 
-			myStmt = myConn
-					.prepareStatement("UPDATE Product SET Stock = (Product.Stock - ?) "
-							+ "WHERE Id = ? AND Name = ?");
+			try {
 
-			myStmt.setString(1, qString);
-			myStmt.setString(2, prodId);
-			myStmt.setString(3, prodName);
+				myStmt = myConn
+						.prepareStatement("UPDATE Product SET Stock = (Product.Stock - ?) "
+								+ "WHERE Id = ? AND Name = ?");
 
-			myStmt.executeUpdate();
-		} finally {
-			close(myStmt, null);
+				myStmt.setString(1, qString);
+				myStmt.setString(2, prodId);
+				myStmt.setString(3, prodName);
+
+				myStmt.executeUpdate();
+			} finally {
+				close(myStmt, null);
+			}
 		}
-
 	}
 
 	/*
