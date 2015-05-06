@@ -20,7 +20,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
-import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -821,8 +820,6 @@ public class MainWindow extends JFrame {
 	private void removeProduct() {
 		int prodIdCol = 0;
 		int prodNameCol = 1;
-		int prodStockCol = 4;
-		int prodStockAlarmCol = 6;
 
 		// if row selected
 		if (!(tableProduct.getSelectedRow() == -1)) {

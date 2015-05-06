@@ -85,14 +85,6 @@ public class ProductJoin {
 		this.stockAlarm = stockAlarm;
 	}
 	
-	public boolean isAlarmStock(){
-		if(getStock() <= getstockAlarm()){
-			return true;
-		} else{
-			return false;
-		}
-	}
-
 	
 	@Override
 	public String toString() {
