@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
+import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -40,6 +41,7 @@ import java.awt.Toolkit;
 
 import com.dmtware.in.dao.SQLiteCon;
 import com.dmtware.in.model.Category;
+import com.dmtware.in.model.MyRenderer;
 import com.dmtware.in.model.Product;
 import com.dmtware.in.model.ProductJoin;
 import com.dmtware.in.model.ProductJoinTableModel;
@@ -82,7 +84,7 @@ public class MainWindow extends JFrame {
 
 	// Categories Window declaration
 	CategoriesWindow categoriesWindow;
-	
+
 	// Units Window declaration
 	UnitsWindow unitsWindow;
 
@@ -482,10 +484,12 @@ public class MainWindow extends JFrame {
 					productsJoin);
 			tableProduct.setModel(model);
 
+			
 			hideProductIdColumn();
 			hideStockAlarmColumn();
 			allignColumn();
-
+			colourIfStockAlarm();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -522,6 +526,17 @@ public class MainWindow extends JFrame {
 		leftRenderer.setHorizontalAlignment(SwingConstants.LEFT);
 		tableProduct.getColumnModel().getColumn(4)
 				.setCellRenderer(leftRenderer);
+	}
+
+	// change colour if stockAlarm
+	private void colourIfStockAlarm() {
+		
+		//DefaultTableCellRenderer colorRenderer = new DefaultTableCellRenderer();
+		//colorRenderer.setForeground(Color.RED);
+		//tableProduct.getColumnModel().getColumn(4).setCellRenderer(colorRenderer);
+		MyRenderer colorRenderer = new MyRenderer();
+		tableProduct.getColumnModel().getColumn(4).setCellRenderer(colorRenderer);
+		
 	}
 
 	// get all categories to comboBox
@@ -593,6 +608,7 @@ public class MainWindow extends JFrame {
 			hideProductIdColumn();
 			hideStockAlarmColumn();
 			allignColumn();
+			colourIfStockAlarm();
 			currentListProductJoin = productsJoin;
 
 		} catch (Exception e) {
@@ -636,6 +652,7 @@ public class MainWindow extends JFrame {
 				hideProductIdColumn();
 				hideStockAlarmColumn();
 				allignColumn();
+				colourIfStockAlarm();
 				currentListProductJoin = productsJoin;
 				textFieldSearch.setText("");
 
@@ -717,8 +734,7 @@ public class MainWindow extends JFrame {
 		int prodCol = 1;
 		int prodStockCol = 4;
 		int prodStockAlarmCol = 6;
-		
-		
+
 		// if row selected
 		if (!(tableProduct.getSelectedRow() == -1)) {
 
@@ -728,12 +744,13 @@ public class MainWindow extends JFrame {
 					.toString().trim();
 			String prodName = tableProduct.getValueAt(selectedRow, prodCol)
 					.toString().trim();
-			
-			String prodStock = tableProduct.getValueAt(selectedRow, prodStockCol)
-					.toString().trim();
 
-			String prodStockAlarm = tableProduct.getValueAt(selectedRow, prodStockAlarmCol)
-					.toString().trim();
+			String prodStock = tableProduct
+					.getValueAt(selectedRow, prodStockCol).toString().trim();
+
+			String prodStockAlarm = tableProduct
+					.getValueAt(selectedRow, prodStockAlarmCol).toString()
+					.trim();
 
 			boolean numeric = false;
 			int quantity = 0;
@@ -762,7 +779,8 @@ public class MainWindow extends JFrame {
 			} while (!numeric);
 
 			try {
-				conn.removeStockQuery(prodId, prodName, quantity, prodStock, prodStockAlarm);
+				conn.removeStockQuery(prodId, prodName, quantity, prodStock,
+						prodStockAlarm);
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -816,7 +834,7 @@ public class MainWindow extends JFrame {
 
 			String prodName = tableProduct.getValueAt(selectedRow, prodNameCol)
 					.toString().trim();
-			
+
 			int reply = JOptionPane.showConfirmDialog(null,
 					"Do you really want to remove this product?", "Remove?",
 					JOptionPane.YES_NO_OPTION);
@@ -852,7 +870,7 @@ public class MainWindow extends JFrame {
 		if (!(tableProduct.getSelectedRow() == -1)) {
 			editProductWindow = new EditProductWindow();
 
-			//int idCol = 0;
+			// int idCol = 0;
 			int nameCol = 1;
 			int catCol = 2;
 			int typeCol = 3;
@@ -932,20 +950,22 @@ public class MainWindow extends JFrame {
 		hideProductIdColumn();
 		hideStockAlarmColumn();
 		allignColumn();
+		colourIfStockAlarm();
 	}
 
 	private void printTable() {
-		
+
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		DateFormat timeFormat = new SimpleDateFormat("HH:mm");
 		Date date = new Date();
 
 		String dateF = dateFormat.format(date);
 		String timeF = timeFormat.format(date);
-		
-		//String dateNow = LocalDate.now().toString();
 
-		MessageFormat header = new MessageFormat("Inventory Report - " + dateF + " at " +timeF + ".");
+		// String dateNow = LocalDate.now().toString();
+
+		MessageFormat header = new MessageFormat("Inventory Report - " + dateF
+				+ " at " + timeF + ".");
 		MessageFormat footer = new MessageFormat("Page {0, number, integer}");
 
 		try {

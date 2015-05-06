@@ -14,6 +14,7 @@ public class ProductJoin {
 	private int stockAlarm;
 	
 	
+	
 	public ProductJoin(int id, String name, String categoryName, String type, int stock, String unit, int stockAlarm) {
 		super();
 		this.id = id;
@@ -82,6 +83,14 @@ public class ProductJoin {
 
 	public void setstockAlarm(int stockAlarm) {
 		this.stockAlarm = stockAlarm;
+	}
+	
+	public boolean isAlarmStock(){
+		if(getStock() <= getstockAlarm()){
+			return true;
+		} else{
+			return false;
+		}
 	}
 
 	
