@@ -4,6 +4,7 @@
 
 package com.dmtware.in.view;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -65,22 +66,27 @@ public class LoginWindow {
 	 */
 	private void initialize() {
 		frmInLogin = new JFrame();
-		frmInLogin.setIconImage(Toolkit.getDefaultToolkit().getImage(LoginWindow.class.getResource("/com/dmtware/in/view/logo_2.png")));
+		
+		frmInLogin.setIconImage(Toolkit.getDefaultToolkit().getImage(LoginWindow.class.getResource("/com/dmtware/in/view/logo_new.png")));
 		frmInLogin.setResizable(false);
 		frmInLogin.setTitle("In - Login");
 		frmInLogin.setBounds(100, 100, 362, 240);
 		frmInLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmInLogin.setLocationRelativeTo(null);
 		frmInLogin.getContentPane().setLayout(null);
+		frmInLogin.getContentPane().setBackground(new Color(56, 56, 56));
+		
 
 		JLabel lblUserName = new JLabel("User Name:");
+		lblUserName.setForeground(Color.LIGHT_GRAY);
 		lblUserName.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblUserName.setBounds(110, 107, 66, 14);
+		lblUserName.setBounds(74, 106, 102, 14);
 		frmInLogin.getContentPane().add(lblUserName);
 
 		JLabel lblPassword = new JLabel("Password:");
+		lblPassword.setForeground(Color.LIGHT_GRAY);
 		lblPassword.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblPassword.setBounds(110, 138, 66, 14);
+		lblPassword.setBounds(74, 138, 102, 14);
 		frmInLogin.getContentPane().add(lblPassword);
 
 		textFieldUserName = new JTextField();
@@ -93,6 +99,7 @@ public class LoginWindow {
 		frmInLogin.getContentPane().add(passwordField);
 
 		JButton btnLogin = new JButton("Login");
+		btnLogin.setBackground(new Color(204, 204, 204));
 		btnLogin.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -103,15 +110,26 @@ public class LoginWindow {
 				}
 			}
 		});
-		btnLogin.setBounds(245, 166, 89, 23);
+		btnLogin.setBounds(245, 166, 89, 30);
 		frmInLogin.getContentPane().add(btnLogin);
 
 		// enter key
 		frmInLogin.getRootPane().setDefaultButton(btnLogin);
 		
-		JLabel label = new JLabel("");
-		label.setIcon(new ImageIcon(LoginWindow.class.getResource("/com/dmtware/in/view/login_lock.png")));
-		label.setBounds(10, 18, 72, 72);
-		frmInLogin.getContentPane().add(label);
+		JLabel labelPadLock = new JLabel("");
+		labelPadLock.setIcon(new ImageIcon(LoginWindow.class.getResource("/com/dmtware/in/view/login_lock_new.png")));
+		labelPadLock.setBounds(10, 168, 30, 30);
+		frmInLogin.getContentPane().add(labelPadLock);
+		
+		JLabel labelLogo = new JLabel("");
+		labelLogo.setIcon(new ImageIcon(LoginWindow.class.getResource("/com/dmtware/in/view/logo_new_64_no_bckg.png")));
+		labelLogo.setBounds(10, 11, 64, 64);
+		frmInLogin.getContentPane().add(labelLogo);
+		
+		JLabel labelInventoryManagement = new JLabel("");
+		labelInventoryManagement.setIcon(new ImageIcon(LoginWindow.class.getResource("/com/dmtware/in/view/inv_management.png")));
+		labelInventoryManagement.setBounds(72, 25, 200, 50);
+		frmInLogin.getContentPane().add(labelInventoryManagement);
+		
 	}
 }

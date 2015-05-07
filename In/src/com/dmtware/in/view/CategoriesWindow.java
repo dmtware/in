@@ -75,15 +75,13 @@ public class CategoriesWindow extends JDialog {
 		// connect to database
 		conn = new SQLiteCon();
 
-		setIconImage(Toolkit.getDefaultToolkit().getImage(
-				CategoriesWindow.class
-						.getResource("/com/dmtware/in/view/logo_2.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(CategoriesWindow.class.getResource("/com/dmtware/in/view/logo_new.png")));
 		setTitle("In - Categories");
 		setModal(true);
 		setResizable(false);
 		setBounds(100, 100, 254, 242);
 		getContentPane().setLayout(null);
-
+		getContentPane().setBackground(new Color(56, 56, 56));
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(115, 11, 120, 192);
 		getContentPane().add(scrollPane);
@@ -111,13 +109,13 @@ public class CategoriesWindow extends JDialog {
 		tableCategories.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		JLabel label = new JLabel("");
-		label.setIcon(new ImageIcon(CategoriesWindow.class
-				.getResource("/com/dmtware/in/view/logo_2.png")));
+		label.setIcon(new ImageIcon(CategoriesWindow.class.getResource("/com/dmtware/in/view/logo_new_64_no_bckg.png")));
 		label.setBounds(22, 11, 72, 72);
 		getContentPane().add(label);
 
 		JButton btnAdd = new JButton("Add");
 		btnAdd.setFocusPainted(false);
+		btnAdd.setBackground(new Color(204, 204, 204));
 		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnAdd.addActionListener(new ActionListener() {
 			@Override
@@ -132,6 +130,7 @@ public class CategoriesWindow extends JDialog {
 
 		JButton btnRemove = new JButton("Remove");
 		btnRemove.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnRemove.setBackground(new Color(204, 204, 204));
 		btnRemove.setFocusPainted(false);
 		btnRemove.addActionListener(new ActionListener() {
 			@Override
@@ -144,6 +143,7 @@ public class CategoriesWindow extends JDialog {
 		getContentPane().add(btnRemove);
 
 		JButton btnEdit = new JButton("Edit");
+		btnEdit.setBackground(new Color(204, 204, 204));
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -265,7 +265,7 @@ public class CategoriesWindow extends JDialog {
 			System.out.println("Nothing selected");
 			JOptionPane
 					.showMessageDialog(null,
-							"In order to remove category please select category row first");
+							"In order to remove category please select category row first.");
 		}
 	}
 
@@ -315,16 +315,16 @@ public class CategoriesWindow extends JDialog {
 					getCategoriesToTable();
 				} else {
 					JOptionPane.showMessageDialog(null,
-							"This category already exists");
+							"This category already exists.");
 				}
 
 			} else {
 				JOptionPane.showMessageDialog(null,
-						"Name of category can't be empty");
+						"Name of category can't be empty.");
 			}
 
 		} else {
-			JOptionPane.showMessageDialog(null, "Please select category first");
+			JOptionPane.showMessageDialog(null, "Please select category first.");
 		}
 	}
 }

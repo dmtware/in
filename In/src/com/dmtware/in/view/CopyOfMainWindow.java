@@ -55,9 +55,8 @@ import java.awt.Color;
 import java.awt.SystemColor;
 
 import javax.swing.JSeparator;
-import javax.swing.ImageIcon;
 
-public class MainWindow extends JFrame {
+public class CopyOfMainWindow extends JFrame {
 
 	/**
 	 * 
@@ -107,7 +106,7 @@ public class MainWindow extends JFrame {
 			@Override
 			public void run() {
 				try {
-					MainWindow frame = new MainWindow();
+					CopyOfMainWindow frame = new CopyOfMainWindow();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -120,28 +119,32 @@ public class MainWindow extends JFrame {
 	 * Create the frame.
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes", "static-access" })
-	public MainWindow() {
+	public CopyOfMainWindow() {
 
 		// initialise connection
 		conn = new SQLiteCon();
 
-		setIconImage(Toolkit.getDefaultToolkit().getImage(MainWindow.class.getResource("/com/dmtware/in/view/logo_new.png")));
+		setIconImage(Toolkit
+				.getDefaultToolkit()
+				.getImage(
+						CopyOfMainWindow.class
+								.getResource("/com/dmtware/in/view/logo_2.png")));
 
 		createMenuBar();
 		setResizable(false);
 
 		setTitle("Inventory - Main | User: " + conn.currentUser);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 720, 600);
+		setBounds(100, 100, 680, 540);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(56, 56, 56));
+		// contentPane.setBackground(new Color(163, 193, 228));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBackground(new Color(163, 193, 228));
-		scrollPane.setBounds(29, 77, 654, 383);
+		scrollPane.setBounds(10, 42, 654, 383);
 		contentPane.add(scrollPane);
 
 		tableProduct = new JTable() {
@@ -175,13 +178,11 @@ public class MainWindow extends JFrame {
 			}
 		});
 		comboBoxCategory.setMaximumRowCount(20);
-		comboBoxCategory.setBounds(29, 25, 125, 30);
+		comboBoxCategory.setBounds(10, 11, 125, 24);
 		contentPane.add(comboBoxCategory);
 
 		JButton btnCategories = new JButton("Categories");
 		btnCategories.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		//btnCategories.setBackground(new Color(75, 190, 95));
-		btnCategories.setBackground(new Color(204, 204, 204));
 		btnCategories.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -189,17 +190,16 @@ public class MainWindow extends JFrame {
 			}
 		});
 		btnCategories.setFocusPainted(false);
-		btnCategories.setBounds(156, 25, 82, 30);
+		btnCategories.setBounds(139, 11, 82, 24);
 		contentPane.add(btnCategories);
 
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(56, 56, 56));
-		panel.setBounds(29, 494, 244, 30);
+		// panel.setBackground(new Color(163, 193, 228));
+		panel.setBounds(10, 450, 244, 30);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
 		JButton btnAddProduct = new JButton("Add");
-		btnAddProduct.setBackground(new Color(204, 204, 204));
 		btnAddProduct.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -214,7 +214,6 @@ public class MainWindow extends JFrame {
 		btnAddProduct.setFocusPainted(false);
 
 		JButton btnRemoveProduct = new JButton("Remove");
-		btnRemoveProduct.setBackground(new Color(204, 204, 204));
 		btnRemoveProduct.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -228,7 +227,6 @@ public class MainWindow extends JFrame {
 		btnRemoveProduct.setFocusPainted(false);
 
 		JButton btnEdit = new JButton("Edit");
-		btnEdit.setBackground(new Color(204, 204, 204));
 		btnEdit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -254,13 +252,12 @@ public class MainWindow extends JFrame {
 		});
 
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(56, 56, 56));
-		panel_1.setBounds(430, 494, 252, 30);
+		// panel_1.setBackground(new Color(163, 193, 228));
+		panel_1.setBounds(411, 450, 252, 30);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 
 		buttonPlus = new JButton("+");
-		buttonPlus.setBackground(new Color(204, 204, 204));
 		buttonPlus.setBounds(127, 0, 125, 30);
 		panel_1.add(buttonPlus);
 		buttonPlus.addActionListener(new ActionListener() {
@@ -272,7 +269,6 @@ public class MainWindow extends JFrame {
 		buttonPlus.setFocusPainted(false);
 
 		buttonMinus = new JButton("-");
-		buttonMinus.setBackground(new Color(204, 204, 204));
 		buttonMinus.setBounds(0, 0, 125, 30);
 		panel_1.add(buttonMinus);
 		buttonMinus.addActionListener(new ActionListener() {
@@ -283,7 +279,7 @@ public class MainWindow extends JFrame {
 		});
 		buttonMinus.setFocusPainted(false);
 		textFieldSearch.setToolTipText("Product Name");
-		textFieldSearch.setBounds(399, 25, 118, 30);
+		textFieldSearch.setBounds(380, 11, 118, 25);
 		contentPane.add(textFieldSearch);
 		textFieldSearch.setColumns(10);
 
@@ -297,7 +293,6 @@ public class MainWindow extends JFrame {
 
 		JButton btnSearch = new JButton("Search");
 		btnSearch.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		btnSearch.setBackground(new Color(204, 204, 204));
 		btnSearch.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -305,17 +300,15 @@ public class MainWindow extends JFrame {
 			}
 		});
 		btnSearch.setFocusPainted(false);
-		btnSearch.setBounds(519, 25, 80, 30);
+		btnSearch.setBounds(501, 11, 80, 24);
 		contentPane.add(btnSearch);
 
 		JLabel lblNewLabel = new JLabel("Product Name:");
-		lblNewLabel.setForeground(Color.LIGHT_GRAY);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel.setBounds(297, 31, 97, 14);
+		lblNewLabel.setBounds(278, 15, 97, 14);
 		contentPane.add(lblNewLabel);
 
 		JButton btnShowAll = new JButton("Show All");
-		btnShowAll.setBackground(new Color(204, 204, 204));
 		btnShowAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -324,28 +317,21 @@ public class MainWindow extends JFrame {
 		});
 		btnShowAll.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnShowAll.setFocusPainted(false);
-		btnShowAll.setBounds(601, 25, 80, 30);
+		btnShowAll.setBounds(582, 11, 80, 24);
 		contentPane.add(btnShowAll);
 
 		JLabel lblProducts = new JLabel("Products");
-		lblProducts.setForeground(Color.LIGHT_GRAY);
 		lblProducts.setHorizontalAlignment(SwingConstants.CENTER);
-		lblProducts.setBounds(115, 474, 75, 14);
+		lblProducts.setBounds(96, 430, 75, 14);
 		contentPane.add(lblProducts);
 
 		JLabel lblStock = new JLabel("Stock");
-		lblStock.setForeground(Color.LIGHT_GRAY);
 		lblStock.setHorizontalAlignment(SwingConstants.CENTER);
-		lblStock.setBounds(520, 474, 75, 14);
+		lblStock.setBounds(501, 430, 75, 14);
 		contentPane.add(lblStock);
-		
-		JLabel labelLogo = new JLabel("");
-		labelLogo.setIcon(new ImageIcon(MainWindow.class.getResource("/com/dmtware/in/view/logo_new_64_no_bckg.png")));
-		labelLogo.setBounds(319, 476, 64, 64);
-		contentPane.add(labelLogo);
 		setLocationRelativeTo(null);
 
-		//getProductsJoin();
+		getProductsJoin();
 		// refreshTable();
 	}
 
@@ -543,9 +529,13 @@ public class MainWindow extends JFrame {
 
 	// change colour if stockAlarm
 	private void colourIfStockAlarm() {
-	
+		
+		//DefaultTableCellRenderer colorRenderer = new DefaultTableCellRenderer();
+		//colorRenderer.setForeground(Color.RED);
+		//tableProduct.getColumnModel().getColumn(4).setCellRenderer(colorRenderer);
 		MyRenderer colorRenderer = new MyRenderer();
-		tableProduct.getColumnModel().getColumn(4).setCellRenderer(colorRenderer);	
+		tableProduct.getColumnModel().getColumn(4).setCellRenderer(colorRenderer);
+		
 	}
 
 	// get all categories to comboBox
@@ -585,6 +575,7 @@ public class MainWindow extends JFrame {
 				comboBoxCategory.setSelectedItem(firstCatStr);
 			}
 		});
+
 	}
 
 	/*
@@ -710,7 +701,7 @@ public class MainWindow extends JFrame {
 						numeric = true;
 					} catch (NumberFormatException e) {
 						JOptionPane.showMessageDialog(null,
-								"Please enter numeric value.");
+								"Please enter numeric value");
 						numeric = false;
 					}
 				}// If cancel button is pressed
@@ -729,9 +720,9 @@ public class MainWindow extends JFrame {
 			// refresh view here
 			refreshTable();
 		} else {
-
+			System.out.println("Nothing selected");
 			JOptionPane.showMessageDialog(null,
-					"In order to change the stock please select product first.");
+					"In order to change the stock please select product first");
 		}
 	}
 
@@ -768,7 +759,7 @@ public class MainWindow extends JFrame {
 			do {
 				// Shows a input dialog
 				strDialogResponse = inpOption
-						.showInputDialog("How much do you want to remove?: ");
+						.showInputDialog("How much do you want to remove: ");
 				// if OK is pushed then (if not strDialogResponse is null)
 				if (strDialogResponse != null) {
 
@@ -777,7 +768,7 @@ public class MainWindow extends JFrame {
 						numeric = true;
 					} catch (NumberFormatException e) {
 						JOptionPane.showMessageDialog(null,
-								"Please enter numeric value.");
+								"Please enter numeric value");
 						numeric = false;
 					}
 				}// If cancel button is pressed
@@ -798,7 +789,7 @@ public class MainWindow extends JFrame {
 		} else {
 			System.out.println("Nothing selected");
 			JOptionPane.showMessageDialog(null,
-					"In order to change the stock please select product first.");
+					"In order to change the stock please select product first");
 		}
 	}
 
@@ -856,7 +847,7 @@ public class MainWindow extends JFrame {
 				// refresh view here
 				refreshTable();
 
-				JOptionPane.showMessageDialog(null, "Product removed.");
+				JOptionPane.showMessageDialog(null, "Product removed");
 
 			} else {
 				// do nothing
@@ -866,7 +857,7 @@ public class MainWindow extends JFrame {
 			System.out.println("Nothing selected");
 			JOptionPane
 					.showMessageDialog(null,
-							"In order to remove product please select product row first.");
+							"In order to remove product please select product row first");
 		}
 
 	}
@@ -916,7 +907,7 @@ public class MainWindow extends JFrame {
 			refreshComboBox();
 		} else {
 			JOptionPane.showMessageDialog(null,
-					"In order to edit product please select product row first.");
+					"In order to edit product please select product row first");
 		}
 	}
 

@@ -117,7 +117,7 @@ public class SQLiteCon {
 			}
 			// if don't match
 			else {
-				JOptionPane.showMessageDialog(null, "Wrong User or Pass");
+				JOptionPane.showMessageDialog(null, "Wrong User or Password.");
 			}
 
 			rs.close();
@@ -395,7 +395,7 @@ public class SQLiteCon {
 			// JOptionPane.showMessageDialog(null, "Category removed");
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,
-					"This category has products assigned so can't be removed");
+					"This category has products assigned so can't be removed.");
 		} finally {
 			close(myStmt, null);
 
@@ -524,7 +524,7 @@ public class SQLiteCon {
 			// JOptionPane.showMessageDialog(null, "Category removed");
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,
-					"This unit has products assigned so can't be removed");
+					"This unit has products assigned so can't be removed.");
 		} finally {
 			close(myStmt, null);
 
@@ -831,13 +831,16 @@ public class SQLiteCon {
 		if (prodStockInt - quantity < 0) {
 			JOptionPane.showMessageDialog(null, "Your current stock of "
 					+ prodName + " is " + prodStockInt + ". You can't remove "
-					+ quantity);
+					+ quantity + ".");
 		} else {
-			
-			if(prodStockInt - quantity <= prodStockAlarmInt){
-				JOptionPane.showMessageDialog(null, "The stock of this product after this operation will reach stock alarm: " + prodStockAlarmInt + ". Don't forget to order " + prodName);
+
+			if (prodStockInt - quantity <= prodStockAlarmInt) {
+				JOptionPane.showMessageDialog(null,
+						"The stock of this product after this operation will reach stock alarm: "
+								+ prodStockAlarmInt
+								+ ". Don't forget to order " + prodName + " soon.");
 			}
-			
+
 			PreparedStatement myStmt = null;
 
 			String qString = "" + quantity;

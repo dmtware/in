@@ -4,6 +4,7 @@
 package com.dmtware.in.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -21,6 +22,7 @@ import com.dmtware.in.dao.SQLiteCon;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 public class SettingsWindow extends JDialog {
 
@@ -52,6 +54,7 @@ public class SettingsWindow extends JDialog {
 	 */
 	@SuppressWarnings("static-access")
 	public SettingsWindow() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(SettingsWindow.class.getResource("/com/dmtware/in/view/logo_new.png")));
 
 		// initialise database connection
 		conn = new SQLiteCon();
@@ -65,6 +68,7 @@ public class SettingsWindow extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
+		contentPanel.setBackground(new Color(56, 56, 56));
 		setLocationRelativeTo(null);
 		JSeparator separator = new JSeparator();
 		separator.setBounds(10, 36, 318, 12);
@@ -84,6 +88,7 @@ public class SettingsWindow extends JDialog {
 			}
 		});
 		btnUsers.setFocusPainted(false);
+		btnUsers.setBackground(new Color(204, 204, 204));
 		btnUsers.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnUsers.setBounds(186, 56, 110, 23);
 		contentPanel.add(btnUsers);
@@ -93,6 +98,7 @@ public class SettingsWindow extends JDialog {
 		contentPanel.add(separator_1);
 
 		JButton btnRemoveAllProducts = new JButton("Delete All");
+		btnRemoveAllProducts.setBackground(new Color(204, 204, 204));
 		btnRemoveAllProducts.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -105,6 +111,7 @@ public class SettingsWindow extends JDialog {
 		contentPanel.add(btnRemoveAllProducts);
 
 		JButton btnRemoveAllCategories = new JButton("Delete All");
+		btnRemoveAllCategories.setBackground(new Color(204, 204, 204));
 		btnRemoveAllCategories.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -122,6 +129,7 @@ public class SettingsWindow extends JDialog {
 		contentPanel.add(separator_2);
 
 		JButton btnOk = new JButton("Ok");
+		btnOk.setBackground(new Color(204, 204, 204));
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				setVisible(false);
@@ -132,35 +140,41 @@ public class SettingsWindow extends JDialog {
 		contentPanel.add(btnOk);
 
 		JLabel lblInSettings = new JLabel("Program Settings");
+		lblInSettings.setForeground(Color.LIGHT_GRAY);
 		lblInSettings.setHorizontalAlignment(SwingConstants.CENTER);
 		lblInSettings.setBounds(106, 10, 120, 14);
 		contentPanel.add(lblInSettings);
 
 		JLabel lblManageUsers = new JLabel("Manage users*:");
+		lblManageUsers.setForeground(Color.LIGHT_GRAY);
 		lblManageUsers.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblManageUsers.setHorizontalAlignment(SwingConstants.LEFT);
 		lblManageUsers.setBounds(36, 60, 130, 14);
 		contentPanel.add(lblManageUsers);
 
 		JLabel lblRemoveAllProducts = new JLabel("Remove all products:");
+		lblRemoveAllProducts.setForeground(Color.LIGHT_GRAY);
 		lblRemoveAllProducts.setHorizontalAlignment(SwingConstants.LEFT);
 		lblRemoveAllProducts.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblRemoveAllProducts.setBounds(36, 157, 130, 14);
 		contentPanel.add(lblRemoveAllProducts);
 
 		JLabel lblRemoveAllCategories = new JLabel("Remove all categories:");
+		lblRemoveAllCategories.setForeground(Color.LIGHT_GRAY);
 		lblRemoveAllCategories.setHorizontalAlignment(SwingConstants.LEFT);
 		lblRemoveAllCategories.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblRemoveAllCategories.setBounds(36, 193, 130, 14);
 		contentPanel.add(lblRemoveAllCategories);
 
 		JLabel lblChangePassword = new JLabel("Change password:");
+		lblChangePassword.setForeground(Color.LIGHT_GRAY);
 		lblChangePassword.setHorizontalAlignment(SwingConstants.LEFT);
 		lblChangePassword.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblChangePassword.setBounds(36, 96, 130, 14);
 		contentPanel.add(lblChangePassword);
 
 		JButton btnChange = new JButton("Change");
+		btnChange.setBackground(new Color(204, 204, 204));
 		btnChange.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -173,6 +187,7 @@ public class SettingsWindow extends JDialog {
 		contentPanel.add(btnChange);
 
 		JLabel lblAdminOnly = new JLabel("* admin only");
+		lblAdminOnly.setForeground(Color.LIGHT_GRAY);
 		lblAdminOnly.setHorizontalAlignment(SwingConstants.LEFT);
 		lblAdminOnly.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		lblAdminOnly.setBounds(10, 251, 130, 14);
@@ -204,7 +219,7 @@ public class SettingsWindow extends JDialog {
 				e.printStackTrace();
 			}
 
-			JOptionPane.showMessageDialog(null, "All Products removed");
+			JOptionPane.showMessageDialog(null, "All Products removed.");
 
 		} else {
 			// do nothing
@@ -226,11 +241,11 @@ public class SettingsWindow extends JDialog {
 			try {
 				conn.removeAllQuery("Category");
 				System.out.println("removed");
-				JOptionPane.showMessageDialog(null, "All Categories removed");
+				JOptionPane.showMessageDialog(null, "All Categories removed.");
 			} catch (Exception e) {
 				JOptionPane
 						.showMessageDialog(null,
-								"Some categories have products assigned. Remove all products first");
+								"Some categories have products assigned. Remove all products first.");
 			}
 
 		} else {
@@ -279,7 +294,7 @@ public class SettingsWindow extends JDialog {
 							}							
 						}
 						else{
-							JOptionPane.showMessageDialog(null, "New password doesn't match");
+							JOptionPane.showMessageDialog(null, "New password doesn't match.");
 						}
 						
 					}
@@ -290,7 +305,7 @@ public class SettingsWindow extends JDialog {
 
 			} else {
 				JOptionPane.showMessageDialog(null,
-						"Incorrect Password, try again");
+						"Incorrect Password, try again.");
 			}
 
 		} else if (pd.option == 0) {

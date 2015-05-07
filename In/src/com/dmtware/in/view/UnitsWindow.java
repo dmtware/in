@@ -75,15 +75,13 @@ public class UnitsWindow extends JDialog {
 		// connect to database
 		conn = new SQLiteCon();
 
-		setIconImage(Toolkit.getDefaultToolkit().getImage(
-				UnitsWindow.class
-						.getResource("/com/dmtware/in/view/logo_2.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(UnitsWindow.class.getResource("/com/dmtware/in/view/logo_new.png")));
 		setTitle("In - Units");
 		setModal(true);
 		setResizable(false);
 		setBounds(100, 100, 254, 242);
 		getContentPane().setLayout(null);
-
+		getContentPane().setBackground(new Color(56, 56, 56));
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(115, 11, 120, 192);
 		getContentPane().add(scrollPane);
@@ -111,13 +109,13 @@ public class UnitsWindow extends JDialog {
 		tableUnits.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		JLabel label = new JLabel("");
-		label.setIcon(new ImageIcon(UnitsWindow.class
-				.getResource("/com/dmtware/in/view/logo_2.png")));
+		label.setIcon(new ImageIcon(UnitsWindow.class.getResource("/com/dmtware/in/view/logo_new_64_no_bckg.png")));
 		label.setBounds(22, 11, 72, 72);
 		getContentPane().add(label);
 
 		JButton btnAdd = new JButton("Add");
 		btnAdd.setFocusPainted(false);
+		btnAdd.setBackground(new Color(204, 204, 204));
 		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnAdd.addActionListener(new ActionListener() {
 			@Override
@@ -132,6 +130,7 @@ public class UnitsWindow extends JDialog {
 
 		JButton btnRemove = new JButton("Remove");
 		btnRemove.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnRemove.setBackground(new Color(204, 204, 204));
 		btnRemove.setFocusPainted(false);
 		btnRemove.addActionListener(new ActionListener() {
 			@Override
@@ -144,6 +143,7 @@ public class UnitsWindow extends JDialog {
 		getContentPane().add(btnRemove);
 
 		JButton btnEdit = new JButton("Edit");
+		btnEdit.setBackground(new Color(204, 204, 204));
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -213,10 +213,10 @@ public class UnitsWindow extends JDialog {
 				}
 				getUnitsToTable();
 			} else {
-				JOptionPane.showMessageDialog(null, "This unit already exists");
+				JOptionPane.showMessageDialog(null, "This unit already exists.");
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, "Name of unit can't be empty");
+			JOptionPane.showMessageDialog(null, "Name of unit can't be empty.");
 		}
 	}
 
@@ -259,7 +259,7 @@ public class UnitsWindow extends JDialog {
 			System.out.println("Nothing selected");
 			JOptionPane
 					.showMessageDialog(null,
-							"In order to remove unit please select category row first");
+							"In order to remove unit please select category row first.");
 		}
 	}
 
@@ -279,7 +279,7 @@ public class UnitsWindow extends JDialog {
 					nameCol).toString();
 
 			newUnit = JOptionPane.showInputDialog(
-					"Please enter new name of this unit", currentUnit);
+					"Please enter new name of this unit.", currentUnit);
 			// if not empty
 			if (!newUnit.equalsIgnoreCase("")) {
 
@@ -306,16 +306,16 @@ public class UnitsWindow extends JDialog {
 					getUnitsToTable();
 				} else {
 					JOptionPane.showMessageDialog(null,
-							"This unit already exists");
+							"This unit already exists.");
 				}
 
 			} else {
 				JOptionPane.showMessageDialog(null,
-						"Name of unit can't be empty");
+						"Name of unit can't be empty.");
 			}
 
 		} else {
-			JOptionPane.showMessageDialog(null, "Please select unit first");
+			JOptionPane.showMessageDialog(null, "Please select unit first.");
 		}
 	}
 }

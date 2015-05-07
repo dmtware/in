@@ -5,6 +5,7 @@
 package com.dmtware.in.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -82,15 +83,13 @@ public class EditProductWindow extends JDialog {
 		setModal(true);
 		setResizable(false);
 		setTitle("In - Edit Product");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(
-				EditProductWindow.class
-						.getResource("/com/dmtware/in/view/logo_2.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(EditProductWindow.class.getResource("/com/dmtware/in/view/logo_new.png")));
 		setBounds(100, 100, 396, 356);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-		// contentPanel.setBackground(new Color(163, 193, 228));
+		contentPanel.setBackground(new Color(56, 56, 56));
 
 		textFieldName = new JTextField();
 		textFieldName.setBounds(188, 40, 162, 20);
@@ -112,26 +111,31 @@ public class EditProductWindow extends JDialog {
 		contentPanel.add(textFieldStock);
 
 		JLabel lblName = new JLabel("Name:");
+		lblName.setForeground(Color.LIGHT_GRAY);
 		lblName.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblName.setBounds(116, 43, 62, 14);
 		contentPanel.add(lblName);
 
 		JLabel lblCategory = new JLabel("Category:");
+		lblCategory.setForeground(Color.LIGHT_GRAY);
 		lblCategory.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblCategory.setBounds(116, 83, 62, 14);
 		contentPanel.add(lblCategory);
 
 		JLabel lblType = new JLabel("Type:");
+		lblType.setForeground(Color.LIGHT_GRAY);
 		lblType.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblType.setBounds(116, 123, 62, 14);
 		contentPanel.add(lblType);
 
 		JLabel lblStock = new JLabel("Stock:");
+		lblStock.setForeground(Color.LIGHT_GRAY);
 		lblStock.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblStock.setBounds(116, 163, 62, 14);
 		contentPanel.add(lblStock);
 
 		JButton btnEditProduct = new JButton("Update Product");
+		btnEditProduct.setBackground(new Color(204, 204, 204));
 		btnEditProduct.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -144,12 +148,12 @@ public class EditProductWindow extends JDialog {
 		contentPanel.add(btnEditProduct);
 
 		JLabel label = new JLabel("");
-		label.setIcon(new ImageIcon(EditProductWindow.class
-				.getResource("/com/dmtware/in/view/logo_2.png")));
-		label.setBounds(23, 25, 72, 72);
+		label.setIcon(new ImageIcon(EditProductWindow.class.getResource("/com/dmtware/in/view/logo_new_64_no_bckg.png")));
+		label.setBounds(10, 10, 72, 72);
 		contentPanel.add(label);
 
 		JButton btnNewCat = new JButton("New");
+		btnNewCat.setBackground(new Color(204, 204, 204));
 		btnNewCat.setFocusPainted(false);
 		btnNewCat.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnNewCat.addActionListener(new ActionListener() {
@@ -169,6 +173,7 @@ public class EditProductWindow extends JDialog {
 
 		JButton btnNewUnit = new JButton("New");
 		btnNewUnit.setFocusPainted(false);
+		btnNewUnit.setBackground(new Color(204, 204, 204));
 		btnNewUnit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				openUnits();
@@ -179,6 +184,7 @@ public class EditProductWindow extends JDialog {
 		contentPanel.add(btnNewUnit);
 
 		JLabel lblUnit = new JLabel("Unit:");
+		lblUnit.setForeground(Color.LIGHT_GRAY);
 		lblUnit.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblUnit.setBounds(116, 201, 62, 14);
 		contentPanel.add(lblUnit);
@@ -189,6 +195,7 @@ public class EditProductWindow extends JDialog {
 		contentPanel.add(textFieldStockAlarm);
 
 		JLabel lblStockAlarm = new JLabel("Stock Alarm:");
+		lblStockAlarm.setForeground(Color.LIGHT_GRAY);
 		lblStockAlarm.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblStockAlarm.setBounds(79, 240, 99, 14);
 		contentPanel.add(lblStockAlarm);
@@ -292,13 +299,13 @@ public class EditProductWindow extends JDialog {
 				} else {
 
 					for (int i = 0; i < products.size(); i++) {
+						
 						if (products.get(i).getName()
 								.equalsIgnoreCase(newProdName)
 								&& products.get(i).getType()
 										.equalsIgnoreCase(typeName)) {
 							productExists = true;
 							break;
-
 						}
 					}
 				}
@@ -320,7 +327,7 @@ public class EditProductWindow extends JDialog {
 					dispose();
 				} else {
 					JOptionPane.showMessageDialog(null,
-							"Product with the same name and type exists");
+							"Product with the same name and type exists.");
 				}
 			} else {
 				// do nothing
@@ -331,7 +338,7 @@ public class EditProductWindow extends JDialog {
 			JOptionPane
 					.showMessageDialog(
 							null,
-							"Please fill up all the fields and make sure that \"Stock\" & \"Stock Alarm\" are numeric");
+							"Please fill up all the fields and make sure that \"Stock\" & \"Stock Alarm\" are numeric.");
 		}
 	}
 

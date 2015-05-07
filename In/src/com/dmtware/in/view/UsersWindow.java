@@ -74,13 +74,12 @@ public class UsersWindow extends JDialog {
 		// connect to database
 		conn = new SQLiteCon();
 
-		setIconImage(Toolkit.getDefaultToolkit().getImage(
-				UsersWindow.class
-						.getResource("/com/dmtware/in/view/logo_2.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(UsersWindow.class.getResource("/com/dmtware/in/view/logo_new.png")));
 		setTitle("In - Users");
 		setModal(true);
 		setResizable(false);
 		setBounds(100, 100, 560, 242);
+		getContentPane().setBackground(new Color(56, 56, 56));
 		getContentPane().setLayout(null);
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -117,6 +116,7 @@ public class UsersWindow extends JDialog {
 
 		JButton btnAdd = new JButton("Add");
 		btnAdd.setFocusPainted(false);
+		btnAdd.setBackground(new Color(204, 204, 204));
 		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnAdd.addActionListener(new ActionListener() {
 			@Override
@@ -131,6 +131,7 @@ public class UsersWindow extends JDialog {
 		JButton btnRemove = new JButton("Remove");
 		btnRemove.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnRemove.setFocusPainted(false);
+		btnRemove.setBackground(new Color(204, 204, 204));
 		btnRemove.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -150,6 +151,7 @@ public class UsersWindow extends JDialog {
 		});
 		btnEdit.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnEdit.setFocusPainted(false);
+		btnEdit.setBackground(new Color(204, 204, 204));
 		btnEdit.setBounds(14, 179, 88, 23);
 		getContentPane().add(btnEdit);
 
@@ -203,7 +205,7 @@ public class UsersWindow extends JDialog {
 
 			if (userName.equalsIgnoreCase("admin")) {
 				JOptionPane.showMessageDialog(null,
-						"Administrator account can't be removed");
+						"Administrator account can't be removed.");
 			} else {
 
 				int reply = JOptionPane.showConfirmDialog(null,
@@ -228,7 +230,7 @@ public class UsersWindow extends JDialog {
 			System.out.println("Nothing selected");
 			JOptionPane
 					.showMessageDialog(null,
-							"In order to remove category please select category row first");
+							"In order to remove category please select category row first.");
 		}
 	}
 
@@ -268,7 +270,7 @@ public class UsersWindow extends JDialog {
 
 		} else {
 			JOptionPane.showMessageDialog(null,
-					"In order to edit please select user first");
+					"In order to edit please select user first.");
 		}
 	}
 
