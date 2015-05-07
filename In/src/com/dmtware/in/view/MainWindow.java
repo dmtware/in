@@ -18,9 +18,11 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
@@ -132,7 +134,7 @@ public class MainWindow extends JFrame {
 
 		setTitle("Inventory - Main | User: " + conn.currentUser);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 720, 600);
+		setBounds(100, 100, 720, 640);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(56, 56, 56));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -141,7 +143,7 @@ public class MainWindow extends JFrame {
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBackground(new Color(163, 193, 228));
-		scrollPane.setBounds(29, 77, 654, 383);
+		scrollPane.setBounds(29, 117, 654, 383);
 		contentPane.add(scrollPane);
 
 		tableProduct = new JTable() {
@@ -167,6 +169,13 @@ public class MainWindow extends JFrame {
 
 		comboBoxCategory = new JComboBox(getCategoriesToCombo());
 
+		// combobox highlighter color
+		Object child = comboBoxCategory.getAccessibleContext().getAccessibleChild(0);
+		BasicComboPopup popup = (BasicComboPopup)child;
+		JList list = popup.getList();
+		list.setSelectionBackground(new Color(204, 204, 204));
+		
+		
 		comboBoxCategory.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent evt) {
@@ -175,7 +184,7 @@ public class MainWindow extends JFrame {
 			}
 		});
 		comboBoxCategory.setMaximumRowCount(20);
-		comboBoxCategory.setBounds(29, 25, 125, 30);
+		comboBoxCategory.setBounds(29, 72, 125, 30);
 		contentPane.add(comboBoxCategory);
 
 		JButton btnCategories = new JButton("Categories");
@@ -189,12 +198,12 @@ public class MainWindow extends JFrame {
 			}
 		});
 		btnCategories.setFocusPainted(false);
-		btnCategories.setBounds(156, 25, 82, 30);
+		btnCategories.setBounds(156, 72, 82, 30);
 		contentPane.add(btnCategories);
 
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(56, 56, 56));
-		panel.setBounds(29, 494, 244, 30);
+		panel.setBounds(29, 534, 244, 30);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
@@ -244,6 +253,7 @@ public class MainWindow extends JFrame {
 		btnEdit.setFocusPainted(false);
 
 		textFieldSearch = new JTextField();
+
 		textFieldSearch.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent evt) {
@@ -255,7 +265,7 @@ public class MainWindow extends JFrame {
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(56, 56, 56));
-		panel_1.setBounds(430, 494, 252, 30);
+		panel_1.setBounds(430, 534, 252, 30);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 
@@ -283,7 +293,7 @@ public class MainWindow extends JFrame {
 		});
 		buttonMinus.setFocusPainted(false);
 		textFieldSearch.setToolTipText("Product Name");
-		textFieldSearch.setBounds(399, 25, 118, 30);
+		textFieldSearch.setBounds(401, 72, 118, 30);
 		contentPane.add(textFieldSearch);
 		textFieldSearch.setColumns(10);
 
@@ -305,13 +315,13 @@ public class MainWindow extends JFrame {
 			}
 		});
 		btnSearch.setFocusPainted(false);
-		btnSearch.setBounds(519, 25, 80, 30);
+		btnSearch.setBounds(521, 72, 80, 30);
 		contentPane.add(btnSearch);
 
 		JLabel lblNewLabel = new JLabel("Product Name:");
 		lblNewLabel.setForeground(Color.LIGHT_GRAY);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel.setBounds(297, 31, 97, 14);
+		lblNewLabel.setBounds(299, 78, 97, 14);
 		contentPane.add(lblNewLabel);
 
 		JButton btnShowAll = new JButton("Show All");
@@ -324,25 +334,30 @@ public class MainWindow extends JFrame {
 		});
 		btnShowAll.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnShowAll.setFocusPainted(false);
-		btnShowAll.setBounds(601, 25, 80, 30);
+		btnShowAll.setBounds(603, 72, 80, 30);
 		contentPane.add(btnShowAll);
 
 		JLabel lblProducts = new JLabel("Products");
 		lblProducts.setForeground(Color.LIGHT_GRAY);
 		lblProducts.setHorizontalAlignment(SwingConstants.CENTER);
-		lblProducts.setBounds(115, 474, 75, 14);
+		lblProducts.setBounds(115, 514, 75, 14);
 		contentPane.add(lblProducts);
 
 		JLabel lblStock = new JLabel("Stock");
 		lblStock.setForeground(Color.LIGHT_GRAY);
 		lblStock.setHorizontalAlignment(SwingConstants.CENTER);
-		lblStock.setBounds(520, 474, 75, 14);
+		lblStock.setBounds(520, 514, 75, 14);
 		contentPane.add(lblStock);
 		
 		JLabel labelLogo = new JLabel("");
 		labelLogo.setIcon(new ImageIcon(MainWindow.class.getResource("/com/dmtware/in/view/logo_new_64_no_bckg.png")));
-		labelLogo.setBounds(319, 476, 64, 64);
+		labelLogo.setBounds(319, 516, 64, 64);
 		contentPane.add(labelLogo);
+		
+		JLabel labelInventoryManagement = new JLabel("");
+		labelInventoryManagement.setIcon(new ImageIcon(MainWindow.class.getResource("/com/dmtware/in/view/inv_management.png")));
+		labelInventoryManagement.setBounds(21, 11, 200, 50);
+		contentPane.add(labelInventoryManagement);
 		setLocationRelativeTo(null);
 
 		getProductsJoin();
