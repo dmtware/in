@@ -345,7 +345,7 @@ public class MainWindow extends JFrame {
 		contentPane.add(labelLogo);
 		setLocationRelativeTo(null);
 
-		//getProductsJoin();
+		getProductsJoin();
 		// refreshTable();
 	}
 

@@ -230,7 +230,7 @@ public class UsersWindow extends JDialog {
 			System.out.println("Nothing selected");
 			JOptionPane
 					.showMessageDialog(null,
-							"In order to remove category please select category row first.");
+							"In order to remove user please select category row first.");
 		}
 	}
 
