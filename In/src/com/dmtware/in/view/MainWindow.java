@@ -461,7 +461,11 @@ public class MainWindow extends JFrame {
 		menubar.add(mnHelp);
 
 		JMenuItem mntmAbout = new JMenuItem("About");
-		mntmAbout.setEnabled(false);
+		mntmAbout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				openAbout();
+			}
+		});
 		mnHelp.add(mntmAbout);
 	}
 
@@ -496,6 +500,11 @@ public class MainWindow extends JFrame {
 		}
 		refreshComboBox();
 		refreshTable();
+	}
+	
+	private void openAbout(){
+		AboutWindow aboutWindow = new AboutWindow();
+		aboutWindow.setVisible(true);
 	}
 
 	/*

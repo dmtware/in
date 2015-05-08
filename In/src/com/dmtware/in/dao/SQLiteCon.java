@@ -829,8 +829,8 @@ public class SQLiteCon {
 		int prodStockAlarmInt = Integer.parseInt(prodStockAlarm);
 
 		if (prodStockInt - quantity < 0) {
-			JOptionPane.showMessageDialog(null, "Your current stock of "
-					+ prodName + " is " + prodStockInt + ". You can't remove "
+			JOptionPane.showMessageDialog(null, "Your current stock of \""
+					+ prodName + "\" is " + prodStockInt + ". You can't remove "
 					+ quantity + ".");
 		} else {
 
@@ -838,7 +838,7 @@ public class SQLiteCon {
 				JOptionPane.showMessageDialog(null,
 						"The stock of this product after this operation will reach stock alarm: "
 								+ prodStockAlarmInt
-								+ ". Don't forget to order " + prodName + " soon.");
+								+ ". Don't forget to order \"" + prodName + "\" soon.");
 			}
 
 			PreparedStatement myStmt = null;

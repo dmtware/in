@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicComboPopup;
 
 import java.awt.Toolkit;
 import java.text.NumberFormat;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -104,6 +106,12 @@ public class AddProductWindow extends JDialog {
 		comboBoxCategory = new JComboBox(getCategoriesToCombo());
 		comboBoxCategory.setBounds(188, 80, 81, 20);
 		contentPanel.add(comboBoxCategory);
+		
+		// combobox highlighter color
+		Object child = comboBoxCategory.getAccessibleContext().getAccessibleChild(0);
+		BasicComboPopup popup = (BasicComboPopup)child;
+		JList list = popup.getList();
+		list.setSelectionBackground(new Color(204, 204, 204));
 
 		textFieldType = new JTextField();
 		textFieldType.setColumns(10);
@@ -173,6 +181,13 @@ public class AddProductWindow extends JDialog {
 
 		comboBoxUnits = new JComboBox(getUnitsToCombo());
 		comboBoxUnits.setBounds(188, 198, 81, 20);
+				
+		// combobox highlighter color
+		Object childU = comboBoxUnits.getAccessibleContext().getAccessibleChild(0);
+		BasicComboPopup popupU = (BasicComboPopup)childU;
+		JList listU = popupU.getList();
+		listU.setSelectionBackground(new Color(204, 204, 204));
+		
 		contentPanel.add(comboBoxUnits);
 
 		JButton btnNewUnit = new JButton("New");
