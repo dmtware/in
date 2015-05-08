@@ -1,5 +1,5 @@
 /*
- * In - MainWindow Class 
+ * In - MainWindow class
  */
 
 package com.dmtware.in.view;
