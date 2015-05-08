@@ -360,7 +360,7 @@ public class MainWindow extends JFrame {
 		contentPane.add(labelInventoryManagement);
 		setLocationRelativeTo(null);
 
-		getProductsJoin();
+		//getProductsJoin();
 		// refreshTable();
 	}
 
