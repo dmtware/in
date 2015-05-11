@@ -47,7 +47,8 @@ public class EditProductWindow extends JDialog {
 	SQLiteCon conn;
 
 	List<ProductJoin> products;
-
+	
+	String currentId;
 	String currentProductName = "";
 	String currentTypeName = "";
 
@@ -276,7 +277,8 @@ public class EditProductWindow extends JDialog {
 					"Do you really want to update this product?", "Update?",
 					JOptionPane.YES_NO_OPTION);
 			if (reply == JOptionPane.YES_OPTION) {
-
+				
+				
 				String newProdName = textFieldName.getText().toString().trim();
 				String catName = comboBoxCategory.getSelectedItem().toString()
 						.trim();
@@ -305,29 +307,39 @@ public class EditProductWindow extends JDialog {
 
 				// check if exists
 				boolean productExists = false;
-				@SuppressWarnings("unused")
-				boolean noChange = false;
+				boolean typeExists = false;
+				boolean bothExists = false;
 
-				if (newProdName.equalsIgnoreCase(currentProductName)
-						&& typeName.equalsIgnoreCase(currentTypeName)) {
-					//do nothing
-				} else {
+				// if product name and type the same
+				for (int i = 0; i < products.size(); i++) {
+					
+					if (products.get(i).getName().equalsIgnoreCase(newProdName)) {
+				
+						productExists = true;
+						break;
 
-					for (int i = 0; i < products.size(); i++) {
-						
-						if (products.get(i).getName()
-								.equalsIgnoreCase(newProdName)
-								&& products.get(i).getType()
-										.equalsIgnoreCase(typeName)) {
-							productExists = true;
-							break;
-						}
 					}
+					
 				}
+				
+				for (int i = 0; i < products.size(); i++) {
+				
+					if (products.get(i).getType().equalsIgnoreCase(typeName)) {
+						typeExists = true;
+						break;
+					}
+				
+				}
+				
+				if(productExists & typeExists){
+					bothExists = true;
+				}
+				
+				
 				// if product with the same type exists
-				if (!productExists) {
+				if (!bothExists) {
 					try {
-						conn.updateProductQuery(currentProductName,
+						conn.updateProductQuery(currentId, currentProductName,
 								newProdName, catName, typeName, quantityName,
 								unitName, stockAlarm);
 

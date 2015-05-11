@@ -734,7 +734,7 @@ public class SQLiteCon {
 	}
 
 	// update product
-	public void updateProductQuery(String currentProductName, String prodName,
+	public void updateProductQuery(String currentId, String currentProductName, String prodName,
 			String catName, String typeName, String quantityName,
 			String unitName, String stockAlarm) throws Exception {
 
@@ -742,10 +742,9 @@ public class SQLiteCon {
 
 		// get ID of prod and catName
 		int catId = getCategoryId(catName);
-		int prodId = getProductId(currentProductName);
 		int unitId = getUnitId(unitName);
 
-		System.out.println(prodId);
+		System.out.println(currentId);
 
 		try {
 
@@ -759,7 +758,7 @@ public class SQLiteCon {
 			myStmt.setString(4, quantityName);
 			myStmt.setString(5, "" + unitId);
 			myStmt.setString(6, stockAlarm);
-			myStmt.setString(7, "" + prodId);
+			myStmt.setString(7, currentId);
 
 			myStmt.executeUpdate();
 		} finally {

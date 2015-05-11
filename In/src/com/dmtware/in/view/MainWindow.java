@@ -360,7 +360,7 @@ public class MainWindow extends JFrame {
 		contentPane.add(labelInventoryManagement);
 		setLocationRelativeTo(null);
 
-		//getProductsJoin();
+		getProductsJoin();
 		// refreshTable();
 	}
 
@@ -900,7 +900,7 @@ public class MainWindow extends JFrame {
 		if (!(tableProduct.getSelectedRow() == -1)) {
 			editProductWindow = new EditProductWindow();
 
-			// int idCol = 0;
+			int idCol = 0;
 			int nameCol = 1;
 			int catCol = 2;
 			int typeCol = 3;
@@ -910,6 +910,9 @@ public class MainWindow extends JFrame {
 
 			int selectedRow = tableProduct.getSelectedRow();
 
+			System.out.println(tableProduct.getValueAt(selectedRow, idCol));
+			String idStr = "" +tableProduct.getValueAt(selectedRow, idCol);
+			editProductWindow.currentId = idStr;
 			editProductWindow.textFieldName.setText(tableProduct
 					.getValueAt(selectedRow, nameCol).toString().trim());
 			editProductWindow.comboBoxCategory.setSelectedItem(tableProduct

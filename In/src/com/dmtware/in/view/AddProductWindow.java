@@ -300,20 +300,34 @@ public class AddProductWindow extends JDialog {
 			}
 			// check if exists
 			boolean productExists = false;
+			boolean typeExists = false;
+			boolean bothExists = false;
 			// if product name and type the same
 			for (int i = 0; i < products.size(); i++) {
 				if (products.get(i).getName().equalsIgnoreCase(prodName)) {
 					System.out.println("Exists " + products.get(i).getName()
 							+ " " + prodName);
-					if (products.get(i).getType().equalsIgnoreCase(typeName)) {
-						productExists = true;
-						break;
-					}
+					productExists = true;
+					break;
 
 				}
+				
+			}
+			
+			for (int i = 0; i < products.size(); i++) {
+			
+				if (products.get(i).getType().equalsIgnoreCase(typeName)) {
+					typeExists = true;
+					break;
+				}
+			
 			}
 
-			if (!productExists) {
+			if(productExists & typeExists){
+				bothExists = true;
+			}
+			
+			if (!bothExists) {
 				try {
 					conn.insertProductQuery(prodName, catName, typeName,
 							quantityName, unitName, stockAlarm);
