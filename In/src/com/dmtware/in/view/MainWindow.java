@@ -911,7 +911,9 @@ public class MainWindow extends JFrame {
 			int selectedRow = tableProduct.getSelectedRow();
 
 			System.out.println(tableProduct.getValueAt(selectedRow, idCol));
+			
 			String idStr = "" +tableProduct.getValueAt(selectedRow, idCol);
+			
 			editProductWindow.currentId = idStr;
 			editProductWindow.textFieldName.setText(tableProduct
 					.getValueAt(selectedRow, nameCol).toString().trim());

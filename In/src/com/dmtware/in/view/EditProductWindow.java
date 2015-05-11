@@ -47,7 +47,7 @@ public class EditProductWindow extends JDialog {
 	SQLiteCon conn;
 
 	List<ProductJoin> products;
-	
+
 	String currentId;
 	String currentProductName = "";
 	String currentTypeName = "";
@@ -86,7 +86,9 @@ public class EditProductWindow extends JDialog {
 		setModal(true);
 		setResizable(false);
 		setTitle("In - Edit Product");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(EditProductWindow.class.getResource("/com/dmtware/in/view/logo_new.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(
+				EditProductWindow.class
+						.getResource("/com/dmtware/in/view/logo_new.png")));
 		setBounds(100, 100, 396, 356);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -101,10 +103,11 @@ public class EditProductWindow extends JDialog {
 
 		comboBoxCategory = new JComboBox(getCategoriesToCombo());
 		comboBoxCategory.setBounds(188, 80, 81, 20);
-		
+
 		// combobox highlighter color
-		Object child = comboBoxCategory.getAccessibleContext().getAccessibleChild(0);
-		BasicComboPopup popup = (BasicComboPopup)child;
+		Object child = comboBoxCategory.getAccessibleContext()
+				.getAccessibleChild(0);
+		BasicComboPopup popup = (BasicComboPopup) child;
 		JList list = popup.getList();
 		list.setSelectionBackground(new Color(204, 204, 204));
 		contentPanel.add(comboBoxCategory);
@@ -157,7 +160,8 @@ public class EditProductWindow extends JDialog {
 		contentPanel.add(btnEditProduct);
 
 		JLabel label = new JLabel("");
-		label.setIcon(new ImageIcon(EditProductWindow.class.getResource("/com/dmtware/in/view/logo_new_64_no_bckg.png")));
+		label.setIcon(new ImageIcon(EditProductWindow.class
+				.getResource("/com/dmtware/in/view/logo_new_64_no_bckg.png")));
 		label.setBounds(10, 10, 72, 72);
 		contentPanel.add(label);
 
@@ -178,13 +182,14 @@ public class EditProductWindow extends JDialog {
 
 		comboBoxUnits = new JComboBox(getUnitsToCombo());
 		comboBoxUnits.setBounds(188, 198, 81, 20);
-		
+
 		// combobox highlighter color
-		Object childU = comboBoxUnits.getAccessibleContext().getAccessibleChild(0);
-		BasicComboPopup popupU = (BasicComboPopup)childU;
+		Object childU = comboBoxUnits.getAccessibleContext()
+				.getAccessibleChild(0);
+		BasicComboPopup popupU = (BasicComboPopup) childU;
 		JList listU = popupU.getList();
 		listU.setSelectionBackground(new Color(204, 204, 204));
-		
+
 		contentPanel.add(comboBoxUnits);
 
 		JButton btnNewUnit = new JButton("New");
@@ -277,8 +282,7 @@ public class EditProductWindow extends JDialog {
 					"Do you really want to update this product?", "Update?",
 					JOptionPane.YES_NO_OPTION);
 			if (reply == JOptionPane.YES_OPTION) {
-				
-				
+
 				String newProdName = textFieldName.getText().toString().trim();
 				String catName = comboBoxCategory.getSelectedItem().toString()
 						.trim();
@@ -309,35 +313,47 @@ public class EditProductWindow extends JDialog {
 				boolean productExists = false;
 				boolean typeExists = false;
 				boolean bothExists = false;
-
-				// if product name and type the same
-				for (int i = 0; i < products.size(); i++) {
-					
-					if (products.get(i).getName().equalsIgnoreCase(newProdName)) {
 				
+				boolean nameChanged = false;
+				
+				boolean typeChanged = false;
+				
+				if (!currentProductName.equalsIgnoreCase(newProdName)){
+					nameChanged = true;
+				}
+
+				if (!typeName.equalsIgnoreCase(currentTypeName)){
+					typeChanged = true;
+				}
+				
+				for (int i = 0; i < products.size(); i++) {
+
+					if (products.get(i).getName().equalsIgnoreCase(newProdName)) {
+
 						productExists = true;
 						break;
 
 					}
-					
+
 				}
-				
+
+				// check type
+
 				for (int i = 0; i < products.size(); i++) {
-				
+
 					if (products.get(i).getType().equalsIgnoreCase(typeName)) {
 						typeExists = true;
 						break;
 					}
-				
+
 				}
-				
-				if(productExists & typeExists){
+
+				if ((productExists && typeExists)) {
 					bothExists = true;
 				}
-				
-				
+
 				// if product with the same type exists
-				if (!bothExists) {
+				if (!bothExists || !nameChanged && !typeChanged) {
 					try {
 						conn.updateProductQuery(currentId, currentProductName,
 								newProdName, catName, typeName, quantityName,
@@ -429,8 +445,8 @@ public class EditProductWindow extends JDialog {
 			}
 		});
 	}
-	
-	//opens Units window
+
+	// opens Units window
 	private void openUnits() {
 
 		UnitsWindow unitsWindow = new UnitsWindow();
@@ -448,6 +464,6 @@ public class EditProductWindow extends JDialog {
 				comboBoxUnits.setSelectedItem(unitsWindow.newUnit);
 			}
 		});
-		
+
 	}
 }
